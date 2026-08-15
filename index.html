@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sreenand P K | Python Developer &amp; Backend Engineer</title>
+    <meta name="description" content="Portfolio of Sreenand P K — Python Developer &amp; Backend Engineer" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background-color: #09090b;
+        font-family: sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* --- Skeleton shimmer keyframe --- */
+      @keyframes sk-shimmer {
+        0%   { background-position: -600px 0; }
+        100% { background-position:  600px 0; }
+      }
+
+      .sk-line {
+        background: linear-gradient(
+          90deg,
+          #1c1c1f 0%,
+          #2a2a2f 40%,
+          #323238 50%,
+          #2a2a2f 60%,
+          #1c1c1f 100%
+        );
+        background-size: 600px 100%;
+        animation: sk-shimmer 1.6s infinite linear;
+        border-radius: 6px;
+      }
+
+      /* --- Loader wrapper --- */
+      #sk-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #09090b;
+        display: flex;
+        flex-direction: column;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      #sk-loader.sk-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      /* --- Navbar skeleton --- */
+      .sk-nav {
+        height: 4.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        display: flex;
+        align-items: center;
+        padding: 0 2rem;
+        gap: 1rem;
+      }
+
+      .sk-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .sk-caption {
+        width: 80px;
+        height: 16px;
+      }
+
+      .sk-nav-links {
+        display: flex;
+        gap: 0.5rem;
+        margin-left: auto;
+      }
+
+      .sk-nav-link {
+        width: 60px;
+        height: 14px;
+        border-radius: 4px;
+      }
+
+      /* --- Hero skeleton --- */
+      .sk-hero {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding: 4rem 2rem;
+      }
+
+      .sk-pretitle  { width: 110px; height: 12px; }
+      .sk-name      { width: min(480px, 80vw); height: 68px; border-radius: 8px; }
+      .sk-subtitle  { width: min(320px, 60vw); height: 28px; }
+      .sk-desc-1    { width: min(520px, 75vw); height: 16px; }
+      .sk-desc-2    { width: min(420px, 65vw); height: 16px; }
+
+      .sk-btns {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .sk-btn-1 { width: 140px; height: 42px; border-radius: 8px; }
+      .sk-btn-2 { width: 120px; height: 42px; border-radius: 8px; opacity: 0.5; }
+    </style>
+  </head>
+  <body>
+
+    <!-- Skeleton loader — removed once WASM mounts -->
+    <div id="sk-loader">
+      <!-- Navbar -->
+      <div class="sk-nav">
+        <div class="sk-line sk-avatar"></div>
+        <div class="sk-line sk-caption"></div>
+        <div class="sk-nav-links">
+          <div class="sk-line sk-nav-link"></div>
+          <div class="sk-line sk-nav-link"></div>
+          <div class="sk-line sk-nav-link"></div>
+          <div class="sk-line sk-nav-link"></div>
+          <div class="sk-line sk-nav-link"></div>
+        </div>
+      </div>
+      <!-- Hero -->
+      <div class="sk-hero">
+        <div class="sk-line sk-pretitle"></div>
+        <div class="sk-line sk-name"></div>
+        <div class="sk-line sk-subtitle"></div>
+        <div class="sk-line sk-desc-1"></div>
+        <div class="sk-line sk-desc-2"></div>
+        <div class="sk-btns">
+          <div class="sk-line sk-btn-1"></div>
+          <div class="sk-line sk-btn-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dioxus mounts here -->
+    <div id="main"></div>
+
+  </body>
+</html>

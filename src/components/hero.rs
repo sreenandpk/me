@@ -1,0 +1,49 @@
+use dioxus::prelude::*;
+use crate::data::PERSONAL_INFO;
+
+#[component]
+pub fn Hero() -> Element {
+    rsx! {
+        section { id: "home", class: "hero-section",
+            div { class: "container",
+                div { class: "hero-grid",
+                    div { class: "hero-content reveal-on-scroll revealed",
+                        span { class: "hero-pretitle", "HELLO, I AM" }
+                        h1 { class: "hero-name", "SREENAND P K" }
+                        h2 { class: "hero-headline", "{PERSONAL_INFO.title}" }
+                        p { class: "hero-description",
+                            "I build reliable backend systems, APIs, and database architectures. I specialize in designing clean, scalable Python services, orchestrating workloads, and automating deployments."
+                        }
+
+                        // CTAs
+                        div { class: "hero-ctas",
+                            a { class: "btn btn-primary", href: "#projects", "View Projects" }
+                            a { class: "btn btn-secondary", href: "#contact", "Get In Touch" }
+                        }
+
+                        // Monospace status footer details
+                        div { class: "hero-footer-info",
+                            span { "Based in India" }
+                            span { "•" }
+                            span { "Available for Opportunities" }
+                            span { "•" }
+                            a {
+                                href: "{PERSONAL_INFO.github_url}",
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "GitHub"
+                            }
+                            span { "•" }
+                            a {
+                                href: "{PERSONAL_INFO.linkedin_url}",
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "LinkedIn"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

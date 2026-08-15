@@ -1,0 +1,19 @@
+pub mod about;
+pub mod contact;
+pub mod experience;
+pub mod footer;
+pub mod hero;
+pub mod navbar;
+pub mod philosophy;
+pub mod projects;
+pub mod skills;
+
+pub use about::About;
+pub use contact::Contact;
+pub use experience::ExperienceSection;
+pub use footer::Footer;
+pub use hero::Hero;
+pub use navbar::Navbar;
+pub use philosophy::Philosophy;
+pub use projects::Projects;
+pub use skills::Skills;
