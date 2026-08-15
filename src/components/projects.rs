@@ -5,13 +5,9 @@ use crate::data::PROJECTS;
 pub fn Projects() -> Element {
     rsx! {
         section { id: "projects", class: "section reveal-on-scroll",
-            div { class: "container projects-container",
-                div { class: "skills-header",
-                    span { class: "skills-pretitle", "WHAT I'VE BUILT" }
-                    h2 { class: "skills-headline", "FEATURED PROJECTS" }
-                    div { class: "skills-divider" }
-                }
-                div { class: "experience-rows projects-wide-list",
+            div { class: "container",
+                h2 { "Projects" }
+                div { class: "projects-list",
                     for project in PROJECTS.iter() {
                         {
                             let subtitle = match project.name {
@@ -20,20 +16,11 @@ pub fn Projects() -> Element {
                                 _ => "Go & C++ / High-Frequency Trading Microservices",
                             };
                             rsx! {
-                                div { class: "experience-row project-wide-card",
+                                div { class: "project-entry",
                                     div { class: "project-info-main",
-                                        div { class: "exp-header",
-                                            h3 { class: "exp-title", "{project.name}" }
-                                            span { class: "exp-company", "{subtitle}" }
-                                        }
+                                        h3 { class: "project-entry-title", "{project.name}" }
+                                        div { class: "project-entry-subtitle", "{subtitle}" }
                                         p { class: "project-entry-desc", "{project.description}" }
-                                        
-                                        h4 { class: "project-highlights-title", "Challenges & Solutions" }
-                                        ul { class: "exp-achievements project-highlights",
-                                            for highlight in project.highlights {
-                                                li { "{highlight}" }
-                                            }
-                                        }
 
                                         div { class: "project-tech-list",
                                             for tech in project.tech_badges {
