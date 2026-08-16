@@ -5,7 +5,7 @@ set -e
 export CARGO_HOME="${CARGO_HOME:-$HOME/.cargo}"
 export PATH="$CARGO_HOME/bin:$HOME/.cargo/bin:$PATH"
 
-echo "=== Verifying Rust Installation ==="
+echo "=== Verifying & Updating Rust Installation ==="
 if ! command -v rustup &> /dev/null; then
     echo "rustup not found, installing..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -13,6 +13,10 @@ if ! command -v rustup &> /dev/null; then
 else
     echo "rustup is already installed: $(rustup --version)"
 fi
+
+# Update rustc compiler to latest stable release (1.96.0+)
+rustup update stable
+rustup default stable
 
 echo "=== Adding WebAssembly Compilation Target ==="
 rustup target add wasm32-unknown-unknown
@@ -27,9 +31,9 @@ else
     echo "cargo-binstall is already installed"
 fi
 
-echo "=== Installing Dioxus CLI (dx) Musl Binary ==="
+echo "=== Installing Dioxus CLI (dx) ==="
 if ! command -v dx &> /dev/null; then
-    cargo-binstall -y --target x86_64-unknown-linux-musl dioxus-cli@0.6.2 || cargo-binstall -y --target x86_64-unknown-linux-musl dioxus-cli
+    cargo-binstall -y dioxus-cli || cargo install dioxus-cli
 else
     echo "Dioxus CLI is already installed: $(dx --version)"
 fi
