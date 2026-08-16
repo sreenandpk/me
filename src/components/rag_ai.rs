@@ -290,24 +290,24 @@ pub fn RagAiButton() -> Element {
                     }
                 }
 
-                // Cinematic Quantum Energy & Sparkle Objects popping up for 2.5 seconds
+                // High-Voltage Electric Lightning Bolt Objects popping up for 2.5 seconds (z-index 99999)
                 if open {
                     div { class: "rag-chat-lightning-box",
                         div { class: "cinematic-aurora-sweep" }
                         span { class: "quantum-star star-1",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#c084fc", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#fbbf24", stroke: "#f59e0b", stroke_width: "1.2", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
                         span { class: "quantum-star star-2",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "30", height: "30", view_box: "0 0 24 24", fill: "#e879f9", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "28", height: "28", view_box: "0 0 24 24", fill: "#38bdf8", stroke: "#06b6d4", stroke_width: "1.2", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
                         span { class: "quantum-star star-3",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "22", height: "22", view_box: "0 0 24 24", fill: "#818cf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "22", height: "22", view_box: "0 0 24 24", fill: "#ffffff", stroke: "#38bdf8", stroke_width: "1.2", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
                         span { class: "quantum-star star-4",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", view_box: "0 0 24 24", fill: "#38bdf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", view_box: "0 0 24 24", fill: "#06b6d4", stroke: "#38bdf8", stroke_width: "1.2", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
                         span { class: "quantum-star star-5",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#f472b6", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#f59e0b", stroke: "#fbbf24", stroke_width: "1.2", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
                     }
                 }
