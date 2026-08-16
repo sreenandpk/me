@@ -1880,45 +1880,63 @@ button,
    MOBILE RESPONSIVENESS OVERHAUL (Chat UI + Site-wide components)
    ───────────────────────────────────────────────────────────── */
 
+/* Mobile Chat Backdrop Overlay */
+.rag-chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9998;
+  animation: rag-fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes rag-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @media (max-width: 640px) {
   /* Modern Full-Width Mobile Bottom-Sheet AI Chat Modal */
   .rag-ai-wrapper {
-    bottom: 1rem;
-    right: 1rem;
-    left: auto;
-    align-items: flex-end;
-  }
-
-  .rag-fab {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    box-shadow: 0 10px 28px rgba(99, 102, 241, 0.45);
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 10000;
   }
 
   .rag-chat-panel {
     position: fixed;
     inset: auto 0 0 0;
     width: 100vw;
-    height: 82vh;
-    max-height: 82vh;
+    height: 80vh;
+    max-height: 80vh;
     border-radius: 1.5rem 1.5rem 0 0;
-    background: rgba(14, 14, 18, 0.96);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #0f0f14;
+    border: 1px solid rgba(99, 102, 241, 0.25);
     border-bottom: none;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.95);
     display: flex;
     flex-direction: column;
     z-index: 10000;
   }
 
   .rag-chat-header {
-    padding: 1.1rem 1.25rem 0.9rem;
+    padding: 1rem 1.25rem 0.85rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(22, 22, 28, 0.7);
+    background: #14141a;
     border-radius: 1.5rem 1.5rem 0 0;
+    position: relative;
+  }
+
+  .rag-chat-header::before {
+    content: '';
+    display: block;
+    width: 38px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 99px;
+    margin: -2px auto 10px;
   }
 
   .rag-chat-header-text {
@@ -1928,12 +1946,17 @@ button,
   .rag-chat-title {
     font-size: 0.98rem;
     font-weight: 600;
+    color: #ffffff;
   }
 
   .rag-chat-close {
-    padding: 8px;
+    width: 32px;
+    height: 32px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .rag-chat-messages {
@@ -1941,6 +1964,7 @@ button,
     max-height: none;
     padding: 1.25rem 1rem;
     gap: 1.1rem;
+    background: #0b0b0f;
   }
 
   .rag-chat-avatar {
@@ -1949,13 +1973,19 @@ button,
   }
 
   .rag-chat-bubble {
-    max-width: 85%;
-    padding: 0.85rem 1.05rem;
+    max-width: 86%;
+    padding: 0.85rem 1.1rem;
     border-radius: 1rem;
   }
 
+  .rag-chat-msg--user .rag-chat-bubble {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-color: transparent;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+  }
+
   .rag-chat-bubble p {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     line-height: 1.6;
   }
 
@@ -1964,8 +1994,9 @@ button,
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 0 1rem 0.85rem;
-    gap: 0.5rem;
+    padding: 0.6rem 1rem 0.85rem;
+    gap: 0.55rem;
+    background: #0b0b0f;
     scrollbar-width: none;
   }
 
@@ -1974,27 +2005,32 @@ button,
   }
 
   .rag-chat-chip {
-    font-size: 0.76rem;
-    padding: 0.4rem 0.95rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.42rem 1rem;
     border-radius: 99px;
     flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.12);
+    white-space: nowrap;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.28);
+    color: #c7d2fe;
   }
 
   .rag-chat-input-row {
-    padding: 0.85rem 1rem;
-    gap: 0.6rem;
-    background: rgba(10, 10, 14, 0.98);
+    padding: 0.85rem 1rem 1rem;
+    gap: 0.65rem;
+    background: #08080c;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .rag-chat-input {
-    height: 44px;
+    height: 46px;
     font-size: 16px !important;
-    padding: 0 1.1rem;
-    background: rgba(22, 22, 28, 0.9);
+    padding: 0 1.25rem;
+    background: #14141c;
     border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 99px;
+    color: #ffffff;
   }
 
   .rag-chat-send {

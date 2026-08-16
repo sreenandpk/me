@@ -126,6 +126,13 @@ pub fn RagAiButton() -> Element {
     };
 
     rsx! {
+        if open {
+            div {
+                class: "rag-chat-overlay",
+                onclick: move |_| is_open.set(false)
+            }
+        }
+
         div { class: "rag-ai-wrapper",
 
             // ── Chat panel ──────────────────────────────────────────────────
