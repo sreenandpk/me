@@ -16,6 +16,7 @@ pub struct ChatMessage {
 #[component]
 pub fn RagAiButton() -> Element {
     let mut is_open = use_signal(|| false);
+    let mut is_full_screen = use_signal(|| false);
     let mut open_count = use_signal(|| 0);
     let mut messages = use_signal(|| vec![
         ChatMessage {
@@ -27,6 +28,7 @@ pub fn RagAiButton() -> Element {
     let mut is_loading = use_signal(|| false);
 
     let open = *is_open.read();
+    let full = *is_full_screen.read();
 
     use_effect(move || {
         let is_chat_open = *is_open.read();
@@ -35,6 +37,12 @@ pub fn RagAiButton() -> Element {
             is_chat_open
         ));
     });
+
+    let panel_class = match (open, full) {
+        (true, true) => "rag-chat-panel rag-chat-panel--open rag-chat-panel--fullscreen",
+        (true, false) => "rag-chat-panel rag-chat-panel--open",
+        _ => "rag-chat-panel",
+    };
 
     let mut send_question = move |q: String| {
         let question = q.trim().to_string();
@@ -139,7 +147,7 @@ pub fn RagAiButton() -> Element {
 
             // ── Chat panel ──────────────────────────────────────────────────
             div {
-                class: if open { "rag-chat-panel rag-chat-panel--open" } else { "rag-chat-panel" },
+                class: "{panel_class}",
 
                 // Header
                 div { class: "rag-chat-header",
@@ -149,20 +157,58 @@ pub fn RagAiButton() -> Element {
                             span { class: "rag-chat-title", "AI Assistant" }
                         }
                     }
-                    button {
-                        class: "rag-chat-close",
-                        onclick: move |_| is_open.set(false),
-                        aria_label: "Close Chat",
-                        svg {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            width: "14", height: "14",
-                            view_box: "0 0 24 24",
-                            fill: "none",
-                            stroke: "currentColor",
-                            stroke_width: "2",
-                            stroke_linecap: "round",
-                            path { d: "M18 6 6 18" }
-                            path { d: "m6 6 12 12" }
+                    div { class: "rag-chat-header-actions",
+                        button {
+                            class: "rag-chat-expand",
+                            onclick: move |_| {
+                                let cur = *is_full_screen.read();
+                                is_full_screen.set(!cur);
+                            },
+                            aria_label: "Toggle Fullscreen",
+                            if full {
+                                svg {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    width: "14", height: "14",
+                                    view_box: "0 0 24 24",
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    stroke_width: "2",
+                                    stroke_linecap: "round",
+                                    stroke_linejoin: "round",
+                                    path { d: "M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" }
+                                }
+                            } else {
+                                svg {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    width: "14", height: "14",
+                                    view_box: "0 0 24 24",
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    stroke_width: "2",
+                                    stroke_linecap: "round",
+                                    stroke_linejoin: "round",
+                                    path { d: "M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" }
+                                }
+                            }
+                        }
+                        button {
+                            class: "rag-chat-close",
+                            onclick: move |_| {
+                                is_open.set(false);
+                                is_full_screen.set(false);
+                            },
+                            aria_label: "Close Chat",
+                            svg {
+                                xmlns: "http://www.w3.org/2000/svg",
+                                width: "14", height: "14",
+                                view_box: "0 0 24 24",
+                                fill: "none",
+                                stroke: "currentColor",
+                                stroke_width: "2",
+                                stroke_linecap: "round",
+                                path { d: "M18 6 6 18" }
+                                path { d: "m6 6 12 12" }
+                            }
                         }
                     }
                 }
