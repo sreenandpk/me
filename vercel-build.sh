@@ -17,39 +17,23 @@ fi
 echo "=== Adding WebAssembly Compilation Target ==="
 rustup target add wasm32-unknown-unknown
 
-echo "=== Installing Dioxus CLI / WASM Toolchain ==="
-if ! command -v dx &> /dev/null; then
-    echo "Downloading prebuilt dx binary..."
-    mkdir -p "$CARGO_HOME/bin"
-    
-    # Download static musl release binary from GitHub Releases
-    URL="https://github.com/DioxusLabs/dioxus/releases/download/v0.6.2/dx-v0.6.2-x86_64-unknown-linux-musl.tar.gz"
-    if curl -sSLf "$URL" -o /tmp/dx.tar.gz 2>/dev/null; then
-        tar -xzf /tmp/dx.tar.gz -C "$CARGO_HOME/bin"
-        chmod +x "$CARGO_HOME/bin/dx" 2>/dev/null || true
-    fi
+echo "=== Downloading wasm-bindgen 0.2.127 Musl Static Binary ==="
+WASM_BINDGEN_URL="https://github.com/rustwasm/wasm-bindgen/releases/download/0.2.127/wasm-bindgen-0.2.127-x86_64-unknown-linux-musl.tar.gz"
+mkdir -p /tmp/wasm-bindgen
+curl -sSL "$WASM_BINDGEN_URL" | tar -xz -C /tmp/wasm-bindgen --strip-components=1
+
+echo "=== Compiling Rust WASM Application ==="
+cargo build --target wasm32-unknown-unknown --release
+
+echo "=== Packaging Web Application into dist/ ==="
+mkdir -p dist/assets
+cp index.html dist/
+if [ -d "assets" ]; then
+    cp -r assets/* dist/assets/ 2>/dev/null || true
 fi
 
-if command -v dx &> /dev/null; then
-    echo "Using Dioxus CLI: $(dx --version)"
-    echo "=== Compiling Dioxus Web Application (dx build) ==="
-    dx build --release
-else
-    echo "=== Compiling Dioxus Web Application (cargo WASM fallback) ==="
-    WASM_BINDGEN_URL="https://github.com/rustwasm/wasm-bindgen/releases/download/0.2.100/wasm-bindgen-0.2.100-x86_64-unknown-linux-musl.tar.gz"
-    mkdir -p /tmp/wasm-bindgen
-    curl -sSL "$WASM_BINDGEN_URL" | tar -xz -C /tmp/wasm-bindgen --strip-components=1
-    
-    cargo build --target wasm32-unknown-unknown --release
-    
-    mkdir -p dist/assets
-    cp index.html dist/
-    if [ -d "assets" ]; then
-        cp -r assets/* dist/assets/ 2>/dev/null || true
-    fi
-    
-    /tmp/wasm-bindgen/wasm-bindgen target/wasm32-unknown-unknown/release/portfolio.wasm --out-dir dist/assets --target web --no-typescript
-fi
+# Run wasm-bindgen (exact version 0.2.127 matching Cargo.lock)
+/tmp/wasm-bindgen/wasm-bindgen target/wasm32-unknown-unknown/release/portfolio.wasm --out-dir dist/assets --target web --no-typescript
 
 echo "=== Web Application Build Completed Successfully ==="
 
