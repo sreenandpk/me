@@ -94,7 +94,7 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
 
                 // Actions
                 div { class: "nav-actions",
-                    // Theme Toggle Button — Artistic Cosmic Sparkle / Solar Starburst
+                    // Theme Toggle Button — 100% Transparent, Standalone Icon
                     button {
                         class: "theme-toggle-btn",
                         onclick: toggle_theme,
@@ -102,25 +102,24 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                         if is_light() {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "18",
-                                height: "18",
+                                width: "22",
+                                height: "22",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "1.7",
+                                stroke_width: "1.5",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
-                                path { d: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" }
-                                path { d: "M19 3v4m-2-2h4" }
+                                path { d: "M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-5.4-5.4c0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3Z" }
                             }
                         } else {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "18",
-                                height: "18",
+                                width: "22",
+                                height: "22",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "1.7",
+                                stroke_width: "1.5",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
@@ -130,7 +129,7 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                         }
                     }
 
-                    // Mobile Menu Toggle — Aesthetic Asymmetric 2-Line & Accent Dot
+                    // Mobile Menu Toggle — 100% Transparent, Standalone 2-Line Icon
                     button {
                         class: if mobile_open() { "mobile-nav-toggle mobile-nav-toggle--open" } else { "mobile-nav-toggle" },
                         onclick: toggle_mobile,
@@ -138,11 +137,11 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                         if mobile_open() {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "18",
-                                height: "18",
+                                width: "22",
+                                height: "22",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "1.8",
+                                stroke_width: "1.5",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
@@ -152,17 +151,16 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                         } else {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "18",
-                                height: "18",
+                                width: "22",
+                                height: "22",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "2",
+                                stroke_width: "1.5",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
-                                line { x1: "4", y1: "8", x2: "20", y2: "8" }
-                                line { x1: "10", y1: "16", x2: "20", y2: "16" }
-                                circle { cx: "5.5", cy: "16", r: "1.5", fill: "currentColor" }
+                                line { x1: "4", y1: "9", x2: "20", y2: "9" }
+                                line { x1: "4", y1: "15", x2: "20", y2: "15" }
                             }
                         }
                     }
