@@ -30,6 +30,7 @@ mkdir -p dist/assets
 cp index.html dist/
 if [ -d "assets" ]; then
     cp -r assets/* dist/assets/ 2>/dev/null || true
+    cp -r assets/* dist/ 2>/dev/null || true
 fi
 
 # Run wasm-bindgen (exact version 0.2.127 matching Cargo.lock)
