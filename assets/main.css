@@ -423,6 +423,8 @@ a {
 }
 
 .hero-headline {
+  display: inline-block;
+  position: relative;
   font-family: 'Caveat', cursive;
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 300;
@@ -442,7 +444,7 @@ a {
   position: absolute;
   bottom: -0.55rem;
   left: 0;
-  width: 100%;
+  width: 2.5rem;
   height: 8px;
   color: var(--accent-color);
   opacity: 0.85;
@@ -1469,13 +1471,13 @@ a {
   }
   
   .hero-name {
-    font-size: clamp(3.2rem, 13vw, 5.5rem);
+    font-size: clamp(2rem, 11vw, 5.5rem);
     letter-spacing: 0.08em;
     margin-bottom: 1.25rem;
   }
   
   .hero-headline {
-    font-size: 1.35rem;
+    font-size: clamp(0.78rem, 3.6vw, 1.35rem);
     margin-bottom: 1.5rem;
   }
   

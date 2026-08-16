@@ -11,16 +11,18 @@ pub fn Hero() -> Element {
                         span { class: "hero-pretitle", "HELLO, I AM" }
                         h1 { class: "hero-name", "SREENAND P K" }
                         h2 { class: "hero-headline",
-                            "{PERSONAL_INFO.title}"
-                            svg {
-                                class: "hero-headline-underline",
-                                view_box: "0 0 300 12",
-                                preserve_aspect_ratio: "none",
-                                fill: "none",
-                                stroke: "currentColor",
-                                stroke_width: "3",
-                                stroke_linecap: "round",
-                                path { d: "M5 9 C 90 12, 180 5, 295 8" }
+                            span { style: "position: relative; display: inline-block;",
+                                "{PERSONAL_INFO.title}"
+                                svg {
+                                    class: "hero-headline-underline",
+                                    view_box: "0 0 300 12",
+                                    preserve_aspect_ratio: "none",
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    stroke_width: "3",
+                                    stroke_linecap: "round",
+                                    path { d: "M5 9 C 90 12, 180 5, 295 8" }
+                                }
                             }
                         }
                         p { class: "hero-description",
