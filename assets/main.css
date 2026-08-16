@@ -2077,34 +2077,68 @@ button,
 }
 
 /* Ambient Cinematic Aurora Sweep inside chatbox */
-/* ─────────────────────────────────────────────────────────────
-   2-SECOND PURE ELECTRIC BLUE LIGHTNING RAYS (NO ICONS)
-   ───────────────────────────────────────────────────────────── */
-
-.rag-chat-lightning-box {
+/* High-Voltage Electric SVG Border Tracer (Runs along chatbox border edge!) */
+.electric-border-svg {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden;
   border-radius: inherit;
   z-index: 99999;
 }
 
-/* Pure Blue Aurora Wave */
-.cinematic-aurora-sweep {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 88% 88%, rgba(59, 130, 246, 0.55), rgba(37, 99, 235, 0.35), transparent 75%);
+.electric-border-rect {
+  stroke-dasharray: 25 75;
+  stroke-dashoffset: 100;
+  stroke-linecap: round;
   opacity: 0;
-  pointer-events: none;
-  animation: blueAuroraSweep 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes blueAuroraSweep {
-  0% { opacity: 0; transform: scale(0.5); }
-  25% { opacity: 1; transform: scale(1.15); }
-  75% { opacity: 0.8; transform: scale(1.05); }
-  100% { opacity: 0; transform: scale(1.25); }
+.rect-beam-1 {
+  animation: borderBeamRun1 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  filter: drop-shadow(0 0 14px #60a5fa) drop-shadow(0 0 28px #3b82f6);
+}
+
+.rect-beam-2 {
+  animation: borderBeamRun2 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  filter: drop-shadow(0 0 10px #38bdf8) drop-shadow(0 0 20px #1d4ed8);
+}
+
+@keyframes borderBeamRun1 {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    stroke-dashoffset: 75;
+  }
+  75% {
+    opacity: 0.9;
+    stroke-dashoffset: -10;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -30;
+  }
+}
+
+@keyframes borderBeamRun2 {
+  0% {
+    stroke-dashoffset: 50;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    stroke-dashoffset: 25;
+  }
+  75% {
+    opacity: 0.9;
+    stroke-dashoffset: -60;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -80;
+  }
 }
 
 /* Sleek Blue Electric Energy Streaks (No icons!) */

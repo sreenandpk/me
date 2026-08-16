@@ -291,17 +291,37 @@ pub fn RagAiButton() -> Element {
                     }
                 }
 
-                // Pure Blue Electric Lightning Beams (No icons! Pure Electric Blue!)
+                // High-Voltage Blue Electric Border Trace (Runs around the chatbox border outline!)
                 if open {
                     div {
                         key: "{open_count}",
                         class: "rag-chat-lightning-box",
                         div { class: "cinematic-aurora-sweep" }
+                        svg {
+                            class: "electric-border-svg",
+                            xmlns: "http://www.w3.org/2000/svg",
+                            width: "100%",
+                            height: "100%",
+                            rect {
+                                class: "electric-border-rect rect-beam-1",
+                                x: "1", y: "1", width: "99.2%", height: "99.2%", rx: "15", ry: "15",
+                                fill: "none",
+                                stroke: "#60a5fa",
+                                stroke_width: "3",
+                                path_length: "100",
+                            }
+                            rect {
+                                class: "electric-border-rect rect-beam-2",
+                                x: "1", y: "1", width: "99.2%", height: "99.2%", rx: "15", ry: "15",
+                                fill: "none",
+                                stroke: "#3b82f6",
+                                stroke_width: "2",
+                                path_length: "100",
+                            }
+                        }
                         div { class: "blue-lightning-streak streak-1" }
                         div { class: "blue-lightning-streak streak-2" }
                         div { class: "blue-lightning-streak streak-3" }
-                        div { class: "blue-lightning-streak streak-4" }
-                        div { class: "blue-lightning-streak streak-5" }
                     }
                 }
             }
