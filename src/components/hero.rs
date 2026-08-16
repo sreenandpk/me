@@ -10,7 +10,19 @@ pub fn Hero() -> Element {
                     div { class: "hero-content reveal-on-scroll revealed",
                         span { class: "hero-pretitle", "HELLO, I AM" }
                         h1 { class: "hero-name", "SREENAND P K" }
-                        h2 { class: "hero-headline", "{PERSONAL_INFO.title}" }
+                        h2 { class: "hero-headline",
+                            "{PERSONAL_INFO.title}"
+                            svg {
+                                class: "hero-headline-underline",
+                                view_box: "0 0 300 12",
+                                preserve_aspect_ratio: "none",
+                                fill: "none",
+                                stroke: "currentColor",
+                                stroke_width: "3",
+                                stroke_linecap: "round",
+                                path { d: "M5 9 C 90 12, 180 5, 295 8" }
+                            }
+                        }
                         p { class: "hero-description",
                             "I build reliable backend systems, APIs, and database architectures. I specialize in designing clean, scalable Python services, orchestrating workloads, and automating deployments."
                         }
@@ -24,16 +36,16 @@ pub fn Hero() -> Element {
                         // Monospace status footer details
                         div { class: "hero-footer-info",
                             span { "Based in India" }
-                            span { "•" }
+                            span { class: "hero-bullet", "•" }
                             span { "Available for Opportunities" }
-                            span { "•" }
+                            span { class: "hero-bullet", "•" }
                             a {
                                 href: "{PERSONAL_INFO.github_url}",
                                 target: "_blank",
                                 rel: "noopener noreferrer",
                                 "GitHub"
                             }
-                            span { "•" }
+                            span { class: "hero-bullet", "•" }
                             a {
                                 href: "{PERSONAL_INFO.linkedin_url}",
                                 target: "_blank",

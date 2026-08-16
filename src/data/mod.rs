@@ -14,6 +14,10 @@ pub struct PersonalInfo {
     pub linkedin_url: &'static str,
     pub email: &'static str,
     pub summary: &'static str,
+    pub leetcode_url: &'static str,
+    pub instagram_url: &'static str,
+    pub whatsapp_url: &'static str,
+    pub phone: &'static str,
 }
 
 pub const PERSONAL_INFO: PersonalInfo = PersonalInfo {
@@ -23,6 +27,10 @@ pub const PERSONAL_INFO: PersonalInfo = PersonalInfo {
     linkedin_url: "https://linkedin.com/in/sreenandpk-placeholder",
     email: "sreenandpk@example.com", // clearly marked placeholder email
     summary: "Dedicated Backend Engineer specializing in Python, FastAPI, and Django. I build scalable backend architectures, high-performance REST APIs, containerized microservices, and automated testing suites. Passionate about clean code, robust database designs, and writing software that is maintainable, highly observable, and secure.",
+    leetcode_url: "https://leetcode.com/sreenandpk-placeholder",
+    instagram_url: "https://instagram.com/sreenandpk-placeholder",
+    whatsapp_url: "https://wa.me/910000000000",
+    phone: "tel:+910000000000",
 };
 
 #[derive(Debug, Clone, PartialEq)]

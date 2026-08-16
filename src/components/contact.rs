@@ -18,15 +18,10 @@ pub fn Contact() -> Element {
                         div { class: "contact-links-grid",
                             a {
                                 class: "contact-brutalist-link",
-                                href: "mailto:{PERSONAL_INFO.email}",
-                                "Email"
-                            }
-                            a {
-                                class: "contact-brutalist-link",
-                                href: "{PERSONAL_INFO.github_url}",
+                                href: "{PERSONAL_INFO.leetcode_url}",
                                 target: "_blank",
                                 rel: "noopener noreferrer",
-                                "GitHub"
+                                "LeetCode"
                             }
                             a {
                                 class: "contact-brutalist-link",
@@ -34,6 +29,13 @@ pub fn Contact() -> Element {
                                 target: "_blank",
                                 rel: "noopener noreferrer",
                                 "LinkedIn"
+                            }
+                            a {
+                                class: "contact-brutalist-link",
+                                href: "{PERSONAL_INFO.github_url}",
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                "GitHub"
                             }
                         }
                     }

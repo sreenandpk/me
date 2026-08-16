@@ -17,20 +17,31 @@ pub fn Philosophy() -> Element {
     rsx! {
         section { id: "philosophy", class: "section reveal-on-scroll",
             div { class: "container",
-                h2 { "Principles" }
-                div { class: "principles-layout-grid",
-                    div { class: "principles-list",
-                        for (i, item) in PHILOSOPHY_ITEMS.iter().enumerate() {
-                            {
-                                let num = format!("{:02}", i + 1);
-                                let desc = get_desc(item.title);
-                                rsx! {
-                                    div { class: "principles-card-row",
-                                        div { class: "principles-card-row-header",
-                                            span { class: "principle-num", "{num}" }
-                                            h3 { class: "principle-title", "{item.title}" }
+                div { class: "principles-grid-layout",
+                    // Left Column: Heading
+                    div { class: "principles-heading-col",
+                        span { class: "principles-pretitle", "HOW I WORK" }
+                        h2 { class: "principles-headline", "Principles" }
+                        p { class: "principles-subtitle", "Core guidelines I follow in engineering." }
+                        div { class: "principles-divider" }
+                    }
+
+                    // Right Column: Principles list
+                    div { class: "principles-list-col",
+                        div { class: "principles-minimal-list",
+                            for (i, item) in PHILOSOPHY_ITEMS.iter().enumerate() {
+                                {
+                                    let num = format!("{:02}", i + 1);
+                                    let desc = get_desc(item.title);
+                                    rsx! {
+                                        div { class: "principles-minimal-item",
+                                            div { class: "principle-minimal-header",
+                                                span { class: "principle-minimal-num", "{num}" }
+                                                span { class: "principle-minimal-divider", "/" }
+                                                h3 { class: "principle-minimal-title", "{item.title}" }
+                                            }
+                                            p { class: "principle-minimal-desc", "{desc}" }
                                         }
-                                        p { class: "principle-desc", "{desc}" }
                                     }
                                 }
                             }
