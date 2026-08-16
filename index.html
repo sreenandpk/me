@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Sreenand P K | Python Developer &amp; Backend Engineer</title>
     <meta name="description" content="Portfolio of Sreenand P K — Python Developer &amp; Backend Engineer" />
     <link rel="stylesheet" href="/assets/main.css" />
@@ -49,7 +49,9 @@
       #sk-loader.sk-hidden {
         opacity: 0;
         visibility: hidden;
-        pointer-events: none;
+        pointer-events: none !important;
+        display: none !important;
+        z-index: -99999 !important;
       }
 
       /* --- Navbar skeleton --- */

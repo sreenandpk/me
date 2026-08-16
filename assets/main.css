@@ -406,6 +406,7 @@ a {
   color: var(--accent-color);
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  margin-top: 1.75rem;
   margin-bottom: 1rem;
   align-self: center;
 }
@@ -1700,7 +1701,7 @@ a {
   border-radius: 99px;
   padding: 0.55rem 1rem;
   font-family: 'Outfit', sans-serif;
-  font-size: 0.83rem;
+  font-size: 16px !important; /* Prevents auto-zoom on iOS/mobile browsers */
   font-weight: 400;
   color: var(--text-primary);
   outline: none;
@@ -1720,6 +1721,8 @@ a {
   background: var(--accent-gradient);
   border: none;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1729,6 +1732,19 @@ a {
 }
 .rag-chat-send:hover { opacity: 0.85; transform: scale(1.06); }
 .rag-chat-send svg { pointer-events: none; }
+
+/* Ensure all buttons and links are 100% clickable and touch-responsive */
+a,
+button,
+.btn,
+.nav-link,
+.rag-fab,
+.rag-chat-chip,
+.mobile-nav-toggle {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
 
 
 /* --- Scroll Reveal --- */
