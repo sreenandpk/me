@@ -1858,3 +1858,103 @@ a {
     padding-top: 1.25rem;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE RESPONSIVENESS OVERHAUL (Chat UI + Site-wide components)
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  /* RAG AI Chat Widget Mobile Optimization */
+  .rag-ai-wrapper {
+    bottom: 1rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    align-items: stretch;
+  }
+
+  .rag-fab {
+    align-self: flex-end;
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+  }
+
+  .rag-chat-panel {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 1.25rem;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.75);
+  }
+
+  .rag-chat-messages {
+    max-height: 50vh;
+    padding: 1rem 0.85rem;
+    gap: 1rem;
+  }
+
+  .rag-chat-msg {
+    gap: 0.55rem;
+  }
+
+  .rag-chat-bubble {
+    max-width: 88%;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .rag-chat-chips {
+    padding: 0 0.85rem 1rem;
+    gap: 0.35rem;
+  }
+
+  .rag-chat-chip {
+    font-size: 0.7rem;
+    padding: 0.28rem 0.7rem;
+  }
+
+  .rag-chat-input-row {
+    padding: 0.75rem 0.85rem;
+    gap: 0.45rem;
+  }
+
+  .rag-chat-input {
+    font-size: 0.82rem;
+    padding: 0.5rem 0.85rem;
+  }
+
+  .rag-chat-send {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+
+  .hero-headline {
+    font-size: 0.95rem;
+  }
+
+  .hero-description {
+    font-size: 0.88rem;
+  }
+
+  .about-stat-number {
+    font-size: 1.75rem;
+  }
+
+  .about-stat-label {
+    font-size: 0.72rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
