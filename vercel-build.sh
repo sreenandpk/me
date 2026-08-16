@@ -35,5 +35,8 @@ fi
 # Run wasm-bindgen (exact version 0.2.127 matching Cargo.lock)
 /tmp/wasm-bindgen/wasm-bindgen target/wasm32-unknown-unknown/release/portfolio.wasm --out-dir dist/assets --target web --no-typescript
 
+# Inject WASM loader script into dist/index.html
+sed -i 's|</body>|<script type="module">import init from "/assets/portfolio.js"; init();</script></body>|g' dist/index.html
+
 echo "=== Web Application Build Completed Successfully ==="
 
