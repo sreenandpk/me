@@ -75,7 +75,7 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                 a { class: "nav-avatar-link", href: "#home",
                     img {
                         class: "nav-avatar",
-                        src: asset!("/assets/avatar.jpg"),
+                        src: "/assets/avatar.jpg",
                         alt: "Sreenand P K"
                     }
                     span { class: "nav-avatar-caption", "Portfolio" }
