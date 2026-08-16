@@ -1642,6 +1642,12 @@ a {
   background: rgba(255, 255, 255, 0.08);
 }
 
+/* Global body lock when chatbox is open/fullscreen */
+body.rag-body-lock {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
 /* Fullscreen mode for chatbox */
 .rag-chat-panel--fullscreen {
   position: fixed !important;
@@ -1656,6 +1662,8 @@ a {
   right: 0 !important;
   left: 0 !important;
   z-index: 999999 !important;
+  overscroll-behavior: contain !important;
+  touch-action: none !important;
 }
 
 .rag-chat-panel--fullscreen .rag-chat-header {
@@ -1665,6 +1673,9 @@ a {
 .rag-chat-panel--fullscreen .rag-chat-messages {
   flex: 1 !important;
   max-height: none !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: touch !important;
 }
 
 /* Messages */
