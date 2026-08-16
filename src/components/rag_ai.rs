@@ -324,7 +324,7 @@ pub fn RagAiButton() -> Element {
 
             // ── FAB ────────────────────────────────────────────────────────
             div {
-                class: "rag-ai-fab",
+                class: if open { "rag-ai-fab rag-ai-fab--open" } else { "rag-ai-fab" },
                 onclick: move |_| {
                     let next = !open;
                     if next {

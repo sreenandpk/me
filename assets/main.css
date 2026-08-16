@@ -1407,7 +1407,6 @@ a {
   cursor: pointer;
 }
 
-
 .rag-ai-icon {
   width: 52px;
   height: 52px;
@@ -1420,7 +1419,14 @@ a {
   color: #a5b4fc;
   position: relative;
   z-index: 1;
-  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.rag-ai-fab--open .rag-ai-icon {
+  transform: rotate(360deg) scale(1.1);
+  color: #60a5fa;
+  border-color: rgba(99, 102, 241, 0.7);
+  box-shadow: 0 0 24px rgba(99, 102, 241, 0.4);
 }
 
 .rag-ai-icon svg {
@@ -1898,15 +1904,19 @@ button,
 
   .rag-chat-panel {
     position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    max-height: 100dvh;
-    border-radius: 0;
+    bottom: 80px;
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    max-width: 380px;
+    margin: 0 auto;
+    height: 490px;
+    max-height: 70vh;
+    max-height: 70dvh;
+    border-radius: 18px;
     background: #09090b;
-    border: none;
-    box-shadow: none;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
     z-index: 99999;
@@ -1916,7 +1926,7 @@ button,
     padding: 0.85rem 1rem;
     border-bottom: 1px solid var(--border-color);
     background: #121216;
-    border-radius: 0;
+    border-radius: 18px 18px 0 0;
   }
 
   .rag-chat-back-btn {
