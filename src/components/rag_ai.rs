@@ -28,6 +28,14 @@ pub fn RagAiButton() -> Element {
 
     let open = *is_open.read();
 
+    use_effect(move || {
+        let is_chat_open = *is_open.read();
+        let _ = document::eval(&format!(
+            "if ({}) {{ document.body.classList.add('rag-body-lock'); }} else {{ document.body.classList.remove('rag-body-lock'); }}",
+            is_chat_open
+        ));
+    });
+
     let mut send_question = move |q: String| {
         let question = q.trim().to_string();
         if question.is_empty() || *is_loading.read() {

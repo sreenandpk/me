@@ -1594,6 +1594,9 @@ a {
   max-height: 380px;
   overflow-y: auto;
   scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .rag-chat-messages::-webkit-scrollbar {
@@ -1902,6 +1905,11 @@ button,
     box-shadow: 0 10px 28px rgba(99, 102, 241, 0.45);
   }
 
+  body.rag-body-lock {
+    overflow: hidden !important;
+    touch-action: none !important;
+  }
+
   .rag-chat-panel {
     position: fixed;
     bottom: 80px;
@@ -1920,6 +1928,16 @@ button,
     display: flex;
     flex-direction: column;
     z-index: 99999;
+    overscroll-behavior: contain;
+    touch-action: none;
+  }
+
+  .rag-chat-messages {
+    flex: 1;
+    max-height: none;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   .rag-chat-header {
