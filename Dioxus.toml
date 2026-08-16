@@ -6,7 +6,7 @@ asset_dir = "assets"
 
 [web.app]
 title = "Sreenand P K | Python Developer & Backend Engineer"
-icon = "assets/avatar.jpg"
+icon = "assets/favicon.ico"
 
 [web.watcher]
 reload_html = true
