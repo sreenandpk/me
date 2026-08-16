@@ -1287,24 +1287,23 @@ a {
 }
 
 .contact-brutalist-link {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-secondary);
   display: inline-flex;
   align-items: center;
-  transition: all 0.2s;
+  transition: all 0.25s ease;
   cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 4px;
+  text-transform: none;
+  letter-spacing: 0.05em;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .contact-brutalist-link:hover {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
-  transform: translateY(-1px);
+  color: var(--text-primary);
+  transform: translateY(-2px);
 }
 
 /* --- Footer --- */
@@ -1329,18 +1328,20 @@ a {
 }
 
 .footer-name {
-  font-family: var(--font-body);
+  font-family: 'Outfit', sans-serif;
   font-size: 0.95rem;
   color: var(--text-primary);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .footer-title {
-  font-family: 'Caveat', cursive;
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   color: var(--text-secondary);
-  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
 }
 
 .footer-col-right {
@@ -1384,6 +1385,317 @@ a {
 .footer-built {
   color: var(--text-muted);
 }
+
+/* --- RAG AI Floating Button --- */
+@keyframes rag-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.65); }
+}
+@keyframes rag-zap-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(99,102,241,0.5)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(139,92,246,0.85)); }
+}
+
+.rag-ai-fab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-direction: row-reverse;
+  cursor: pointer;
+}
+
+
+.rag-ai-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0c0c0f;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a5b4fc;
+  position: relative;
+  z-index: 1;
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.rag-ai-icon svg {
+  animation: rag-zap-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes rag-zap-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(165, 180, 252, 0.2));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(165, 180, 252, 0.8));
+    transform: scale(1.1);
+  }
+}
+
+.rag-ai-fab:hover .rag-ai-icon {
+  color: #c7d2fe;
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 20px rgba(99,102,241,0.2);
+}
+
+/* Pill tooltip */
+.rag-ai-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(9, 9, 11, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(99, 102, 241, 0.16);
+  border-radius: 99px;
+  padding: 0.4rem 1rem 0.4rem 0.65rem;
+  opacity: 0;
+  transform: translateX(8px) scale(0.97);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.rag-ai-fab:hover .rag-ai-tooltip {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+/* Pulsing status dot */
+.rag-ai-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6366f1;
+  flex-shrink: 0;
+  animation: rag-dot-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 5px rgba(99,102,241,0.7);
+}
+
+.rag-ai-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+/* Wrapper positions both FAB and chat panel */
+.rag-ai-wrapper {
+  position: fixed;
+  bottom: 2.25rem;
+  right: 2.25rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.85rem;
+}
+
+/* ── Chat Panel — minimal, matches portfolio ── */
+.rag-chat-panel {
+  width: 360px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rag-chat-panel--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Header */
+.rag-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-tertiary);
+}
+
+.rag-chat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.rag-chat-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6366f1;
+  box-shadow: 0 0 8px rgba(99,102,241,0.8);
+  animation: rag-dot-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.rag-chat-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rag-chat-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.rag-chat-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.rag-chat-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.rag-chat-close:hover { color: var(--text-primary); }
+
+/* Messages */
+.rag-chat-messages {
+  padding: 1.4rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.rag-chat-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.rag-chat-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(99,102,241,0.12);
+  border: 1px solid rgba(99,102,241,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a5b4fc;
+  flex-shrink: 0;
+}
+
+.rag-chat-bubble {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 0 0.75rem 0.75rem 0.75rem;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.rag-chat-bubble p {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Suggestion chips */
+.rag-chat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0 1.2rem 1.4rem;
+}
+
+.rag-chat-chip {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.73rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: 99px;
+  padding: 0.3rem 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.rag-chat-chip:hover {
+  color: #a5b4fc;
+  border-color: rgba(99,102,241,0.35);
+  background: rgba(99,102,241,0.06);
+}
+
+/* Input row */
+.rag-chat-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 1rem 1.2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.rag-chat-input {
+  flex: 1;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 99px;
+  padding: 0.55rem 1rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.83rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rag-chat-input::placeholder { color: var(--text-muted); }
+.rag-chat-input:focus {
+  border-color: rgba(99,102,241,0.4);
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.07);
+}
+
+.rag-chat-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.rag-chat-send:hover { opacity: 0.85; transform: scale(1.06); }
+
 
 /* --- Scroll Reveal --- */
 .reveal-on-scroll {

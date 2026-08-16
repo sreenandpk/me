@@ -89,6 +89,9 @@ fn App() -> Element {
 
             // Page Footer
             Footer {}
+
+            // Floating RAG AI indicator
+            RagAiButton {}
         }
     }
 }

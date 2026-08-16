@@ -6,6 +6,7 @@ pub mod hero;
 pub mod navbar;
 pub mod philosophy;
 pub mod projects;
+pub mod rag_ai;
 pub mod skills;
 
 pub use about::About;
@@ -16,4 +17,5 @@ pub use hero::Hero;
 pub use navbar::Navbar;
 pub use philosophy::Philosophy;
 pub use projects::Projects;
+pub use rag_ai::RagAiButton;
 pub use skills::Skills;
