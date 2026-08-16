@@ -345,7 +345,7 @@ a {
   right: 0.85rem;
   width: auto;
   max-width: 420px;
-  margin: 0 auto;
+  margin: 0.75rem auto 0 auto;
   background: rgba(12, 12, 16, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
