@@ -132,20 +132,23 @@ pub fn RagAiButton() -> Element {
             div {
                 class: if open { "rag-chat-panel rag-chat-panel--open" } else { "rag-chat-panel" },
 
-                // Small lightning bolt spark objects popping out for 2 seconds
+                // Internal Lightning Sparks originating from bottom-right icon inside chatbox
                 if open {
-                    div { class: "rag-lightning-sparks",
-                        span { class: "lightning-spark spark-1",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", view_box: "0 0 24 24", fill: "#c084fc", stroke: "#a855f7", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
+                    div { class: "rag-chat-lightning-box",
+                        span { class: "lightning-icon-spark spark-in-1",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", view_box: "0 0 24 24", fill: "#c084fc", stroke: "#a855f7", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
-                        span { class: "lightning-spark spark-2",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#e879f9", stroke: "#c084fc", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
+                        span { class: "lightning-icon-spark spark-in-2",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "20", height: "20", view_box: "0 0 24 24", fill: "#e879f9", stroke: "#c084fc", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
-                        span { class: "lightning-spark spark-3",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", view_box: "0 0 24 24", fill: "#818cf8", stroke: "#6366f1", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
+                        span { class: "lightning-icon-spark spark-in-3",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", view_box: "0 0 24 24", fill: "#818cf8", stroke: "#6366f1", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
-                        span { class: "lightning-spark spark-4",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "22", height: "22", view_box: "0 0 24 24", fill: "#a855f7", stroke: "#e879f9", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
+                        span { class: "lightning-icon-spark spark-in-4",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", view_box: "0 0 24 24", fill: "#a855f7", stroke: "#e879f9", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
+                        }
+                        span { class: "lightning-icon-spark spark-in-5",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "15", height: "15", view_box: "0 0 24 24", fill: "#38bdf8", stroke: "#818cf8", stroke_width: "1.5", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
                         }
                     }
                 }
