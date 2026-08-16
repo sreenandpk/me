@@ -29,7 +29,8 @@ fi
 
 echo "=== Installing Dioxus CLI (dx) ==="
 if ! command -v dx &> /dev/null; then
-    cargo-binstall -y dioxus-cli --force || cargo binstall -y dioxus-cli --force
+    # Request static musl binary to avoid Vercel container GLIBC version mismatch
+    cargo-binstall -y --target x86_64-unknown-linux-musl dioxus-cli || cargo install dioxus-cli
 else
     echo "Dioxus CLI is already installed: $(dx --version)"
 fi
