@@ -135,24 +135,6 @@ pub fn RagAiButton() -> Element {
                 // Header
                 div { class: "rag-chat-header",
                     div { class: "rag-chat-header-left",
-                        button {
-                            class: "rag-chat-back-btn",
-                            onclick: move |_| is_open.set(false),
-                            aria_label: "Back to Portfolio",
-                            svg {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                width: "15", height: "15",
-                                view_box: "0 0 24 24",
-                                fill: "none",
-                                stroke: "currentColor",
-                                stroke_width: "2.5",
-                                stroke_linecap: "round",
-                                stroke_linejoin: "round",
-                                path { d: "M19 12H5" }
-                                path { d: "M12 19l-7-7 7-7" }
-                            }
-                            span { "Portfolio" }
-                        }
                         div { class: "rag-chat-status-dot" }
                         div { class: "rag-chat-header-text",
                             span { class: "rag-chat-title", "AI Assistant" }
@@ -161,6 +143,7 @@ pub fn RagAiButton() -> Element {
                     button {
                         class: "rag-chat-close",
                         onclick: move |_| is_open.set(false),
+                        aria_label: "Close Chat",
                         svg {
                             xmlns: "http://www.w3.org/2000/svg",
                             width: "14", height: "14",
