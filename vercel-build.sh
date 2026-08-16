@@ -27,9 +27,9 @@ else
     echo "cargo-binstall is already installed"
 fi
 
-echo "=== Installing Dioxus CLI (dx) ==="
+echo "=== Installing Dioxus CLI (dx) Musl Binary ==="
 if ! command -v dx &> /dev/null; then
-    cargo-binstall -y dioxus-cli@0.6.2 || cargo-binstall -y dioxus-cli
+    cargo-binstall -y --target x86_64-unknown-linux-musl dioxus-cli@0.6.2 || cargo-binstall -y --target x86_64-unknown-linux-musl dioxus-cli
 else
     echo "Dioxus CLI is already installed: $(dx --version)"
 fi
