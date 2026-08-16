@@ -510,72 +510,85 @@ a {
   color: var(--accent-color);
 }
 
-/* --- About Section: Hero-Matched --- */
-.about-hero {
+/* --- About Section: Minimal Side-by-Side --- */
+.about-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .about-grid-layout {
+    grid-template-columns: 0.45fr 0.55fr;
+    gap: 4.5rem;
+    align-items: flex-start;
+  }
+}
+
+.about-heading-col {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 750px;
-  margin: 0 auto;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.about-bio-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
 }
 
 .about-pretitle {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 500;
   color: var(--accent-color);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .about-headline {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(3.5rem, 8vw, 6rem);
-  line-height: 0.95;
-  margin-bottom: 1.5rem;
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  line-height: 1.25;
+  margin-bottom: 1.25rem;
   color: var(--text-primary);
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 .about-role {
-  font-family: 'Caveat', cursive;
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  color: var(--text-primary);
-  letter-spacing: 0.1em;
+  font-family: var(--font-mono);
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 2.5rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
 }
 
 .about-divider {
-  width: 3rem;
+  width: 2rem;
   height: 2px;
   background: var(--accent-gradient);
-  border-radius: 2px;
-  margin-bottom: 2.5rem;
+  border-radius: 1px;
 }
 
-.about-bio {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  max-width: 620px;
-}
-
-.about-bio p {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1rem;
+.about-bio-col p {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
   line-height: 1.75;
   color: var(--text-secondary);
   letter-spacing: 0.01em;
 }
 
-.about-bio p:first-child {
+.about-bio-col p:first-child {
   color: var(--text-primary);
   font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 /* --- Skills: Hero/About-Matched Header --- */

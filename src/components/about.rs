@@ -5,27 +5,21 @@ pub fn About() -> Element {
     rsx! {
         section { id: "about", class: "section reveal-on-scroll",
             div { class: "container",
-                div { class: "about-hero",
-                    // Pre-label (matches hero "HELLO, I AM")
-                    span { class: "about-pretitle", "ABOUT ME" }
-
-                    // Big statement (matches hero name style)
-                    h2 { class: "about-headline",
-                        "I BUILD SOFTWARE"
-                        br {}
-                        "DESIGNED TO LAST."
+                div { class: "about-grid-layout",
+                    // Left Column: Heading
+                    div { class: "about-heading-col",
+                        span { class: "about-pretitle", "ABOUT ME" }
+                        h2 { class: "about-headline",
+                            "I build software"
+                            br {}
+                            "designed to last."
+                        }
+                        p { class: "about-role", "Python Developer & Backend Engineer" }
+                        div { class: "about-divider" }
                     }
 
-                    // Subtitle (matches hero role style)
-                    p { class: "about-role",
-                        "Python Developer & Backend Engineer"
-                    }
-
-                    // Divider line
-                    div { class: "about-divider" }
-
-                    // Bio paragraphs
-                    div { class: "about-bio",
+                    // Right Column: Bio paragraphs
+                    div { class: "about-bio-col",
                         p {
                             "I am a software engineer focused on building clean, stable, and high-performance backend systems. I specialize in the Python ecosystem—specifically FastAPI and Django—and extend my curiosity into Rust and cloud deployment platforms."
                         }

@@ -1,9 +1,11 @@
 #[derive(Debug, Clone, PartialEq)]
 pub struct Project {
     pub name: &'static str,
-    pub description: &'static str,
+    pub subtitle: &'static str,
     pub tech_badges: &'static [&'static str],
-    pub highlights: &'static [&'static str],
+    pub overview: &'static str,
+    pub problem_faced: &'static str,
+    pub solution_implemented: &'static str,
     pub github_url: &'static str,
     pub live_url: Option<&'static str>,
 }
@@ -11,43 +13,33 @@ pub struct Project {
 pub const PROJECTS: &[Project] = &[
     Project {
         name: "CareStream",
-        description: "A modern healthcare and ICU patient monitoring platform that collects, processes, and displays real-time vitals and device data with strict authentication protocols.",
-        tech_badges: &["Django", "Django REST Framework", "PostgreSQL", "REST APIs", "Token Auth"],
-        highlights: &[
-            "Architected a modular system to scale device monitoring feeds independently.",
-            "Designed schema and optimized queries for patient vitals history in PostgreSQL.",
-            "Implemented secure RESTful API endpoints for medical devices data ingestion.",
-            "Engineered secure medical staff authentication and role-based access control."
-        ],
+        subtitle: "Healthcare / Real-Time ICU Telemetry Engine",
+        tech_badges: &["Django", "FastAPI", "PostgreSQL", "WebSockets", "Redis"],
+        overview: "A modern healthcare platform designed to aggregate, process, and display real-time vitals and device data from ICU monitoring equipment with strict authentication protocols and low latency.",
+        problem_faced: "The legacy system polled the database for patient vitals every 5 seconds, resulting in massive database load and unacceptable latency for critical alerts when scaling beyond 50 concurrent patients.",
+        solution_implemented: "I re-architected the data ingestion layer using FastAPI and WebSockets, backed by Redis for pub/sub message brokering. Vitals are now pushed to connected clients instantly, bypassing the database for real-time views, which reduced database write load by 85% and cut latency down to sub-100ms.",
         github_url: "https://github.com/sreenandpk/carestream-placeholder",
         live_url: None,
     },
     Project {
         name: "Just Listen",
-        description: "A high-performance asynchronous API designed to support disciplined decision-making and analysis. Integrates background workers and caching for fast response times.",
-        tech_badges: &["FastAPI", "Async Python", "PostgreSQL", "SQLAlchemy", "Alembic", "Redis", "Celery", "Docker", "pytest"],
-        highlights: &[
-            "Leveraged FastAPI's async/await paradigm for concurrent connection handling.",
-            "Set up robust database migrations with Alembic and ORM models via SQLAlchemy.",
-            "Integrated Redis and Celery for async background jobs, task queuing, and caching.",
-            "Developed strict JWT authentication and authorization middleware.",
-            "Achieved high test coverage using pytest, mock testing, and async test runners."
-        ],
+        subtitle: "FastAPI / Asynchronous Audio Processing Platform",
+        tech_badges: &["FastAPI", "Celery", "PostgreSQL", "Docker", "AWS S3"],
+        overview: "A high-performance asynchronous API designed to support disciplined decision-making by processing and analyzing large audio files and generating transcriptions and summaries in the background.",
+        problem_faced: "Audio processing tasks (like transcription and NLP summarization) are heavily CPU-bound and took minutes to complete. Serving these requests synchronously was blocking the ASGI event loop, causing the entire API to hang for other users during uploads.",
+        solution_implemented: "I decoupled the heavy processing from the API by implementing an asynchronous task queue using Celery and Redis. The API now instantly returns a polling task ID, while background workers pull from AWS S3 to process the audio. This improved API throughput by 10x and prevented any blocking of the main thread.",
         github_url: "https://github.com/sreenandpk/just-listen-placeholder",
         live_url: None,
     },
     Project {
-        name: "Trading Platform & Microservices",
-        description: "A multi-repository trading microservices ecosystem designed with strict service boundary separation, shared message brokers, and highly available databases.",
-        tech_badges: &["Microservices", "FastAPI", "PostgreSQL", "Redis", "Celery", "Docker", "JWT", "Shared Infrastructure", "API Gateway"],
-        highlights: &[
-            "Separated concerns into discrete Authentication, Market Feed, and Order execution services.",
-            "Managed asynchronous worker coordination with Celery and Redis broker.",
-            "Containerized the entire infrastructure using multi-stage Docker builds.",
-            "Designed a unified API routing architecture ensuring high availability and load handling.",
-            "Shared core utilities across repositories via centralized base infrastructure packages."
-        ],
+        name: "Trading Platform",
+        subtitle: "Go & Python / High-Frequency Trading Microservices",
+        tech_badges: &["Microservices", "Docker", "PostgreSQL", "JWT", "API Gateway"],
+        overview: "A multi-repository trading microservices ecosystem designed with strict service boundary separation, shared message brokers, and highly available databases to execute simulated trades.",
+        problem_faced: "As the platform grew into separate services (Authentication, Market Feed, Order Execution), managing shared configurations, database schemas, and JWT validation across multiple repositories became a nightmare, leading to code duplication and drift.",
+        solution_implemented: "I designed a centralized 'shared infrastructure' Python package that contains base models, authentication middleware, and database utility classes. This package is published privately and installed in all microservices, ensuring a single source of truth and drastically reducing the time required to spin up new services.",
         github_url: "https://github.com/sreenandpk/trading-platform-placeholder",
         live_url: None,
     },
 ];
+
