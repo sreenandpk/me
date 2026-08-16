@@ -296,7 +296,6 @@ pub fn RagAiButton() -> Element {
                     div {
                         key: "{open_count}",
                         class: "rag-chat-lightning-box",
-                        div { class: "cinematic-aurora-sweep" }
                         svg {
                             class: "electric-border-svg",
                             xmlns: "http://www.w3.org/2000/svg",
@@ -319,9 +318,6 @@ pub fn RagAiButton() -> Element {
                                 path_length: "100",
                             }
                         }
-                        div { class: "blue-lightning-streak streak-1" }
-                        div { class: "blue-lightning-streak streak-2" }
-                        div { class: "blue-lightning-streak streak-3" }
                     }
                 }
             }
