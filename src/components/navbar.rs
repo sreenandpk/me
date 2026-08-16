@@ -94,7 +94,7 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
 
                 // Actions
                 div { class: "nav-actions",
-                    // Theme Toggle Button
+                    // Theme Toggle Button — Artistic Cosmic Sparkle / Solar Starburst
                     button {
                         class: "theme-toggle-btn",
                         onclick: toggle_theme,
@@ -102,53 +102,47 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                         if is_light() {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "16",
-                                height: "16",
+                                width: "18",
+                                height: "18",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "2",
+                                stroke_width: "1.7",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
-                                path { d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }
+                                path { d: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" }
+                                path { d: "M19 3v4m-2-2h4" }
                             }
                         } else {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "16",
-                                height: "16",
+                                width: "18",
+                                height: "18",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "2",
+                                stroke_width: "1.7",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
-                                circle { cx: "12", cy: "12", r: "5" }
-                                line { x1: "12", y1: "1", x2: "12", y2: "3" }
-                                line { x1: "12", y1: "21", x2: "12", y2: "23" }
-                                line { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }
-                                line { x1: "18.36", y1: "18.36", x2: "19.78", y2: "19.78" }
-                                line { x1: "1", y1: "12", x2: "3", y2: "12" }
-                                line { x1: "21", y1: "12", x2: "23", y2: "12" }
-                                line { x1: "4.22", y1: "19.78", x2: "5.64", y2: "18.36" }
-                                line { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }
+                                circle { cx: "12", cy: "12", r: "4" }
+                                path { d: "M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" }
                             }
                         }
                     }
 
-                    // Mobile Menu Toggle
+                    // Mobile Menu Toggle — Aesthetic Asymmetric 2-Line & Accent Dot
                     button {
-                        class: "mobile-nav-toggle",
+                        class: if mobile_open() { "mobile-nav-toggle mobile-nav-toggle--open" } else { "mobile-nav-toggle" },
                         onclick: toggle_mobile,
                         aria_label: "Toggle Menu",
                         if mobile_open() {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "20",
-                                height: "20",
+                                width: "18",
+                                height: "18",
                                 fill: "none",
                                 stroke: "currentColor",
-                                stroke_width: "2",
+                                stroke_width: "1.8",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
@@ -158,17 +152,17 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                         } else {
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "20",
-                                height: "20",
+                                width: "18",
+                                height: "18",
                                 fill: "none",
                                 stroke: "currentColor",
                                 stroke_width: "2",
                                 stroke_linecap: "round",
                                 stroke_linejoin: "round",
                                 view_box: "0 0 24 24",
-                                line { x1: "3", y1: "12", x2: "21", y2: "12" }
-                                line { x1: "3", y1: "6", x2: "21", y2: "6" }
-                                line { x1: "3", y1: "18", x2: "21", y2: "18" }
+                                line { x1: "4", y1: "8", x2: "20", y2: "8" }
+                                line { x1: "10", y1: "16", x2: "20", y2: "16" }
+                                circle { cx: "5.5", cy: "16", r: "1.5", fill: "currentColor" }
                             }
                         }
                     }
