@@ -33,7 +33,7 @@ fi
 
 echo "=== Installing Dioxus CLI (dx) ==="
 if ! command -v dx &> /dev/null; then
-    cargo-binstall -y --locked dioxus-cli || cargo install --locked dioxus-cli
+    cargo-binstall -y dioxus-cli || cargo install dioxus-cli
 else
     echo "Dioxus CLI is already installed: $(dx --version)"
 fi
