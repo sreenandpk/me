@@ -130,7 +130,7 @@ pub fn RagAiButton() -> Element {
 
             // ── Chat panel ──────────────────────────────────────────────────
             div {
-                class: if open { "rag-chat-panel rag-chat-panel--open" } else { "rag-chat-panel" },
+                class: if open { "rag-chat-panel rag-chat-panel--open rag-lightning-active" } else { "rag-chat-panel" },
 
                 // Header
                 div { class: "rag-chat-header",

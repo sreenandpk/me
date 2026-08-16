@@ -2062,3 +2062,65 @@ button,
     gap: 1rem;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   2-SECOND LIGHTNING GLOW EFFECT ON CHAT OPEN
+   ───────────────────────────────────────────────────────────── */
+
+.rag-chat-panel.rag-lightning-active {
+  animation: lightningPulse 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lightningPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0), 0 0 0 0 rgba(168, 85, 247, 0);
+    border-color: rgba(99, 102, 241, 0.4);
+  }
+  12% {
+    box-shadow: 0 0 40px 10px rgba(99, 102, 241, 0.95), 0 0 80px 24px rgba(168, 85, 247, 0.8), inset 0 0 30px 6px rgba(99, 102, 241, 0.65);
+    border-color: #c084fc;
+  }
+  24% {
+    box-shadow: 0 0 15px 3px rgba(99, 102, 241, 0.4), 0 0 35px 8px rgba(168, 85, 247, 0.3);
+    border-color: #6366f1;
+  }
+  38% {
+    box-shadow: 0 0 50px 14px rgba(168, 85, 247, 0.95), 0 0 90px 28px rgba(99, 102, 241, 0.85), inset 0 0 35px 8px rgba(168, 85, 247, 0.7);
+    border-color: #e879f9;
+  }
+  52% {
+    box-shadow: 0 0 20px 4px rgba(99, 102, 241, 0.5), 0 0 40px 10px rgba(168, 85, 247, 0.4);
+    border-color: #818cf8;
+  }
+  70% {
+    box-shadow: 0 0 35px 8px rgba(99, 102, 241, 0.6), inset 0 0 15px 3px rgba(99, 102, 241, 0.3);
+    border-color: rgba(99, 102, 241, 0.6);
+  }
+  100% {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
+    border-color: var(--border-color);
+  }
+}
+
+/* Electric sheen overlay during lightning pulse */
+.rag-chat-panel.rag-lightning-active::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, #6366f1, #c084fc, #3b82f6, #a855f7);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: electricSheen 2s ease-in-out forwards;
+}
+
+@keyframes electricSheen {
+  0% { opacity: 0; transform: scale(0.98); }
+  20% { opacity: 1; transform: scale(1.005); }
+  50% { opacity: 0.8; transform: scale(1); }
+  80% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
