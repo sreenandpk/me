@@ -16,6 +16,7 @@ pub struct ChatMessage {
 #[component]
 pub fn RagAiButton() -> Element {
     let mut is_open = use_signal(|| false);
+    let mut open_count = use_signal(|| 0);
     let mut messages = use_signal(|| vec![
         ChatMessage {
             role: MessageRole::Assistant,
@@ -292,7 +293,9 @@ pub fn RagAiButton() -> Element {
 
                 // High-Voltage Electric Lightning Bolt Objects popping up for 2.5 seconds (z-index 99999)
                 if open {
-                    div { class: "rag-chat-lightning-box",
+                    div {
+                        key: "{open_count}",
+                        class: "rag-chat-lightning-box",
                         div { class: "cinematic-aurora-sweep" }
                         span { class: "quantum-star star-1",
                             svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#fbbf24", stroke: "#f59e0b", stroke_width: "1.2", path { d: "M13 2L3 14h9l-1 8 10-12h-9l1-8z" } }
@@ -316,7 +319,13 @@ pub fn RagAiButton() -> Element {
             // ── FAB ────────────────────────────────────────────────────────
             div {
                 class: "rag-ai-fab",
-                onclick: move |_| is_open.set(!open),
+                onclick: move |_| {
+                    let next = !open;
+                    if next {
+                        open_count.with_mut(|c| *c += 1);
+                    }
+                    is_open.set(next);
+                },
 
                 // Glass icon — Zap / AI lightning
                 div { class: "rag-ai-icon",
