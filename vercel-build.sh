@@ -14,26 +14,17 @@ else
     echo "rustup is already installed: $(rustup --version)"
 fi
 
-# Update rust compiler to latest stable so crates requiring newer rustc compile cleanly
-rustup update stable 2>/dev/null || true
-rustup default stable 2>/dev/null || true
+# Update rust compiler to latest stable so dependencies compile cleanly
+rustup update stable
+rustup default stable
 
 echo "=== Adding WebAssembly Compilation Target ==="
 rustup target add wasm32-unknown-unknown
 
-echo "=== Installing cargo-binstall ==="
-if ! command -v cargo-binstall &> /dev/null; then
-    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
-    if [ -f "./cargo-binstall" ]; then
-        cp ./cargo-binstall "$CARGO_HOME/bin/" 2>/dev/null || true
-    fi
-else
-    echo "cargo-binstall is already installed"
-fi
-
 echo "=== Installing Dioxus CLI (dx) ==="
 if ! command -v dx &> /dev/null; then
-    cargo-binstall -y --target x86_64-unknown-linux-musl dioxus-cli || cargo-binstall -y dioxus-cli || cargo install dioxus-cli
+    echo "Installing Dioxus CLI natively on build container..."
+    cargo install dioxus-cli
 else
     echo "Dioxus CLI is already installed: $(dx --version)"
 fi
