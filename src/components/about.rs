@@ -10,21 +10,21 @@ pub fn About() -> Element {
                     div { class: "about-heading-col",
                         span { class: "about-pretitle", "ABOUT ME" }
                         h2 { class: "about-headline",
-                            "I build software"
+                            "I build things"
                             br {}
-                            "designed to last."
+                            "people actually use."
                         }
-                        p { class: "about-role", "Python Developer & Backend Engineer" }
+                        p { class: "about-role", "Full Stack Developer" }
                         div { class: "about-divider" }
                     }
 
                     // Right Column: Bio paragraphs
                     div { class: "about-bio-col",
                         p {
-                            "I am a software engineer focused on building clean, stable, and high-performance backend systems. I specialize in the Python ecosystem—specifically FastAPI and Django—and extend my curiosity into Rust and cloud deployment platforms."
+                            "I’m a Full Stack Developer working on both sides of the screen — from the experience people see to everything working behind it. I turn ideas into simple, reliable applications built to last."
                         }
                         p {
-                            "My engineering philosophy centers on architectural reliability: code that is not only functional, but also maintainable, thoroughly tested, and secure from day one."
+                            "My approach is simple: understand the problem, plan the work, build it, and improve it as I go. I pay attention to the details, test what I build, and try to keep the final solution clear and easy to maintain."
                         }
                     }
                 }

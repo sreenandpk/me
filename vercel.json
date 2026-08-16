@@ -1,4 +1,9 @@
 {
   "buildCommand": "bash vercel-build.sh",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "functions": {
+    "api/chat.js": {
+      "includeFiles": "knowledge/**"
+    }
+  }
 }

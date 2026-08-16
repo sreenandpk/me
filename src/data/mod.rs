@@ -22,15 +22,15 @@ pub struct PersonalInfo {
 
 pub const PERSONAL_INFO: PersonalInfo = PersonalInfo {
     name: "Sreenand P K",
-    title: "Python Developer & Backend Engineer",
+    title: "Full Stack Developer",
     github_url: "https://github.com/sreenandpk",
-    linkedin_url: "https://linkedin.com/in/sreenandpk-placeholder",
-    email: "sreenandpk@example.com", // clearly marked placeholder email
-    summary: "Dedicated Backend Engineer specializing in Python, FastAPI, and Django. I build scalable backend architectures, high-performance REST APIs, containerized microservices, and automated testing suites. Passionate about clean code, robust database designs, and writing software that is maintainable, highly observable, and secure.",
+    linkedin_url: "https://linkedin.com/in/sreenand-p-k",
+    email: "sreenandpk3@gmail.com",
+    summary: "I build web applications — from the interface users interact with to the systems running quietly behind the scenes. I enjoy solving real problems with technology, writing clean code that is easy to understand and maintain, and shipping software that actually works reliably in the real world.",
     leetcode_url: "https://leetcode.com/sreenandpk-placeholder",
     instagram_url: "https://instagram.com/sreenandpk-placeholder",
-    whatsapp_url: "https://wa.me/910000000000",
-    phone: "tel:+910000000000",
+    whatsapp_url: "https://wa.me/919539379577",
+    phone: "tel:+919539379577",
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -42,33 +42,33 @@ pub struct PhilosophyItem {
 
 pub const PHILOSOPHY_ITEMS: &[PhilosophyItem] = &[
     PhilosophyItem {
-        title: "Clean Architecture",
-        description: "Enforcing clear separation of concerns, decoupling core business logic from frameworks, databases, and third-party API integrations.",
+        title: "Code That Lasts",
+        description: "I write code the way I would want to find it — organized, easy to read, and simple to change. Good structure saves everyone time down the road.",
         icon: "🏗️",
     },
     PhilosophyItem {
-        title: "Robust Testing",
-        description: "Treating automated tests as documentation and a safety net—leveraging pytest, mock objects, and async integration testing to guarantee reliability.",
-        icon: "🧪",
-    },
-    PhilosophyItem {
-        title: "Security by Design",
-        description: "Implementing strict authentication, authorization controls, secure data handling, JWT validation, and encryption at every service layer.",
+        title: "Security First",
+        description: "Every application I build is protected from the ground up — so only the right people can access the right things, and user data stays private and safe.",
         icon: "🔒",
     },
     PhilosophyItem {
-        title: "High Performance",
-        description: "Optimizing database queries, using asynchronous tasks for long-running workflows, and caching hot paths to achieve low-latency execution.",
+        title: "Built for the Real World",
+        description: "I deploy applications to the cloud so they are always online, handle real users, and keep running reliably — even as they grow.",
+        icon: "☁️",
+    },
+    PhilosophyItem {
+        title: "Live & Responsive",
+        description: "Some problems need instant answers. I build systems that react to events in real time — whether that is a live dashboard, instant notifications, or streaming data from physical devices.",
         icon: "⚡",
     },
     PhilosophyItem {
-        title: "Infrastructure Automation",
-        description: "Embracing Docker-centric local and production setups alongside CI/CD pipelines to ensure deployments are predictable and repeatable.",
-        icon: "🤖",
+        title: "Team-First Mindset",
+        description: "Great software is built by great teams. I follow professional workflows, communicate clearly, and make sure my work fits seamlessly into what everyone else is building.",
+        icon: "🤝",
     },
     PhilosophyItem {
-        title: "Continuous Learning",
-        description: "Actively exploring emerging languages and paradigms—such as Rust, Dioxus, and WebAssembly—to expand my technical problem-solving capabilities.",
+        title: "Always Learning",
+        description: "Technology never stops evolving and neither do I. I am constantly exploring new tools, languages, and ideas to become a better engineer every day.",
         icon: "🦀",
     },
 ];

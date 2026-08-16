@@ -9,26 +9,17 @@ pub struct Experience {
 
 pub const EXPERIENCE_ITEMS: &[Experience] = &[
     Experience {
-        role: "Backend Engineer Intern / Trainee (Placeholder)",
-        company: "Company / Organization Name Placeholder",
-        location: "City, Country (or Remote)",
-        period: "MM/YYYY - MM/YYYY",
+        role: "Full-Stack Developer Intern",
+        company: "Bridgeon",
+        location: "Kozhikode, Kerala, India · On-site",
+        period: "Jun 2025 - Present",
         achievements: &[
-            "Collaborated on designing and documenting RESTful APIs using FastAPI/Django.",
-            "Wrote test suites with pytest to achieve higher code coverage and automate API checks.",
-            "Configured PostgreSQL databases and performed data migrations using Alembic/Django Migrations.",
-            "Helped containerize local developer services using Docker and Docker Compose."
-        ],
-    },
-    Experience {
-        role: "Software Engineering Trainee (Placeholder)",
-        company: "Technology Solutions Agency Placeholder",
-        location: "City, Country",
-        period: "MM/YYYY - MM/YYYY",
-        achievements: &[
-            "Learned and applied clean architecture principles to Python backend modules.",
-            "Assisted in maintaining and deploying microservices to testing environments.",
-            "Integrated background task queues with Redis and Celery to process CPU-intensive jobs asynchronously."
+            "Building real-world websites and apps from scratch — handling both what users see on screen and the behind-the-scenes logic that makes everything work.",
+            "Creating secure login systems and user access controls so that only the right people can see and do the right things in an application.",
+            "Working as part of a team using professional planning tools to organize tasks, track progress, and ship features on schedule.",
+            "Following industry-standard coding practices — writing clean, well-organized code that is easy to maintain and update over time.",
+            "Using automated tools to catch mistakes in code early, saving time and reducing the chance of bugs reaching users.",
+            "Keeping all team members — developers, reviewers, and managers — in sync automatically by connecting the tools they use every day.",
         ],
     },
 ];

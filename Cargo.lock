@@ -1968,6 +1968,7 @@ name = "portfolio"
 version = "0.1.0"
 dependencies = [
  "dioxus",
+ "serde_json",
 ]
 
 [[package]]

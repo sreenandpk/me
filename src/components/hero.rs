@@ -8,7 +8,7 @@ pub fn Hero() -> Element {
             div { class: "container",
                 div { class: "hero-grid",
                     div { class: "hero-content reveal-on-scroll revealed",
-                        span { class: "hero-pretitle", "HELLO, I AM" }
+                        span { class: "hero-pretitle", "HELLO, I'M" }
                         h1 { class: "hero-name", "SREENAND P K" }
                         h2 { class: "hero-headline",
                             span { style: "position: relative; display: inline-block;",
@@ -26,7 +26,7 @@ pub fn Hero() -> Element {
                             }
                         }
                         p { class: "hero-description",
-                            "I build reliable backend systems, APIs, and database architectures. I specialize in designing clean, scalable Python services, orchestrating workloads, and automating deployments."
+                            "I’m a Full Stack Developer working on both sides of the screen — from the experience people see to everything working behind it. I turn ideas into simple, reliable applications built to last."
                         }
 
                         // CTAs
@@ -37,9 +37,9 @@ pub fn Hero() -> Element {
 
                         // Monospace status footer details
                         div { class: "hero-footer-info",
-                            span { "Based in India" }
+                            span { "Based in Kerala, India" }
                             span { class: "hero-bullet", "•" }
-                            span { "Available for Opportunities" }
+                            span { "Open to Full-Time Roles" }
                             span { class: "hero-bullet", "•" }
                             a {
                                 href: "{PERSONAL_INFO.github_url}",
