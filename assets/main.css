@@ -2064,7 +2064,7 @@ button,
 }
 
 /* ─────────────────────────────────────────────────────────────
-   2-SECOND SMALL GLOWING ELECTRIC LIGHT DOTS (FADE IN & FADE OUT)
+   2-SECOND CINEMATIC QUANTUM ENERGY STAR BURST ON CHAT OPEN
    ───────────────────────────────────────────────────────────── */
 
 .rag-chat-lightning-box {
@@ -2076,90 +2076,68 @@ button,
   z-index: 1000;
 }
 
-.lightning-dot {
+/* Ambient Cinematic Aurora Sweep inside chatbox */
+.cinematic-aurora-sweep {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #c084fc;
-  box-shadow: 0 0 10px #c084fc, 0 0 20px #a855f7;
+  inset: 0;
+  background: radial-gradient(circle at 88% 88%, rgba(168, 85, 247, 0.4), rgba(99, 102, 241, 0.25), transparent 70%);
   opacity: 0;
+  pointer-events: none;
+  animation: auroraSweep 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.dot-1 {
-  bottom: 25px;
-  right: 40px;
-  animation: dotSparkle1 2s ease-in-out forwards;
+@keyframes auroraSweep {
+  0% { opacity: 0; transform: scale(0.6); }
+  30% { opacity: 1; transform: scale(1.1); }
+  70% { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.2); }
 }
 
-.dot-2 {
-  bottom: 80px;
-  right: 90px;
-  animation: dotSparkle2 2s ease-in-out forwards;
+.quantum-star {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  opacity: 0;
+  filter: drop-shadow(0 0 10px #c084fc);
 }
 
-.dot-3 {
-  bottom: 140px;
-  right: 50px;
-  animation: dotSparkle3 2s ease-in-out forwards;
+.star-1 { animation: quantumStarRise1 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+.star-2 { animation: quantumStarRise2 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+.star-3 { animation: quantumStarRise3 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+.star-4 { animation: quantumStarRise4 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+.star-5 { animation: quantumStarRise5 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+
+@keyframes quantumStarRise1 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2) rotate(0deg); }
+  25% { opacity: 1; transform: translate(-45px, -80px) scale(1.4) rotate(45deg); filter: drop-shadow(0 0 16px #e879f9); }
+  60% { opacity: 0.8; transform: translate(-80px, -150px) scale(1.1) rotate(90deg); }
+  100% { opacity: 0; transform: translate(-110px, -220px) scale(0.2) rotate(135deg); }
 }
 
-.dot-4 {
-  bottom: 110px;
-  right: 180px;
-  animation: dotSparkle4 2s ease-in-out forwards;
+@keyframes quantumStarRise2 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2) rotate(0deg); }
+  25% { opacity: 1; transform: translate(-90px, -60px) scale(1.5) rotate(-45deg); filter: drop-shadow(0 0 18px #6366f1); }
+  60% { opacity: 0.85; transform: translate(-170px, -110px) scale(1.2) rotate(-90deg); }
+  100% { opacity: 0; transform: translate(-240px, -160px) scale(0.2) rotate(-135deg); }
 }
 
-.dot-5 {
-  bottom: 200px;
-  right: 120px;
-  animation: dotSparkle5 2s ease-in-out forwards;
+@keyframes quantumStarRise3 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2) rotate(0deg); }
+  25% { opacity: 1; transform: translate(-20px, -100px) scale(1.3) rotate(30deg); filter: drop-shadow(0 0 14px #a855f7); }
+  60% { opacity: 0.8; transform: translate(-35px, -190px) scale(1) rotate(60deg); }
+  100% { opacity: 0; transform: translate(-50px, -280px) scale(0.2) rotate(90deg); }
 }
 
-.dot-6 {
-  bottom: 60px;
-  right: 160px;
-  animation: dotSparkle6 2s ease-in-out forwards;
+@keyframes quantumStarRise4 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2) rotate(0deg); }
+  25% { opacity: 1; transform: translate(-110px, -120px) scale(1.4) rotate(-30deg); filter: drop-shadow(0 0 16px #38bdf8); }
+  60% { opacity: 0.8; transform: translate(-190px, -200px) scale(1.1) rotate(-60deg); }
+  100% { opacity: 0; transform: translate(-260px, -270px) scale(0.2) rotate(-90deg); }
 }
 
-@keyframes dotSparkle1 {
-  0% { opacity: 0; transform: scale(0.2) translate(0, 0); }
-  25% { opacity: 1; transform: scale(1.6) translate(-10px, -15px); background: #e879f9; box-shadow: 0 0 14px #e879f9; }
-  60% { opacity: 0.7; transform: scale(1) translate(-20px, -25px); }
-  100% { opacity: 0; transform: scale(0) translate(-30px, -35px); }
-}
-
-@keyframes dotSparkle2 {
-  0% { opacity: 0; transform: scale(0.2) translate(0, 0); }
-  30% { opacity: 1; transform: scale(1.8) translate(-15px, -20px); background: #6366f1; box-shadow: 0 0 16px #6366f1; }
-  65% { opacity: 0.6; transform: scale(0.9) translate(-30px, -35px); }
-  100% { opacity: 0; transform: scale(0) translate(-40px, -45px); }
-}
-
-@keyframes dotSparkle3 {
-  0% { opacity: 0; transform: scale(0.2) translate(0, 0); }
-  20% { opacity: 1; transform: scale(1.5) translate(-12px, -18px); background: #a855f7; box-shadow: 0 0 14px #a855f7; }
-  55% { opacity: 0.8; transform: scale(1.1) translate(-22px, -30px); }
-  100% { opacity: 0; transform: scale(0) translate(-32px, -40px); }
-}
-
-@keyframes dotSparkle4 {
-  0% { opacity: 0; transform: scale(0.2) translate(0, 0); }
-  35% { opacity: 1; transform: scale(1.7) translate(-20px, -15px); background: #38bdf8; box-shadow: 0 0 16px #38bdf8; }
-  70% { opacity: 0.5; transform: scale(0.8) translate(-35px, -25px); }
-  100% { opacity: 0; transform: scale(0) translate(-50px, -35px); }
-}
-
-@keyframes dotSparkle5 {
-  0% { opacity: 0; transform: scale(0.2) translate(0, 0); }
-  25% { opacity: 1; transform: scale(1.4) translate(-10px, -20px); background: #c084fc; box-shadow: 0 0 14px #c084fc; }
-  60% { opacity: 0.7; transform: scale(0.9) translate(-20px, -35px); }
-  100% { opacity: 0; transform: scale(0) translate(-30px, -50px); }
-}
-
-@keyframes dotSparkle6 {
-  0% { opacity: 0; transform: scale(0.2) translate(0, 0); }
-  40% { opacity: 1; transform: scale(1.6) translate(-18px, -12px); background: #e879f9; box-shadow: 0 0 14px #e879f9; }
-  75% { opacity: 0.5; transform: scale(0.8) translate(-30px, -22px); }
-  100% { opacity: 0; transform: scale(0) translate(-42px, -30px); }
+@keyframes quantumStarRise5 {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.2) rotate(0deg); }
+  25% { opacity: 1; transform: translate(-60px, -45px) scale(1.3) rotate(20deg); filter: drop-shadow(0 0 14px #f472b6); }
+  60% { opacity: 0.8; transform: translate(-120px, -85px) scale(1) rotate(40deg); }
+  100% { opacity: 0; transform: translate(-170px, -125px) scale(0.2) rotate(60deg); }
 }

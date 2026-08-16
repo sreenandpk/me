@@ -132,15 +132,25 @@ pub fn RagAiButton() -> Element {
             div {
                 class: if open { "rag-chat-panel rag-chat-panel--open" } else { "rag-chat-panel" },
 
-                // Internal Glowing Lightning Dots popping up and fading out for 2 seconds (No icons!)
+                // Cinematic Quantum Energy & Sparkle Objects popping up for 2 seconds
                 if open {
                     div { class: "rag-chat-lightning-box",
-                        div { class: "lightning-dot dot-1" }
-                        div { class: "lightning-dot dot-2" }
-                        div { class: "lightning-dot dot-3" }
-                        div { class: "lightning-dot dot-4" }
-                        div { class: "lightning-dot dot-5" }
-                        div { class: "lightning-dot dot-6" }
+                        div { class: "cinematic-aurora-sweep" }
+                        span { class: "quantum-star star-1",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", view_box: "0 0 24 24", fill: "#c084fc", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-2",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "22", height: "22", view_box: "0 0 24 24", fill: "#e879f9", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-3",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", view_box: "0 0 24 24", fill: "#818cf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-4",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", view_box: "0 0 24 24", fill: "#38bdf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-5",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "15", height: "15", view_box: "0 0 24 24", fill: "#f472b6", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
                     }
                 }
 
