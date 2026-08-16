@@ -28,6 +28,8 @@ cargo build --target wasm32-unknown-unknown --release
 echo "=== Packaging Web Application into dist/ ==="
 mkdir -p dist/assets
 cp index.html dist/
+cp favicon.ico dist/ 2>/dev/null || true
+cp favicon.png dist/ 2>/dev/null || true
 if [ -d "assets" ]; then
     cp -r assets/* dist/assets/ 2>/dev/null || true
     cp -r assets/* dist/ 2>/dev/null || true
