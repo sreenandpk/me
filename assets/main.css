@@ -2073,32 +2073,32 @@ button,
   pointer-events: none;
   overflow: hidden;
   border-radius: inherit;
-  z-index: 1000;
+  z-index: 99999; /* Renders ON TOP of header, chat bubbles, and inputs */
 }
 
 /* Ambient Cinematic Aurora Sweep inside chatbox */
 .cinematic-aurora-sweep {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 88% 88%, rgba(168, 85, 247, 0.4), rgba(99, 102, 241, 0.25), transparent 70%);
+  background: radial-gradient(circle at 88% 88%, rgba(168, 85, 247, 0.55), rgba(99, 102, 241, 0.35), transparent 75%);
   opacity: 0;
   pointer-events: none;
-  animation: auroraSweep 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: auroraSweep 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes auroraSweep {
-  0% { opacity: 0; transform: scale(0.6); }
-  30% { opacity: 1; transform: scale(1.1); }
-  70% { opacity: 0.7; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.2); }
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 1; transform: scale(1.15); }
+  70% { opacity: 0.8; transform: scale(1.05); }
+  100% { opacity: 0; transform: scale(1.25); }
 }
 
 .quantum-star {
   position: absolute;
-  bottom: 15px;
-  right: 20px;
+  bottom: 20px;
+  right: 25px;
   opacity: 0;
-  filter: drop-shadow(0 0 10px #c084fc);
+  filter: drop-shadow(0 0 14px #c084fc) drop-shadow(0 0 28px #a855f7);
 }
 
 .star-1 { animation: quantumStarRise1 2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }

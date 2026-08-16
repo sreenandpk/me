@@ -132,28 +132,6 @@ pub fn RagAiButton() -> Element {
             div {
                 class: if open { "rag-chat-panel rag-chat-panel--open" } else { "rag-chat-panel" },
 
-                // Cinematic Quantum Energy & Sparkle Objects popping up for 2 seconds
-                if open {
-                    div { class: "rag-chat-lightning-box",
-                        div { class: "cinematic-aurora-sweep" }
-                        span { class: "quantum-star star-1",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", view_box: "0 0 24 24", fill: "#c084fc", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
-                        }
-                        span { class: "quantum-star star-2",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "22", height: "22", view_box: "0 0 24 24", fill: "#e879f9", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
-                        }
-                        span { class: "quantum-star star-3",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "14", height: "14", view_box: "0 0 24 24", fill: "#818cf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
-                        }
-                        span { class: "quantum-star star-4",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "18", height: "18", view_box: "0 0 24 24", fill: "#38bdf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
-                        }
-                        span { class: "quantum-star star-5",
-                            svg { xmlns: "http://www.w3.org/2000/svg", width: "15", height: "15", view_box: "0 0 24 24", fill: "#f472b6", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
-                        }
-                    }
-                }
-
                 // Header
                 div { class: "rag-chat-header",
                     div { class: "rag-chat-header-left",
@@ -308,6 +286,28 @@ pub fn RagAiButton() -> Element {
                             stroke_linecap: "round",
                             path { d: "m22 2-7 20-4-9-9-4Z" }
                             path { d: "M22 2 11 13" }
+                        }
+                    }
+                }
+
+                // Cinematic Quantum Energy & Sparkle Objects popping up for 2.5 seconds
+                if open {
+                    div { class: "rag-chat-lightning-box",
+                        div { class: "cinematic-aurora-sweep" }
+                        span { class: "quantum-star star-1",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#c084fc", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-2",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "30", height: "30", view_box: "0 0 24 24", fill: "#e879f9", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-3",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "22", height: "22", view_box: "0 0 24 24", fill: "#818cf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-4",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "26", height: "26", view_box: "0 0 24 24", fill: "#38bdf8", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
+                        }
+                        span { class: "quantum-star star-5",
+                            svg { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", view_box: "0 0 24 24", fill: "#f472b6", path { d: "M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" } }
                         }
                     }
                 }
