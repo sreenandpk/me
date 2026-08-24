@@ -2307,67 +2307,57 @@ button,
 
 .rect-beam-1 {
   animation: borderBeamRun1 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-  filter: drop-shadow(0 0 8px #8b5cf6) drop-shadow(0 0 16px #6366f1);
+  filter: drop-shadow(0 0 10px #8b5cf6) drop-shadow(0 0 20px #6366f1);
 }
 
 .rect-beam-2 {
   animation: borderBeamRun2 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-  filter: drop-shadow(0 0 6px #a78bfa) drop-shadow(0 0 12px #7c3aed);
+  filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 16px #7c3aed);
 }
 
 @keyframes borderBeamRun1 {
   0% {
+    stroke-dasharray: 0 100;
     stroke-dashoffset: 100;
-    stroke-dasharray: 16 84;
     opacity: 0;
   }
-  15% {
+  20% {
     opacity: 1;
+    stroke-dasharray: 25 75;
     stroke-dashoffset: 75;
-    stroke-dasharray: 20 80;
   }
-  60% {
+  70% {
     opacity: 1;
+    stroke-dasharray: 75 25;
     stroke-dashoffset: 20;
-    stroke-dasharray: 45 55;
-  }
-  85% {
-    opacity: 1;
-    stroke-dashoffset: 0;
-    stroke-dasharray: 100 0;
   }
   100% {
     opacity: 1;
-    stroke-dashoffset: 0;
     stroke-dasharray: 100 0;
+    stroke-dashoffset: 0;
   }
 }
 
 @keyframes borderBeamRun2 {
   0% {
-    stroke-dashoffset: 80;
-    stroke-dasharray: 16 84;
+    stroke-dasharray: 0 100;
+    stroke-dashoffset: 50;
     opacity: 0;
   }
-  15% {
+  20% {
     opacity: 1;
-    stroke-dashoffset: 55;
-    stroke-dasharray: 25 75;
+    stroke-dasharray: 20 80;
+    stroke-dashoffset: 25;
   }
-  60% {
+  70% {
     opacity: 1;
-    stroke-dashoffset: 10;
-    stroke-dasharray: 50 50;
-  }
-  85% {
-    opacity: 1;
-    stroke-dashoffset: 0;
-    stroke-dasharray: 100 0;
+    stroke-dasharray: 70 30;
+    stroke-dashoffset: 5;
   }
   100% {
     opacity: 1;
-    stroke-dashoffset: 0;
     stroke-dasharray: 100 0;
+    stroke-dashoffset: 0;
   }
 }
 
