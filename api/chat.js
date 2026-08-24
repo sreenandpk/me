@@ -359,13 +359,16 @@ A microservices-based backend system designed for financial market data, contain
   }
 
   // 4. Technical Skills & Stack
-  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("tool") || q.includes("python") || q.includes("rust")) {
-    return `Sreenand specializes in backend development, web APIs, and cloud systems:
+  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("tool") || q.includes("python") || q.includes("rust") || q.includes("javascript") || q.includes("react")) {
+    return `Sreenand's complete technical skill set includes:
 
-• Languages & Frameworks: Python, Django, DRF, FastAPI, Rust (WASM, Dioxus)
-• Databases & Caching: PostgreSQL, Redis, SQLAlchemy, Alembic
-• DevOps & Cloud: Docker, AWS (ECS, RDS), Vercel, Linux, Git
-• Web Systems: Microservices, REST APIs, WebSockets, Celery, pytest`;
+• Languages: Python, JavaScript, SQL, HTML5, CSS3
+• Frontend: React.js, Next.js, HTML5, CSS3, Bootstrap 5, Tailwind CSS, Framer Motion
+• Backend: FastAPI, Django, Django REST Framework (DRF), REST API Development, Swagger
+• Databases & Caching: PostgreSQL, Redis, SQLAlchemy 2.x, Alembic
+• DevOps & Cloud: Docker, AWS (ECS, RDS, S3, ElastiCache), Vercel, Terraform, Nginx, Gunicorn, Linux
+• Developer & Collaboration Tools: Git, GitHub Actions, GitLens, VS Code, Postman, Ruff, CodeRabbit AI, Resend, Slack, Linear
+• Engineering Concepts: REST API Design, JWT Authentication, Refresh Token Rotation, OAuth2, RBAC, Rate Limiting, WebSockets, System Design, IoT Integration`;
   }
 
   // 5. Contact & Links
