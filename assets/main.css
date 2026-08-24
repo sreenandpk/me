@@ -1456,7 +1456,7 @@ a {
   height: 52px;
   border-radius: 50%;
   background: #0c0c0f;
-  border: 1px solid rgba(99, 102, 241, 0.25);
+  border: 1.5px solid rgba(139, 92, 246, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1468,9 +1468,9 @@ a {
 
 .rag-ai-fab--open .rag-ai-icon {
   transform: rotate(360deg) scale(1.1);
-  color: #60a5fa;
-  border-color: rgba(99, 102, 241, 0.7);
-  box-shadow: 0 0 24px rgba(99, 102, 241, 0.4);
+  color: #a78bfa;
+  border-color: rgba(139, 92, 246, 0.85);
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.45);
 }
 
 .rag-ai-icon svg {
@@ -1616,7 +1616,7 @@ footer,
   background: rgba(12, 13, 20, 0.88);
   backdrop-filter: blur(28px) saturate(210%);
   -webkit-backdrop-filter: blur(28px) saturate(210%);
-  border: 1.5px solid transparent;
+  border: 2.5px solid transparent;
   border-radius: 1.15rem;
   box-shadow: 0 25px 75px -12px rgba(0, 0, 0, 0.8);
   overflow: hidden;
@@ -1655,8 +1655,8 @@ footer,
   }
   100% {
     transform: translateY(0) scale(1);
-    border-color: rgba(139, 92, 246, 0.45);
-    box-shadow: 0 25px 75px -12px rgba(0, 0, 0, 0.8), 0 0 28px rgba(139, 92, 246, 0.3);
+    border-color: rgba(139, 92, 246, 0.65);
+    box-shadow: 0 25px 75px -12px rgba(0, 0, 0, 0.8), 0 0 32px rgba(139, 92, 246, 0.4);
   }
 }
 
