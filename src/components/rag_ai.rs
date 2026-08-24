@@ -33,7 +33,7 @@ pub fn RagAiButton() -> Element {
     use_effect(move || {
         let is_chat_open = *is_open.read();
         let _ = document::eval(&format!(
-            "if ({}) {{ document.body.classList.add('rag-body-lock', 'rag-backdrop-blurred'); }} else {{ document.body.classList.remove('rag-body-lock', 'rag-backdrop-blurred'); }}",
+            "if ({}) {{ if (window.innerWidth <= 768) {{ document.body.classList.add('rag-body-lock'); }} document.body.classList.add('rag-backdrop-blurred'); }} else {{ document.body.classList.remove('rag-body-lock', 'rag-backdrop-blurred'); }}",
             is_chat_open
         ));
     });
