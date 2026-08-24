@@ -1,10 +1,14 @@
 // api/chat.js — Vercel Serverless Function
 // Route: POST /api/chat
 // Body:  { "question": "string" }
-// Returns: { "answer": "string" } | { "error": "string" }
+// Returns: { "answer": "string" } | { "error": "string", "message": "string" }
 //
-// The Gemini API key MUST be set as a Vercel environment variable: GEMINI_API_KEY
-// It is NEVER present in this source file or in the compiled WASM frontend.
+// NOTE ON SERVERLESS LIMITATION:
+// The in-memory rate limiter and response cache in this file are intentionally lightweight.
+// Because Vercel serverless functions are ephemeral and run across multiple isolated instances,
+// memory is not globally shared across all instances. For current portfolio scale, this is
+// an optimal best-effort protection layer. If traffic scales significantly later, a distributed
+// cache (Upstash/Redis) can be layered on top.
 
 "use strict";
 
@@ -101,7 +105,7 @@ function retrieveRelevantSections(question, maxTokenBudget = 2200) {
     const titleLower = sec.title.toLowerCase();
     const contentLower = sec.content.toLowerCase();
 
-    // If general project query, give ALL sections from projects.md maximum top priority (+100)
+    // If general project query, boost ALL projects.md sections (+100)
     if (isGeneralProjectQuery && sec.source === "projects.md") {
       score += 100;
     }
@@ -175,7 +179,70 @@ function retrieveRelevantSections(question, maxTokenBudget = 2200) {
 }
 
 // ---------------------------------------------------------------------------
-// Cached Gemini API Client & Timeout/Retry Helper
+// In-Memory Per-IP Rate Limiting & Cooldown Protection (Best-effort layer)
+// ---------------------------------------------------------------------------
+const ipRequestStore = new Map();
+
+function checkIpRateLimit(ip) {
+  const now = Date.now();
+  const windowMs = 60 * 1000; // 60s sliding window
+  const maxRequestsPerWindow = 5;
+  const minCooldownMs = 2000; // 2s cooldown between requests from same IP
+
+  let record = ipRequestStore.get(ip);
+  if (!record) {
+    record = { timestamps: [] };
+    ipRequestStore.set(ip, record);
+  }
+
+  // Remove timestamps outside window
+  record.timestamps = record.timestamps.filter((ts) => now - ts < windowMs);
+
+  // Check 2s cooldown
+  const lastTs = record.timestamps[record.timestamps.length - 1];
+  if (lastTs && now - lastTs < minCooldownMs) {
+    return { allowed: false, reason: "cooldown", retryAfterSeconds: Math.ceil((minCooldownMs - (now - lastTs)) / 1000) };
+  }
+
+  // Check request count limit
+  if (record.timestamps.length >= maxRequestsPerWindow) {
+    const oldestTs = record.timestamps[0];
+    const retryAfterSeconds = Math.ceil((windowMs - (now - oldestTs)) / 1000);
+    return { allowed: false, reason: "window_limit", retryAfterSeconds: Math.max(retryAfterSeconds, 1) };
+  }
+
+  record.timestamps.push(now);
+  return { allowed: true };
+}
+
+// ---------------------------------------------------------------------------
+// Short-Lived In-Memory Response & Duplicate Prevention Cache (TTL: 60s)
+// ---------------------------------------------------------------------------
+const responseCache = new Map();
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds
+
+function getCachedResponse(normalizedKey) {
+  const entry = responseCache.get(normalizedKey);
+  if (!entry) return null;
+
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    responseCache.delete(normalizedKey);
+    return null;
+  }
+
+  return entry.answer;
+}
+
+function setCachedResponse(normalizedKey, answer) {
+  if (!answer || typeof answer !== "string") return;
+  responseCache.set(normalizedKey, {
+    answer: answer.trim(),
+    timestamp: Date.now(),
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Cached Gemini API Client
 // ---------------------------------------------------------------------------
 let cachedAiClient = null;
 
@@ -186,26 +253,35 @@ function getAiClient(apiKey) {
   return cachedAiClient;
 }
 
-async function generateContentWithRetry(ai, model, prompt, config, maxRetries = 1) {
+// ---------------------------------------------------------------------------
+// Timeout & 1-Retry Fallback Helper
+// ---------------------------------------------------------------------------
+async function generateContentWithRetryAndTimeout(ai, model, prompt, config, timeoutMs = 12000, maxRetries = 1) {
   let lastErr = null;
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const response = await ai.models.generateContent({
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("AI_TIMEOUT")), timeoutMs)
+      );
+
+      const apiPromise = ai.models.generateContent({
         model,
         contents: prompt,
         config,
       });
+
+      const response = await Promise.race([apiPromise, timeoutPromise]);
       return response;
     } catch (err) {
       lastErr = err;
       const errStr = String(err?.message || err);
-      if (errStr.includes("RESOURCE_EXHAUSTED") || errStr.includes("429")) {
+      // Do NOT retry if quota / rate limit or timeout
+      if (errStr.includes("RESOURCE_EXHAUSTED") || errStr.includes("429") || errStr.includes("AI_TIMEOUT")) {
         throw err;
       }
-      console.warn(`[chat.js] Gemini attempt ${attempt + 1} failed: ${errStr}`);
       if (attempt < maxRetries) {
-        await new Promise((r) => setTimeout(r, 400));
+        await new Promise((r) => setTimeout(r, 500));
       }
     }
   }
@@ -327,27 +403,75 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // 1. Validate HTTP Method
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed." });
+    return res.status(405).json({
+      error: "INVALID_REQUEST",
+      message: "Method not allowed. Only POST is supported.",
+    });
   }
 
-  const body = req.body || {};
+  // 2. Validate Request Body
+  let body = req.body;
+  if (typeof body === "string") {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      return res.status(400).json({
+        error: "INVALID_REQUEST",
+        message: "Malformed JSON payload.",
+      });
+    }
+  }
+  body = body || {};
   const { question } = body;
 
   if (!question || typeof question !== "string") {
-    return res.status(400).json({ error: "A question is required." });
+    return res.status(400).json({
+      error: "INVALID_REQUEST",
+      message: "Please provide a valid question.",
+    });
   }
 
   const trimmedQuestion = question.trim();
-
   if (trimmedQuestion.length === 0) {
-    return res.status(400).json({ error: "Question cannot be empty." });
+    return res.status(400).json({
+      error: "INVALID_REQUEST",
+      message: "Please provide a non-empty question.",
+    });
   }
 
   if (trimmedQuestion.length > 500) {
     return res.status(400).json({
-      error: "Please keep your question under 500 characters.",
+      error: "INVALID_REQUEST",
+      message: "Question length must be under 500 characters.",
     });
+  }
+
+  // 3. Server-side Per-IP Rate Limiting
+  const clientIp =
+    req.headers["x-real-ip"] ||
+    (req.headers["x-forwarded-for"]
+      ? req.headers["x-forwarded-for"].split(",")[0].trim()
+      : null) ||
+    req.socket?.remoteAddress ||
+    "127.0.0.1";
+
+  const rateCheck = checkIpRateLimit(clientIp);
+  if (!rateCheck.allowed) {
+    res.setHeader("Retry-After", String(rateCheck.retryAfterSeconds || 5));
+    return res.status(429).json({
+      error: "RATE_LIMITED",
+      message: "Please wait a moment before sending another message.",
+    });
+  }
+
+  // 4. Duplicate Request & Short-Lived In-Memory Response Cache
+  const normalizedKey = trimmedQuestion.toLowerCase().replace(/\s+/g, " ");
+  const cachedAnswer = getCachedResponse(normalizedKey);
+  if (cachedAnswer) {
+    console.log(`[chat.js] Cache HIT | question_length: ${trimmedQuestion.length} | status: 200`);
+    return res.status(200).json({ answer: cachedAnswer });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
@@ -355,16 +479,18 @@ module.exports = async function handler(req, res) {
     console.error("[chat.js] GEMINI_API_KEY environment variable is not set.");
     const fallback = getFallbackAnswer(trimmedQuestion);
     if (fallback) {
+      setCachedResponse(normalizedKey, fallback);
       return res.status(200).json({ answer: fallback });
     }
-    return res
-      .status(500)
-      .json({ error: "Service is temporarily unavailable." });
+    return res.status(500).json({
+      error: "SERVER_ERROR",
+      message: "Service is temporarily unavailable.",
+    });
   }
 
   const startTime = Date.now();
 
-  // 1. Deterministic Section-Level Retrieval (capped at max 1200 tokens)
+  // 5. Deterministic Section-Level Retrieval
   const retrievalStart = Date.now();
   const retrievalResult = retrieveRelevantSections(trimmedQuestion, 1200);
   const retrievalMs = Date.now() - retrievalStart;
@@ -374,9 +500,9 @@ module.exports = async function handler(req, res) {
   try {
     const ai = getAiClient(apiKey);
 
-    // 2. Gemini request with maxOutputTokens: 1000
+    // 6. Gemini request execution with timeout and 1 retry
     const geminiStart = Date.now();
-    const response = await generateContentWithRetry(
+    const response = await generateContentWithRetryAndTimeout(
       ai,
       "gemini-3.6-flash",
       trimmedQuestion,
@@ -385,6 +511,7 @@ module.exports = async function handler(req, res) {
         maxOutputTokens: 1000,
         temperature: 0.15,
       },
+      12000,
       1
     );
     const geminiMs = Date.now() - geminiStart;
@@ -399,20 +526,24 @@ module.exports = async function handler(req, res) {
     const totalMs = Date.now() - startTime;
 
     console.log(
-      `[chat.js] Timings -> retrieval_ms: ${retrievalMs}ms | gemini_ms: ${geminiMs}ms | total_ms: ${totalMs}ms | sections: ${retrievalResult.sectionCount} | tokens: ~${retrievalResult.tokenCount}`
+      `[chat.js] Timings -> retrieval_ms: ${retrievalMs}ms | gemini_ms: ${geminiMs}ms | total_ms: ${totalMs}ms | sections: ${retrievalResult.sectionCount} | tokens: ~${retrievalResult.tokenCount} | question_length: ${trimmedQuestion.length} | cache_hit: false | status: 200`
     );
 
     if (!answer || answer.trim().length === 0) {
       console.error("[chat.js] Gemini returned an empty response.");
       const fallback = getFallbackAnswer(trimmedQuestion);
       if (fallback) {
+        setCachedResponse(normalizedKey, fallback);
         return res.status(200).json({ answer: fallback });
       }
-      return res
-        .status(500)
-        .json({ error: "No response generated. Please try again." });
+      return res.status(500).json({
+        error: "SERVER_ERROR",
+        message: "No response generated. Please try again.",
+      });
     }
 
+    // Cache successful grounded answer
+    setCachedResponse(normalizedKey, answer.trim());
     return res.status(200).json({ answer: answer.trim() });
   } catch (err) {
     const totalMs = Date.now() - startTime;
@@ -421,17 +552,27 @@ module.exports = async function handler(req, res) {
 
     const fallback = getFallbackAnswer(trimmedQuestion);
     if (fallback) {
+      setCachedResponse(normalizedKey, fallback);
       return res.status(200).json({ answer: fallback });
+    }
+
+    if (errStr.includes("AI_TIMEOUT")) {
+      return res.status(504).json({
+        error: "AI_TIMEOUT",
+        message: "The AI assistant took too long to respond. Please try again.",
+      });
     }
 
     if (errStr.includes("RESOURCE_EXHAUSTED") || errStr.includes("429") || errStr.includes("Quota exceeded")) {
       return res.status(429).json({
-        error: "The AI assistant is temporarily unavailable due to high traffic. Please try again in a moment.",
+        error: "GEMINI_RATE_LIMITED",
+        message: "The AI assistant is temporarily busy. Please try again shortly.",
       });
     }
 
-    return res
-      .status(500)
-      .json({ error: "Failed to generate a response. Please try again." });
+    return res.status(500).json({
+      error: "SERVER_ERROR",
+      message: "Something went wrong. Please try again.",
+    });
   }
 };

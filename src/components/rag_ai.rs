@@ -82,7 +82,11 @@ pub fn RagAiButton() -> Element {
                     if (res.ok && data.answer) {
                         dioxus.send({ ok: true, answer: data.answer });
                     } else {
-                        dioxus.send({ ok: false, error: data.error || 'Unable to get response.' });
+                        dioxus.send({
+                            ok: false,
+                            error: data.message || data.error || 'Unable to get response.',
+                            code: data.error || ''
+                        });
                     }
                 } catch (err) {
                     try {
@@ -97,7 +101,7 @@ pub fn RagAiButton() -> Element {
                             return;
                         }
                     } catch (e) {}
-                    dioxus.send({ ok: false, error: 'Network error. Please try again.' });
+                    dioxus.send({ ok: false, error: 'Network error. Please try again.', code: 'SERVER_ERROR' });
                 }
                 "#
             );
@@ -113,10 +117,16 @@ pub fn RagAiButton() -> Element {
                             .unwrap_or("No response received.")
                             .to_string()
                     } else {
-                        val.get("error")
-                            .and_then(|v| v.as_str())
-                            .unwrap_or("Failed to process request.")
-                            .to_string()
+                        let code = val.get("code").and_then(|v| v.as_str()).unwrap_or("");
+                        let msg = val.get("error").and_then(|v| v.as_str()).unwrap_or("Failed to process request.");
+
+                        match code {
+                            "RATE_LIMITED" => "You're sending messages too quickly. Please wait a moment.".to_string(),
+                            "GEMINI_RATE_LIMITED" => "The AI assistant is temporarily busy. Please try again shortly.".to_string(),
+                            "AI_TIMEOUT" => "The AI assistant took too long to respond. Please try again.".to_string(),
+                            "INVALID_REQUEST" => "Please provide a valid question.".to_string(),
+                            _ => msg.to_string(),
+                        }
                     }
                 }
                 Err(_) => "Failed to communicate with AI assistant.".to_string(),
