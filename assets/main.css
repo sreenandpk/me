@@ -1548,17 +1548,38 @@ a {
   gap: 0.85rem;
 }
 
-/* ── Cinematic Glass Backdrop Blur Overlay (PURE BLUR, NO COLOR TINT) ── */
+/* ── Cinematic Glass Backdrop Blur Overlay ── */
 .rag-chat-backdrop-blur {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: 9998;
-  background: transparent;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   opacity: 0;
   animation: cinematicBackdropFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: auto;
+}
+
+/* Cinematic Background Blur for Portfolio Sections when Chat is Open */
+body.rag-backdrop-blurred .hero-section,
+body.rag-backdrop-blurred .section,
+body.rag-backdrop-blurred .navbar,
+body.rag-backdrop-blurred footer {
+  filter: blur(16px) saturate(160%);
+}
+
+.hero-section,
+.section,
+.navbar,
+footer {
+  transition: filter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes cinematicBackdropFade {
@@ -1569,8 +1590,8 @@ a {
   }
   100% {
     opacity: 1;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
   }
 }
 
