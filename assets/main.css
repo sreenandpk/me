@@ -1570,14 +1570,16 @@ a {
 /* Subtle Background Blur for Portfolio Sections when Chat is Open */
 body.rag-backdrop-blurred .hero-section,
 body.rag-backdrop-blurred .section,
-body.rag-backdrop-blurred .navbar,
+body.rag-backdrop-blurred .navbar-header,
+body.rag-backdrop-blurred header,
 body.rag-backdrop-blurred footer {
   filter: blur(4px);
 }
 
 .hero-section,
 .section,
-.navbar,
+.navbar-header,
+header,
 footer {
   transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
