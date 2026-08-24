@@ -2241,7 +2241,7 @@ button,
 }
 
 .electric-border-rect {
-  stroke-dasharray: 35 65;
+  stroke-dasharray: 16 84;
   stroke-dashoffset: 100;
   stroke-linecap: round;
   opacity: 0;
@@ -2249,12 +2249,12 @@ button,
 
 .rect-beam-1 {
   animation: borderBeamRun1 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-  filter: drop-shadow(0 0 18px #8b5cf6) drop-shadow(0 0 36px #6366f1);
+  filter: drop-shadow(0 0 8px #8b5cf6) drop-shadow(0 0 16px #6366f1);
 }
 
 .rect-beam-2 {
   animation: borderBeamRun2 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-  filter: drop-shadow(0 0 14px #a78bfa) drop-shadow(0 0 28px #7c3aed);
+  filter: drop-shadow(0 0 6px #a78bfa) drop-shadow(0 0 12px #7c3aed);
 }
 
 @keyframes borderBeamRun1 {
