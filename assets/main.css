@@ -1548,24 +1548,57 @@ a {
   gap: 0.85rem;
 }
 
-/* ── Chat Panel — minimal, matches portfolio ── */
+/* ── Cinematic Glass Backdrop Blur Overlay ── */
+.rag-chat-backdrop-blur {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(4, 6, 16, 0.52);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  opacity: 0;
+  animation: cinematicBackdropFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: auto;
+}
+
+@keyframes cinematicBackdropFade {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+}
+
+/* ── Chat Panel — Ultra-Premium Glass & Cinematic Depth Blur ── */
 .rag-chat-panel {
   width: 360px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 1rem;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  background: rgba(12, 13, 20, 0.88);
+  backdrop-filter: blur(28px) saturate(210%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  border-radius: 1.15rem;
+  box-shadow: 0 25px 75px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(99, 102, 241, 0.22);
   overflow: hidden;
   opacity: 0;
-  transform: translateY(14px) scale(0.96);
+  transform: translateY(22px) scale(0.92);
+  filter: blur(18px);
   pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 9999;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .rag-chat-panel--open {
   opacity: 1;
   transform: translateY(0) scale(1);
+  filter: blur(0px);
   pointer-events: auto;
 }
 
