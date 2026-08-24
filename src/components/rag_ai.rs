@@ -379,7 +379,7 @@ pub fn RagAiButton() -> Element {
                                 class: "electric-border-rect rect-beam-1",
                                 x: "1", y: "1", width: "99.2%", height: "99.2%", rx: "15", ry: "15",
                                 fill: "none",
-                                stroke: "#60a5fa",
+                                stroke: "#8b5cf6",
                                 stroke_width: "3",
                                 path_length: "100",
                             }
@@ -387,7 +387,7 @@ pub fn RagAiButton() -> Element {
                                 class: "electric-border-rect rect-beam-2",
                                 x: "1", y: "1", width: "99.2%", height: "99.2%", rx: "15", ry: "15",
                                 fill: "none",
-                                stroke: "#3b82f6",
+                                stroke: "#6366f1",
                                 stroke_width: "2",
                                 path_length: "100",
                             }
