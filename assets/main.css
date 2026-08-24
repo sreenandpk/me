@@ -1655,8 +1655,8 @@ footer,
   }
   100% {
     transform: translateY(0) scale(1);
-    border-color: rgba(139, 92, 246, 0.65);
-    box-shadow: 0 25px 75px -12px rgba(0, 0, 0, 0.8), 0 0 32px rgba(139, 92, 246, 0.4);
+    border-color: rgba(139, 92, 246, 0.6);
+    box-shadow: 0 25px 75px -12px rgba(0, 0, 0, 0.85);
   }
 }
 
@@ -2307,12 +2307,12 @@ button,
 
 .rect-beam-1 {
   animation: borderBeamRun1 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-  filter: drop-shadow(0 0 10px #8b5cf6) drop-shadow(0 0 20px #6366f1);
+  filter: drop-shadow(0 0 3px rgba(139, 92, 246, 0.5));
 }
 
 .rect-beam-2 {
   animation: borderBeamRun2 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-  filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 16px #7c3aed);
+  filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.4));
 }
 
 @keyframes borderBeamRun1 {
