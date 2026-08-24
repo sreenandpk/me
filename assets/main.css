@@ -1567,23 +1567,30 @@ a {
   pointer-events: auto;
 }
 
-/* Universal Background Blur for EVERYTHING on the page when Chat is Open */
-body.rag-backdrop-blurred > *:not(.rag-ai-wrapper),
+/* Universal Background Blur for EVERYTHING on the page EXCEPT Chat when Chat is Open */
 body.rag-backdrop-blurred header,
 body.rag-backdrop-blurred section,
 body.rag-backdrop-blurred footer,
-body.rag-backdrop-blurred main,
 body.rag-backdrop-blurred .hero-section,
 body.rag-backdrop-blurred .section,
 body.rag-backdrop-blurred .navbar-header {
   filter: blur(4px) !important;
 }
 
-body > *:not(.rag-ai-wrapper),
+/* Force AI Chat elements to ALWAYS remain 100% crystal clear and unblurred! */
+.rag-ai-wrapper,
+.rag-chat-panel,
+.rag-ai-fab,
+.rag-chat-header,
+.rag-chat-messages,
+.rag-chat-input-row {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
 header,
 section,
 footer,
-main,
 .hero-section,
 .section,
 .navbar-header {
