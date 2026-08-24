@@ -2,12 +2,12 @@
 
 ---
 
-## Bridgeon — Full-Stack Developer Intern
+## Bridgeon Solutions — Full-Stack Developer Intern
 
-**Company:** Bridgeon  
+**Company:** Bridgeon Solutions  
 **Role:** Full-Stack Developer Intern  
 **Period:** Jun 2025 – Present  
-**Location:** Kozhikode, Kerala, India · On-site  
+**Location:** Calicut (Kozhikode), Kerala, India · On-site  
 **Status:** Ongoing
 
 ### Responsibilities (Confirmed from portfolio)

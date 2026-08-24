@@ -12,9 +12,14 @@ Sreenand is a Full Stack Developer who works on both sides of the screen — fro
 
 "I'm a Full Stack Developer working on both sides of the screen — from the experience people see to everything working behind it. I turn ideas into simple, reliable applications built to last. My approach is simple: understand the problem, plan the work, build it, and improve it as I go. I pay attention to the details, test what I build, and try to keep the final solution clear and easy to maintain."
 
-## Location
+## Location & Hometown
 
-Based in Kerala, India.
+**Hometown:** Iritty, Kannur, Kerala, India
+**Current Work Location:** Calicut (Kozhikode), Kerala, India (Bridgeon Solutions)
+
+## Current Role
+
+Full-Stack Developer Intern at Bridgeon Solutions, Calicut, Kerala.
 
 ## Career Status
 
