@@ -380,7 +380,7 @@ pub fn RagAiButton() -> Element {
                                 x: "1", y: "1", width: "99.2%", height: "99.2%", rx: "15", ry: "15",
                                 fill: "none",
                                 stroke: "#8b5cf6",
-                                stroke_width: "2.5",
+                                stroke_width: "1.5",
                                 path_length: "100",
                             }
                             rect {
@@ -388,7 +388,7 @@ pub fn RagAiButton() -> Element {
                                 x: "1", y: "1", width: "99.2%", height: "99.2%", rx: "15", ry: "15",
                                 fill: "none",
                                 stroke: "#6366f1",
-                                stroke_width: "2.5",
+                                stroke_width: "1.5",
                                 path_length: "100",
                             }
                         }
