@@ -86,7 +86,6 @@ const KEYWORD_MAP = {
   projects: ["project", "projects", "built", "apps", "applications", "portfolio", "work"],
   skills: ["skill", "skills", "technology", "technologies", "tech stack", "stack", "tool", "tools", "language", "languages", "framework", "frameworks"],
   python: ["python", "django", "fastapi", "drf", "django rest"],
-  rust: ["rust", "wasm", "webassembly", "dioxus"],
   database: ["database", "postgres", "postgresql", "redis", "sql", "sqlite", "rds"],
   devops: ["docker", "container", "aws", "ecs", "vercel", "linux", "git", "ci/cd", "ci"],
   experience: ["experience", "job", "intern", "internship", "softronic", "bridgeon", "company", "work history", "role", "roles"],

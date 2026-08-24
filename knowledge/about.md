@@ -35,7 +35,7 @@ To grow into a strong Python/backend engineer and work on production-quality sof
 - PostgreSQL, Redis, Celery, Docker
 - Authentication system design (JWT, refresh tokens, RBAC)
 - Microservices architecture
-- Currently learning: Rust, Dioxus, WebAssembly
+- Distributed systems architecture and cloud services
 
 ## Engineering Philosophy
 

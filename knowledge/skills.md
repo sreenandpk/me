@@ -69,11 +69,8 @@ Technologies explicitly present in one or more of Sreenand's projects.
 
 ## Currently Learning
 
-- Rust
-- Dioxus (Rust frontend framework)
-- WebAssembly (WASM)
-
-> Note: This portfolio is itself built with Rust + Dioxus + WebAssembly, giving hands-on practical experience.
+- Distributed systems patterns
+- High-concurrency backend services
 
 ---
 

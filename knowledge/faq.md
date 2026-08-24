@@ -29,7 +29,6 @@ Python backend development: FastAPI, Django, Django REST Framework, PostgreSQL, 
 Primary: Python, FastAPI, Django, Django REST Framework, PostgreSQL, Redis, Docker, Git.
 Working knowledge: SQLAlchemy, Alembic, Celery, WebSockets, React.js, Next.js, pytest, Ruff, mypy.
 Also used in projects: AWS ECS, AWS RDS, Vercel, Scikit-Learn, Locust, GitHub Actions, Tailwind CSS.
-Currently learning: Rust, Dioxus, WebAssembly.
 
 ---
 
@@ -89,13 +88,7 @@ It is a backend trading/market platform built using a polyrepo microservices arc
 
 **What is he currently learning?**
 
-Rust, Dioxus, and WebAssembly. This portfolio website itself is built entirely with Rust + Dioxus, compiled to WebAssembly — giving practical experience with all three.
-
----
-
-**Why is he learning Rust?**
-
-He is exploring Rust to expand his systems-programming knowledge and learn a different approach to performance, memory safety, and strongly typed software development. Building this portfolio in Rust and Dioxus provides hands-on experience with Rust and WebAssembly.
+Distributed systems architecture, high-concurrency backend services, and cloud engineering best practices.
 
 ---
 
