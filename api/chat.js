@@ -238,6 +238,83 @@ STRICT GROUNDING & RESPONSE RULES YOU MUST ALWAYS FOLLOW:
 
 RETRIEVED KNOWLEDGE SECTIONS:`;
 
+function getFallbackAnswer(question) {
+  const q = question.toLowerCase();
+
+  if (q.includes("project") || q.includes("built") || q.includes("work") || q.includes("app") || q.includes("portfolio")) {
+    return `Sreenand has built four main engineering projects:
+
+CareStream
+A live patient health monitoring system for real-time vital monitoring and anomaly detection, built with Next.js, Django REST Framework, PostgreSQL, Redis, Celery, WebSockets, and Scikit-Learn Isolation Forest.
+
+E-Commerce Platform
+A full-stack online shopping platform with product browsing, cart/wishlist management, JWT authentication, and an admin dashboard built with Python, Django, DRF, PostgreSQL, Docker, and JavaScript.
+
+Just Listen
+An asynchronous FastAPI backend application demonstrating modern backend architecture with PostgreSQL, SQLAlchemy 2.x, Alembic, Redis, Celery, and JTI refresh token rotation.
+
+Trading / Market Microservices Platform
+A microservices-based backend platform featuring polyrepo architecture with separate authentication and market data services built with Docker, PostgreSQL, and Redis.`;
+  }
+
+  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("tool")) {
+    return `Sreenand's core technical stack includes:
+
+Backend & Systems: Python, Django, DRF, FastAPI, Rust (WASM, Dioxus)
+Databases & Caching: PostgreSQL, Redis, SQLAlchemy, Alembic
+DevOps & Cloud: Docker, AWS (ECS, RDS), Vercel, Linux, Git, CI/CD
+Architecture & Testing: Microservices, REST APIs, WebSockets, Celery, pytest, Locust`;
+  }
+
+  if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("hire") || q.includes("linkedin") || q.includes("phone")) {
+    return `You can reach Sreenand P K directly via:
+
+Email: sreenandpk3@gmail.com
+Phone: +91 9539379577
+LinkedIn: https://linkedin.com/in/sreenand-p-k
+GitHub: https://github.com/sreenandpk
+Location: Kerala, India`;
+  }
+
+  if (q.includes("carestream")) {
+    return `CareStream is a real-time live patient health monitoring platform.
+
+Key Features:
+- Real-time patient vital streaming via WebSockets
+- Machine learning anomaly detection using Scikit-Learn Isolation Forest
+- Asynchronous task processing with Celery and Redis
+- Multi-role access control for doctors, nurses, and admins
+
+Tech Stack: Next.js, Django REST Framework, PostgreSQL, Redis, Celery, AWS ECS/RDS.`;
+  }
+
+  if (q.includes("just listen") || q.includes("justlisten")) {
+    return `Just Listen is an asynchronous FastAPI backend application focused on modern backend patterns.
+
+Key Features:
+- Async request handling with FastAPI and SQLAlchemy 2.x
+- Database migrations with Alembic
+- Secure JTI refresh token rotation and authentication
+- Performance testing with Locust and linting with Ruff/Mypy`;
+  }
+
+  if (q.includes("trading") || q.includes("microservice")) {
+    return `The Trading / Market Microservices Platform is a polyrepo backend platform designed for financial market data.
+
+Key Features:
+- Polyrepo microservices structure
+- Independent authentication and market data services
+- Shared PostgreSQL schema design and Redis caching
+- Containerized with Docker for seamless deployment`;
+  }
+
+  if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
+    return `Hello! I am Sreenand's AI assistant. Ask me about his projects (CareStream, E-Commerce, Just Listen, Trading Platform), technical skills, or experience!`;
+  }
+
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // Request handler
 // ---------------------------------------------------------------------------
@@ -276,6 +353,10 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     console.error("[chat.js] GEMINI_API_KEY environment variable is not set.");
+    const fallback = getFallbackAnswer(trimmedQuestion);
+    if (fallback) {
+      return res.status(200).json({ answer: fallback });
+    }
     return res
       .status(500)
       .json({ error: "Service is temporarily unavailable." });
@@ -323,6 +404,10 @@ module.exports = async function handler(req, res) {
 
     if (!answer || answer.trim().length === 0) {
       console.error("[chat.js] Gemini returned an empty response.");
+      const fallback = getFallbackAnswer(trimmedQuestion);
+      if (fallback) {
+        return res.status(200).json({ answer: fallback });
+      }
       return res
         .status(500)
         .json({ error: "No response generated. Please try again." });
@@ -334,9 +419,14 @@ module.exports = async function handler(req, res) {
     const errStr = String(err?.message || err);
     console.error(`[chat.js] Gemini API error (${totalMs}ms):`, errStr);
 
+    const fallback = getFallbackAnswer(trimmedQuestion);
+    if (fallback) {
+      return res.status(200).json({ answer: fallback });
+    }
+
     if (errStr.includes("RESOURCE_EXHAUSTED") || errStr.includes("429") || errStr.includes("Quota exceeded")) {
       return res.status(429).json({
-        error: "The AI assistant is temporarily unavailable. Please try again in a moment.",
+        error: "The AI assistant is temporarily unavailable due to high traffic. Please try again in a moment.",
       });
     }
 
