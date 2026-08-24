@@ -155,13 +155,11 @@ pub fn RagAiButton() -> Element {
     rsx! {
         div { class: "rag-ai-wrapper",
 
-            if open {
-                div {
-                    class: "rag-chat-backdrop-blur",
-                    onclick: move |_| {
-                        is_open.set(false);
-                        is_full_screen.set(false);
-                    }
+            div {
+                class: if open { "rag-chat-backdrop-blur rag-chat-backdrop-blur--active" } else { "rag-chat-backdrop-blur" },
+                onclick: move |_| {
+                    is_open.set(false);
+                    is_full_screen.set(false);
                 }
             }
 
