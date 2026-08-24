@@ -307,12 +307,12 @@ STRICT GROUNDING & RESPONSE RULES YOU MUST ALWAYS FOLLOW:
 5. Never expose API keys, environment variables, server configuration, or internal infrastructure details.
 6. Speak about Sreenand in the third person: "He is...", "Sreenand has built...", "His strongest area is..."
 7. If something is marked as PLANNED, say it is planned — not implemented or complete. Do not confuse technologies between projects.
-8. RESPONSE COMPLETENESS & FORMATTING:
-   - When asked about Sreenand's projects, list and describe ALL projects present in the retrieved context (CareStream, E-Commerce Platform, Just Listen, Trading / Market Microservices Platform).
-   - Format each project with a clean title (e.g. CareStream) followed by a short summary of its purpose and tech stack.
-   - Always complete every sentence before ending your response.
-   - Never stop mid-sentence or mid-list. Never output empty numbered items like "1.".
-   - Use clean plain text formatting with clear line breaks between projects.
+8. CLEAR & COMPLETE WRITING STYLE:
+   - Write in clear, simple, easy-to-understand plain English.
+   - Avoid overly dry jargon or stiff robotic bullet lists. Explain concepts in a friendly, conversational tone.
+   - When asked about Sreenand's projects, list and describe ALL 4 projects present in the retrieved context (CareStream, E-Commerce Platform, Just Listen, Trading / Market Microservices Platform).
+   - Format each project with a clean title (e.g. CareStream) followed by a simple summary of what it does and the tech used.
+   - Always complete every sentence before ending your response. Never stop mid-sentence or mid-list.
 9. Format links clearly as plain URLs (e.g. "LinkedIn: https://www.linkedin.com/in/sreenand-p-k-3842b936b/"). Do NOT output raw Markdown link syntax like [url](url).
 10. Output clean text formatting. Do NOT output raw Markdown brackets like [text](url) or unclosed symbols.
 11. If asked something completely unrelated to Sreenand or software engineering, politely explain that you can only answer questions about Sreenand.
@@ -327,10 +327,7 @@ function getFallbackAnswer(question) {
   if (q.includes("working") || q.includes("work") || q.includes("experience") || q.includes("intern") || q.includes("job") || q.includes("softronic") || q.includes("company") || q.includes("role") || q.includes("career")) {
     return `Sreenand worked as a Backend Engineering Intern at Softronic Systems.
 
-Key Responsibilities & Experience:
-- Built and maintained backend microservices using Python, Django, DRF, and FastAPI.
-- Implemented real-time patient monitoring features, Celery async background tasks, and Redis caching.
-- Designed database schemas with PostgreSQL and Dockerized microservices for cloud deployment.`;
+In simple terms, he built server applications and web APIs using Python, Django, and FastAPI. His work involved creating real-time patient health monitoring systems, designing database schemas with PostgreSQL, and managing background tasks using Redis and Celery.`;
   }
 
   // 2. Projects queries
@@ -338,94 +335,72 @@ Key Responsibilities & Experience:
     return `Sreenand has built four main engineering projects:
 
 CareStream
-A live patient health monitoring system for real-time vital monitoring and anomaly detection, built with Next.js, Django REST Framework, PostgreSQL, Redis, Celery, WebSockets, and Scikit-Learn Isolation Forest.
+A live health monitoring system that tracks patient vitals in real time and detects abnormal patterns using machine learning. Built with Next.js, Django REST Framework, PostgreSQL, Redis, WebSockets, and Scikit-Learn.
 
 E-Commerce Platform
-A full-stack online shopping platform with product browsing, cart/wishlist management, JWT authentication, and an admin dashboard built with Python, Django, DRF, PostgreSQL, Docker, and JavaScript.
+A complete online shopping web app featuring product browsing, shopping cart, wishlist, user sign-in, and an admin management dashboard built with Python, Django, DRF, PostgreSQL, and Docker.
 
 Just Listen
-An asynchronous FastAPI backend application demonstrating modern backend architecture with PostgreSQL, SQLAlchemy 2.x, Alembic, Redis, Celery, and JTI refresh token rotation.
+A secure, high-performance web backend built with FastAPI, focusing on async database operations (SQLAlchemy 2.x/Alembic) and token authentication.
 
 Trading / Market Microservices Platform
-A microservices-based backend platform featuring polyrepo architecture with separate authentication and market data services built with Docker, PostgreSQL, and Redis.`;
+A microservices-based backend system designed for financial market data, containerized with Docker and powered by PostgreSQL and Redis.`;
   }
 
   // 3. Technical Skills & Stack
   if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("tool") || q.includes("python") || q.includes("rust")) {
-    return `Sreenand's core technical stack includes:
+    return `Sreenand specializes in backend development, web APIs, and cloud systems:
 
-Backend & Systems: Python, Django, DRF, FastAPI, Rust (WASM, Dioxus)
-Databases & Caching: PostgreSQL, Redis, SQLAlchemy, Alembic
-DevOps & Cloud: Docker, AWS (ECS, RDS), Vercel, Linux, Git, CI/CD
-Architecture & Testing: Microservices, REST APIs, WebSockets, Celery, pytest, Locust`;
+• Languages & Frameworks: Python, Django, DRF, FastAPI, Rust (WASM, Dioxus)
+• Databases & Caching: PostgreSQL, Redis, SQLAlchemy, Alembic
+• DevOps & Cloud: Docker, AWS (ECS, RDS), Vercel, Linux, Git
+• Web Systems: Microservices, REST APIs, WebSockets, Celery, pytest`;
   }
 
   // 4. Contact & Links
   if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("hire") || q.includes("linkedin") || q.includes("phone")) {
-    return `You can reach Sreenand P K directly via:
+    return `You can easily reach Sreenand P K directly via:
 
-Email: sreenandpk3@gmail.com
-Phone: +91 9539379577
-LinkedIn: https://www.linkedin.com/in/sreenand-p-k-3842b936b/
-GitHub: https://github.com/sreenandpk
-Location: Kerala, India`;
+• Email: sreenandpk3@gmail.com
+• Phone: +91 9539379577
+• LinkedIn: https://www.linkedin.com/in/sreenand-p-k-3842b936b/
+• GitHub: https://github.com/sreenandpk
+• Location: Kerala, India`;
   }
 
   // 5. Education
   if (q.includes("education") || q.includes("degree") || q.includes("bsc") || q.includes("college") || q.includes("university") || q.includes("calicut")) {
-    return `Sreenand holds a Bachelor of Science (B.Sc.) in Computer Science from the University of Calicut (2022–2025).
-
-Coursework covers Core Computer Science, Data Structures & Algorithms, Software Engineering, Database Systems, and Web Technologies.`;
+    return `Sreenand holds a Bachelor of Science (B.Sc.) in Computer Science from the University of Calicut (2022–2025), covering core computer science, software engineering, databases, and web technologies.`;
   }
 
   // 6. Engineering Principles & Approach
   if (q.includes("engineering") || q.includes("principle") || q.includes("philosophy") || q.includes("architecture") || q.includes("approach") || q.includes("testing")) {
-    return `Sreenand's engineering approach focuses on:
-- Problem Planning & Design First
-- Clean, Readable, and Maintainable Code
-- Security & Authentication Best Practices
-- Automated Testing (pytest, Locust)
-- Containerized Microservices & Cloud Reliability`;
+    return `Sreenand's engineering approach is simple and practical:
+1. Plan the architecture before writing code.
+2. Write clean, readable code that is easy to maintain.
+3. Prioritize security, authentication, and data privacy.
+4. Write automated tests to prevent bugs.
+5. Deploy applications cleanly using Docker containers.`;
   }
 
   // 7. CareStream Specific
   if (q.includes("carestream")) {
-    return `CareStream is a real-time live patient health monitoring platform.
-
-Key Features:
-- Real-time patient vital streaming via WebSockets
-- Machine learning anomaly detection using Scikit-Learn Isolation Forest
-- Asynchronous task processing with Celery and Redis
-- Multi-role access control for doctors, nurses, and admins
-
-Tech Stack: Next.js, Django REST Framework, PostgreSQL, Redis, Celery, AWS ECS/RDS.`;
+    return `CareStream is a real-time health monitoring system built by Sreenand. It streams patient vitals live using WebSockets and automatically alerts doctors when unusual health patterns are detected using machine learning. Built with Next.js, Django, PostgreSQL, and Redis.`;
   }
 
   // 8. Just Listen Specific
   if (q.includes("just listen") || q.includes("justlisten")) {
-    return `Just Listen is an asynchronous FastAPI backend application focused on modern backend patterns.
-
-Key Features:
-- Async request handling with FastAPI and SQLAlchemy 2.x
-- Database migrations with Alembic
-- Secure JTI refresh token rotation and authentication
-- Performance testing with Locust and linting with Ruff/Mypy`;
+    return `Just Listen is a secure FastAPI web backend built to demonstrate modern async Python practices, database migrations, and secure token authentication.`;
   }
 
   // 9. Trading Specific
   if (q.includes("trading") || q.includes("microservice")) {
-    return `The Trading / Market Microservices Platform is a polyrepo backend platform designed for financial market data.
-
-Key Features:
-- Polyrepo microservices structure
-- Independent authentication and market data services
-- Shared PostgreSQL schema design and Redis caching
-- Containerized with Docker for seamless deployment`;
+    return `The Trading Platform is a multi-service backend system built with Docker, PostgreSQL, and Redis to handle market data and user services independently.`;
   }
 
   // 10. Greetings
   if (q.includes("hi") || q.includes("hello") || q.includes("hey") || q.includes("greet")) {
-    return `Hello! I am Sreenand's AI assistant. Ask me about his experience at Softronic Systems, projects (CareStream, E-Commerce, Just Listen, Trading Platform), technical skills, or education!`;
+    return `Hi there! I'm Sreenand's AI assistant. Ask me anything about his work experience, projects (CareStream, E-Commerce, Just Listen, Trading Platform), skills, or education!`;
   }
 
   // 11. Ungrounded / Out of domain
