@@ -323,15 +323,17 @@ RETRIEVED KNOWLEDGE SECTIONS:`;
 function getFallbackAnswer(question) {
   const q = question.toLowerCase();
 
-  if (q.includes("experience") || q.includes("intern") || q.includes("job") || q.includes("softronic") || q.includes("work history") || q.includes("career")) {
-    return `Sreenand's professional experience includes:
+  // 1. Experience / Working / Job / Role queries
+  if (q.includes("working") || q.includes("work") || q.includes("experience") || q.includes("intern") || q.includes("job") || q.includes("softronic") || q.includes("company") || q.includes("role") || q.includes("career")) {
+    return `Sreenand worked as a Backend Engineering Intern at Softronic Systems.
 
-Softronic Systems — Backend Engineering Intern
+Key Responsibilities & Experience:
 - Built and maintained backend microservices using Python, Django, DRF, and FastAPI.
 - Implemented real-time patient monitoring features, Celery async background tasks, and Redis caching.
 - Designed database schemas with PostgreSQL and Dockerized microservices for cloud deployment.`;
   }
 
+  // 2. Projects queries
   if (q.includes("project") || q.includes("built") || q.includes("app") || q.includes("portfolio")) {
     return `Sreenand has built four main engineering projects:
 
@@ -348,7 +350,8 @@ Trading / Market Microservices Platform
 A microservices-based backend platform featuring polyrepo architecture with separate authentication and market data services built with Docker, PostgreSQL, and Redis.`;
   }
 
-  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("tool")) {
+  // 3. Technical Skills & Stack
+  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("tool") || q.includes("python") || q.includes("rust")) {
     return `Sreenand's core technical stack includes:
 
 Backend & Systems: Python, Django, DRF, FastAPI, Rust (WASM, Dioxus)
@@ -357,6 +360,7 @@ DevOps & Cloud: Docker, AWS (ECS, RDS), Vercel, Linux, Git, CI/CD
 Architecture & Testing: Microservices, REST APIs, WebSockets, Celery, pytest, Locust`;
   }
 
+  // 4. Contact & Links
   if (q.includes("contact") || q.includes("email") || q.includes("reach") || q.includes("hire") || q.includes("linkedin") || q.includes("phone")) {
     return `You can reach Sreenand P K directly via:
 
@@ -367,6 +371,24 @@ GitHub: https://github.com/sreenandpk
 Location: Kerala, India`;
   }
 
+  // 5. Education
+  if (q.includes("education") || q.includes("degree") || q.includes("bsc") || q.includes("college") || q.includes("university") || q.includes("calicut")) {
+    return `Sreenand holds a Bachelor of Science (B.Sc.) in Computer Science from the University of Calicut (2022–2025).
+
+Coursework covers Core Computer Science, Data Structures & Algorithms, Software Engineering, Database Systems, and Web Technologies.`;
+  }
+
+  // 6. Engineering Principles & Approach
+  if (q.includes("engineering") || q.includes("principle") || q.includes("philosophy") || q.includes("architecture") || q.includes("approach") || q.includes("testing")) {
+    return `Sreenand's engineering approach focuses on:
+- Problem Planning & Design First
+- Clean, Readable, and Maintainable Code
+- Security & Authentication Best Practices
+- Automated Testing (pytest, Locust)
+- Containerized Microservices & Cloud Reliability`;
+  }
+
+  // 7. CareStream Specific
   if (q.includes("carestream")) {
     return `CareStream is a real-time live patient health monitoring platform.
 
@@ -379,6 +401,7 @@ Key Features:
 Tech Stack: Next.js, Django REST Framework, PostgreSQL, Redis, Celery, AWS ECS/RDS.`;
   }
 
+  // 8. Just Listen Specific
   if (q.includes("just listen") || q.includes("justlisten")) {
     return `Just Listen is an asynchronous FastAPI backend application focused on modern backend patterns.
 
@@ -389,6 +412,7 @@ Key Features:
 - Performance testing with Locust and linting with Ruff/Mypy`;
   }
 
+  // 9. Trading Specific
   if (q.includes("trading") || q.includes("microservice")) {
     return `The Trading / Market Microservices Platform is a polyrepo backend platform designed for financial market data.
 
@@ -399,8 +423,14 @@ Key Features:
 - Containerized with Docker for seamless deployment`;
   }
 
-  if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
-    return `Hello! I am Sreenand's AI assistant. Ask me about his projects (CareStream, E-Commerce, Just Listen, Trading Platform), technical skills, or experience!`;
+  // 10. Greetings
+  if (q.includes("hi") || q.includes("hello") || q.includes("hey") || q.includes("greet")) {
+    return `Hello! I am Sreenand's AI assistant. Ask me about his experience at Softronic Systems, projects (CareStream, E-Commerce, Just Listen, Trading Platform), technical skills, or education!`;
+  }
+
+  // 11. Ungrounded / Out of domain
+  if (q.includes("movie") || q.includes("favorite") || q.includes("food") || q.includes("weather") || q.includes("game")) {
+    return `I don't have that information in Sreenand's portfolio.`;
   }
 
   return null;
