@@ -1567,20 +1567,26 @@ a {
   pointer-events: auto;
 }
 
-/* Subtle Background Blur for Portfolio Sections when Chat is Open */
+/* Universal Background Blur for EVERYTHING on the page when Chat is Open */
+body.rag-backdrop-blurred > *:not(.rag-ai-wrapper),
+body.rag-backdrop-blurred header,
+body.rag-backdrop-blurred section,
+body.rag-backdrop-blurred footer,
+body.rag-backdrop-blurred main,
 body.rag-backdrop-blurred .hero-section,
 body.rag-backdrop-blurred .section,
-body.rag-backdrop-blurred .navbar-header,
-body.rag-backdrop-blurred header,
-body.rag-backdrop-blurred footer {
-  filter: blur(4px);
+body.rag-backdrop-blurred .navbar-header {
+  filter: blur(4px) !important;
 }
 
+body > *:not(.rag-ai-wrapper),
+header,
+section,
+footer,
+main,
 .hero-section,
 .section,
-.navbar-header,
-header,
-footer {
+.navbar-header {
   transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
