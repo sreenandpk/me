@@ -2,6 +2,9 @@
 pub struct Project {
     pub name: &'static str,
     pub subtitle: &'static str,
+    pub category: &'static str,
+    pub cover_image: &'static str,
+    pub gallery_images: &'static [&'static str],
     pub tech_badges: &'static [&'static str],
     pub overview: &'static str,
     pub problem_faced: &'static str,
@@ -14,6 +17,13 @@ pub const PROJECTS: &[Project] = &[
     Project {
         name: "CareStream",
         subtitle: "Live Patient Health Monitoring System",
+        category: "Full Stack • Healthcare & IoT",
+        cover_image: "/assets/projects/carestream-cover.jpg",
+        gallery_images: &[
+            "/assets/projects/carestream-cover.jpg",
+            "/assets/projects/carestream-dashboard.jpg",
+            "/assets/projects/carestream-vitals.jpg",
+        ],
         tech_badges: &[
             "Next.js",
             "Django REST Framework",
@@ -35,6 +45,13 @@ pub const PROJECTS: &[Project] = &[
     Project {
         name: "E-Commerce Platform",
         subtitle: "Full Online Shopping Experience",
+        category: "Full Stack • Web & Retail",
+        cover_image: "/assets/projects/ecommerce-cover.jpg",
+        gallery_images: &[
+            "/assets/projects/ecommerce-cover.jpg",
+            "/assets/projects/ecommerce-storefront.jpg",
+            "/assets/projects/ecommerce-admin.jpg",
+        ],
         tech_badges: &[
             "React.js",
             "Bootstrap 5",
