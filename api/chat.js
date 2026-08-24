@@ -90,20 +90,20 @@ const KEYWORD_MAP = {
   engineering: ["engineering", "principle", "principles", "philosophy", "architecture", "testing", "security"]
 };
 
-function retrieveRelevantSections(question, maxTokenBudget = 1200) {
+function retrieveRelevantSections(question, maxTokenBudget = 2200) {
   const qLower = question.toLowerCase();
   const qWords = qLower.replace(/[^\w\s-]/g, "").split(/\s+/).filter((w) => w.length > 1);
 
-  const isGeneralProjectQuery = ["project", "projects", "built", "work", "apps", "applications"].some((kw) => qLower.includes(kw));
+  const isGeneralProjectQuery = ["project", "projects", "built", "work", "apps", "applications", "portfolio"].some((kw) => qLower.includes(kw));
 
   const scoredSections = ALL_SECTIONS.map((sec) => {
     let score = 0;
     const titleLower = sec.title.toLowerCase();
     const contentLower = sec.content.toLowerCase();
 
-    // If general project query, boost all project sections
+    // If general project query, give ALL sections from projects.md maximum top priority (+100)
     if (isGeneralProjectQuery && sec.source === "projects.md") {
-      score += 45;
+      score += 100;
     }
 
     if (titleLower.length > 0 && qLower.includes(titleLower)) {
@@ -225,13 +225,12 @@ STRICT GROUNDING & RESPONSE RULES YOU MUST ALWAYS FOLLOW:
 5. Never expose API keys, environment variables, server configuration, or internal infrastructure details.
 6. Speak about Sreenand in the third person: "He is...", "Sreenand has built...", "His strongest area is..."
 7. If something is marked as PLANNED, say it is planned — not implemented or complete. Do not confuse technologies between projects.
-8. RESPONSE COMPLETENESS:
+8. RESPONSE COMPLETENESS & FORMATTING:
+   - When asked about Sreenand's projects, list and describe ALL projects present in the retrieved context (CareStream, E-Commerce Platform, Just Listen, Trading / Market Microservices Platform).
+   - Format each project with a clean title (e.g. CareStream) followed by a short summary of its purpose and tech stack.
    - Always complete every sentence before ending your response.
-   - Never stop in the middle of a sentence or list.
-   - Never leave a numbered list incomplete or output an empty item like "1.".
-   - If presenting multiple projects or skills, include all relevant items supported by the retrieved context.
-   - Use clean bold headings (e.g. **CareStream**) or plain dash bullets (- item) for list items.
-   - Keep answers concise and professional, but completeness takes priority over extreme brevity. Never intentionally truncate an answer.
+   - Never stop mid-sentence or mid-list. Never output empty numbered items like "1.".
+   - Use clean plain text formatting with clear line breaks between projects.
 9. Format links clearly as plain URLs (e.g. "LinkedIn: https://linkedin.com/in/sreenand-p-k"). Do NOT output raw Markdown link syntax like [url](url).
 10. Output clean text formatting. Do NOT output raw Markdown brackets like [text](url) or unclosed symbols.
 11. If asked something completely unrelated to Sreenand or software engineering, politely explain that you can only answer questions about Sreenand.
