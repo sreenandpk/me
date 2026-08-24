@@ -1604,27 +1604,25 @@ footer,
   transition: filter 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Chat Panel — Hardware Accelerated Smooth Open & Close ── */
+/* ── Chat Panel — 60FPS Bi-Directional Smooth Open & Close ── */
 .rag-chat-panel {
   width: 360px;
-  background: rgba(12, 13, 20, 0.88);
-  backdrop-filter: blur(28px) saturate(210%);
-  -webkit-backdrop-filter: blur(28px) saturate(210%);
+  background: rgba(12, 13, 20, 0.92);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
   border: 1px solid rgba(139, 92, 246, 0.35);
   border-radius: 1.15rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 12px rgba(139, 92, 246, 0.18);
   overflow: hidden;
   opacity: 0;
-  transform: translateY(16px) scale(0.95);
-  filter: blur(8px);
+  transform: translateY(14px) scale(0.96);
+  filter: blur(6px);
   pointer-events: none;
   z-index: 9999;
-  will-change: transform, opacity, filter, border-color, box-shadow;
-  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.32s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .rag-chat-panel--open {
@@ -1632,30 +1630,6 @@ footer,
   transform: translateY(0) scale(1);
   filter: blur(0px);
   pointer-events: auto;
-  animation: chatBorderSmoothReveal 2.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes chatBorderSmoothReveal {
-  0% {
-    transform: translateY(22px) scale(0.92);
-    border-color: transparent;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
-  }
-  20% {
-    transform: translateY(0) scale(1);
-    border-color: transparent;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
-  }
-  70% {
-    transform: translateY(0) scale(1);
-    border-color: transparent;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75);
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    border-color: rgba(139, 92, 246, 0.35);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 12px rgba(139, 92, 246, 0.18);
-  }
 }
 
 /* Header */
