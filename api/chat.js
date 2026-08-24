@@ -293,7 +293,7 @@ module.exports = async function handler(req, res) {
   try {
     const ai = getAiClient(apiKey);
 
-    // 2. Gemini request with maxOutputTokens: 600
+    // 2. Gemini request with maxOutputTokens: 1000
     const geminiStart = Date.now();
     const response = await generateContentWithRetry(
       ai,
@@ -301,14 +301,20 @@ module.exports = async function handler(req, res) {
       trimmedQuestion,
       {
         systemInstruction: dynamicSystemPrompt,
-        maxOutputTokens: 600,
+        maxOutputTokens: 1000,
         temperature: 0.15,
       },
       1
     );
     const geminiMs = Date.now() - geminiStart;
 
-    const answer = response.text;
+    const candidate = response.candidates?.[0];
+    let answer = "";
+    if (candidate?.content?.parts && Array.isArray(candidate.content.parts)) {
+      answer = candidate.content.parts.map((p) => p.text || "").join("\n").trim();
+    } else {
+      answer = response.text ? response.text.trim() : "";
+    }
     const totalMs = Date.now() - startTime;
 
     console.log(
