@@ -3,8 +3,6 @@ use crate::data::PROJECTS;
 
 #[component]
 pub fn Projects() -> Element {
-    let mut lightbox_image = use_signal(|| None::<(&'static str, &'static str)>);
-
     rsx! {
         section { id: "projects", class: "section reveal-on-scroll",
             div { class: "container",
@@ -15,46 +13,12 @@ pub fn Projects() -> Element {
                     div { class: "projects-divider" }
                 }
 
-                // Album Gallery Grid
+                // Album Gallery 2-Column Grid
                 div { class: "projects-album-grid",
                     for (project_idx, project) in PROJECTS.iter().enumerate() {
                         ProjectAlbumCard {
                             key: "{project_idx}",
                             project: project,
-                            on_open_lightbox: move |(img_url, proj_name): (&'static str, &'static str)| {
-                                lightbox_image.set(Some((img_url, proj_name)));
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Lightbox Modal for Fullscreen Screenshot Preview
-            if let Some((img_url, proj_name)) = *lightbox_image.read() {
-                div {
-                    class: "album-lightbox-overlay",
-                    onclick: move |_| lightbox_image.set(None),
-                    div {
-                        class: "album-lightbox-content",
-                        onclick: move |evt| evt.stop_propagation(),
-                        div { class: "album-lightbox-header",
-                            span { class: "album-lightbox-title", "{proj_name}" }
-                            button {
-                                class: "album-lightbox-close",
-                                onclick: move |_| lightbox_image.set(None),
-                                "✕"
-                            }
-                        }
-                        div { class: "album-lightbox-img-wrapper",
-                            img {
-                                class: "album-lightbox-img",
-                                src: "{img_url}",
-                                alt: "{proj_name}",
-                            }
-                            div { class: "album-lightbox-fallback",
-                                span { class: "fallback-text", "Image Preview for {proj_name}" }
-                                span { class: "fallback-sub", "Upload screenshots to {img_url} to display here." }
-                            }
                         }
                     }
                 }
@@ -64,62 +28,123 @@ pub fn Projects() -> Element {
 }
 
 #[component]
-fn ProjectAlbumCard(project: &'static crate::data::projects::Project, on_open_lightbox: EventHandler<(&'static str, &'static str)>) -> Element {
-    let mut selected_img_idx = use_signal(|| 0usize);
-    let active_img = project.gallery_images.get(*selected_img_idx.read()).copied().unwrap_or(project.cover_image);
+fn ProjectAlbumCard(project: &'static crate::data::projects::Project) -> Element {
+    let mut selected_slide = use_signal(|| 0usize);
+
+    let slide_labels = ["01 OVERVIEW", "02 ARCHITECTURE", "03 LIVE DEMO"];
 
     rsx! {
         div { class: "project-album-card",
-            // Album Gallery Header Banner / Main Image View
-            div { class: "project-album-media",
-                div {
-                    class: "project-album-cover-box",
-                    onclick: move |_| on_open_lightbox.call((active_img, project.name)),
-                    img {
-                        class: "project-album-cover-img",
-                        src: "{active_img}",
-                        alt: "{project.name}",
+            // Aesthetic Glass Browser Mockup Frame (No Broken Image Icons!)
+            div { class: "project-mockup-frame",
+                // Browser Window Bar
+                div { class: "mockup-mac-header",
+                    div { class: "mockup-dots",
+                        span { class: "mac-dot dot-red" }
+                        span { class: "mac-dot dot-yellow" }
+                        span { class: "mac-dot dot-green" }
                     }
-                    // Sleek Glass Gradient Fallback Banner (displays if images aren't uploaded yet)
-                    div { class: "project-album-fallback-banner",
-                        div { class: "album-banner-badge", "{project.category}" }
-                        div { class: "album-banner-title", "{project.name}" }
-                        div { class: "album-banner-hint", "Click to view full preview" }
+                    div { class: "mockup-url-bar",
+                        span { class: "url-protocol", "https://" }
+                        span { class: "url-domain", "sreenand.dev/{project.name.to_lowercase()}" }
                     }
-                    div { class: "project-album-zoom-badge",
-                        svg {
-                            xmlns: "http://www.w3.org/2000/svg",
-                            width: "14", height: "14",
-                            fill: "none",
-                            stroke: "currentColor",
-                            stroke_width: "2",
-                            view_box: "0 0 24 24",
-                            path { d: "M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" }
+                    div { class: "mockup-status-tag",
+                        span { class: "status-pulse-dot" }
+                        span { "ACTIVE" }
+                    }
+                }
+
+                // Main Gallery Display Area
+                div { class: "mockup-display-canvas",
+                    // Decorative Animated Glow Aura
+                    div { class: "canvas-ambient-glow" }
+
+                    // Slide 0: High-Tech Project Preview
+                    if *selected_slide.read() == 0 {
+                        div { class: "canvas-slide-content slide-fade-in",
+                            div { class: "canvas-project-badge", "{project.category}" }
+                            h4 { class: "canvas-project-title", "{project.name}" }
+                            p { class: "canvas-project-tagline", "{project.subtitle}" }
+                            
+                            // Visual Code Matrix Graphic
+                            div { class: "canvas-code-matrix",
+                                div { class: "code-line",
+                                    span { class: "code-kw", "const " }
+                                    span { class: "code-var", "system " }
+                                    span { class: "code-op", "= " }
+                                    span { class: "code-str", "\"{project.name}\"" }
+                                    span { ";" }
+                                }
+                                div { class: "code-line",
+                                    span { class: "code-kw", "async function " }
+                                    span { class: "code-fn", "streamData" }
+                                    span { "() {{" }
+                                }
+                                div { class: "code-line indent",
+                                    span { class: "code-kw", "await " }
+                                    span { class: "code-var", "connectSockets" }
+                                    span { "({{ status: " }
+                                    span { class: "code-str", "\"ONLINE\"" }
+                                    span { " }});" }
+                                }
+                                div { class: "code-line", span { "}}" } }
+                            }
+                        }
+                    } else if *selected_slide.read() == 1 {
+                        // Slide 1: Architectural Nodes Visual
+                        div { class: "canvas-slide-content slide-fade-in",
+                            div { class: "canvas-arch-grid",
+                                div { class: "arch-node",
+                                    span { class: "node-icon", "🌐" }
+                                    span { class: "node-title", "Client UI" }
+                                }
+                                div { class: "arch-connector", "⚡" }
+                                div { class: "arch-node arch-node--highlight",
+                                    span { class: "node-icon", "⚡" }
+                                    span { class: "node-title", "WebSockets" }
+                                }
+                                div { class: "arch-connector", "⚡" }
+                                div { class: "arch-node",
+                                    span { class: "node-icon", "🗄️" }
+                                    span { class: "node-title", "Database" }
+                                }
+                            }
+                        }
+                    } else {
+                        // Slide 2: Real-time Metrics & Impact
+                        div { class: "canvas-slide-content slide-fade-in",
+                            div { class: "canvas-metrics-row",
+                                div { class: "metric-box",
+                                    span { class: "metric-val", "< 50ms" }
+                                    span { class: "metric-lbl", "LATENCY" }
+                                }
+                                div { class: "metric-box",
+                                    span { class: "metric-val", "99.9%" }
+                                    span { class: "metric-lbl", "UPTIME" }
+                                }
+                                div { class: "metric-box",
+                                    span { class: "metric-val", "SECURE" }
+                                    span { class: "metric-lbl", "AUTH" }
+                                }
+                            }
                         }
                     }
                 }
 
-                // Gallery Thumbnails Strip (Switch active image on click!)
-                if project.gallery_images.len() > 1 {
-                    div { class: "project-album-thumbs-strip",
-                        for (idx, img_path) in project.gallery_images.iter().enumerate() {
-                            button {
-                                key: "{idx}",
-                                class: if *selected_img_idx.read() == idx { "album-thumb-btn album-thumb-btn--active" } else { "album-thumb-btn" },
-                                onclick: move |_| selected_img_idx.set(idx),
-                                img {
-                                    class: "album-thumb-img",
-                                    src: "{img_path}",
-                                    alt: "Thumbnail {idx + 1}",
-                                }
-                                div { class: "album-thumb-fallback", "Shot {idx + 1}" }
-                            }
+                // Gallery Slide Selector Tabs (01 OVERVIEW / 02 ARCHITECTURE / 03 LIVE DEMO)
+                div { class: "mockup-slide-selector",
+                    for (idx, label) in slide_labels.iter().enumerate() {
+                        button {
+                            key: "{idx}",
+                            class: if *selected_slide.read() == idx { "slide-tab-btn slide-tab-btn--active" } else { "slide-tab-btn" },
+                            onclick: move |_| selected_slide.set(idx),
+                            "{label}"
                         }
                     }
                 }
             }
 
-            // Project Info Details
+            // Project Info Details Body
             div { class: "project-album-body",
                 div { class: "project-album-category-pill", "{project.category}" }
                 h3 { class: "project-album-title", "{project.name}" }
@@ -157,7 +182,7 @@ fn ProjectAlbumCard(project: &'static crate::data::projects::Project, on_open_li
                         rel: "noopener noreferrer",
                         svg {
                             xmlns: "http://www.w3.org/2000/svg",
-                            width: "15", height: "15",
+                            width: "14", height: "14",
                             fill: "none",
                             stroke: "currentColor",
                             stroke_width: "2",
@@ -174,7 +199,7 @@ fn ProjectAlbumCard(project: &'static crate::data::projects::Project, on_open_li
                             rel: "noopener noreferrer",
                             svg {
                                 xmlns: "http://www.w3.org/2000/svg",
-                                width: "15", height: "15",
+                                width: "14", height: "14",
                                 fill: "none",
                                 stroke: "currentColor",
                                 stroke_width: "2",

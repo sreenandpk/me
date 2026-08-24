@@ -979,141 +979,265 @@ a {
   box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(139, 92, 246, 0.15);
 }
 
-.project-album-media {
+/* ── Aesthetic Glass Mac Browser Mockup Frame Canvas ── */
+.project-mockup-frame {
   position: relative;
   display: flex;
   flex-direction: column;
-  background: #09090d;
+  background: #0b0c10;
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.mockup-mac-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.9rem;
+  background: rgba(14, 15, 20, 0.9);
   border-bottom: 1px solid var(--border-color);
 }
 
-.project-album-cover-box {
+.mockup-dots {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.mac-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+.mockup-url-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0.25rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+
+.url-protocol { color: var(--text-muted); }
+.url-domain { color: #a5b4fc; font-weight: 500; }
+
+.mockup-status-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: #34d399;
+  letter-spacing: 0.08em;
+}
+
+.status-pulse-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
+
+/* Main Display Canvas */
+.mockup-display-canvas {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 9.5;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   overflow: hidden;
-  cursor: pointer;
-  background: linear-gradient(135deg, rgba(18,18,24,0.9), rgba(9,9,14,0.95));
+  background: radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.14), rgba(9, 9, 14, 0.96));
 }
 
-.project-album-cover-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-album-cover-box:hover .project-album-cover-img {
-  transform: scale(1.05);
-}
-
-.project-album-fallback-banner {
+.canvas-ambient-glow {
   position: absolute;
-  inset: 0;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  animation: pulse 8s ease-in-out infinite alternate;
+}
+
+.canvas-slide-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.slide-fade-in {
+  animation: slideFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.canvas-project-badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.canvas-project-title {
+  font-family: var(--font-body);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.canvas-project-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+/* Canvas Code Matrix */
+.canvas-code-matrix {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.code-kw { color: #c084fc; font-weight: 600; }
+.code-var { color: #60a5fa; }
+.code-op { color: #94a3b8; }
+.code-str { color: #34d399; }
+.code-fn { color: #f43f5e; }
+.code-line.indent { padding-left: 0.85rem; }
+
+/* Slide 1: Arch Nodes Grid */
+.canvas-arch-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.arch-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  min-width: 70px;
+}
+
+.arch-node--highlight {
+  border-color: var(--accent-secondary);
+  background: rgba(139, 92, 246, 0.12);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+}
+
+.node-icon { font-size: 1rem; }
+.node-title { font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-primary); font-weight: 500; }
+
+.arch-connector {
+  color: var(--accent-color);
+  font-size: 0.75rem;
+}
+
+/* Slide 2: Canvas Metrics Row */
+.canvas-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  align-items: center;
+  height: 100%;
+}
+
+.metric-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  background: radial-gradient(circle at 50% 40%, rgba(99, 102, 241, 0.22), rgba(9, 9, 14, 0.95));
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 0.4rem;
   text-align: center;
 }
 
-.album-banner-badge {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 500;
-  color: var(--accent-secondary);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.album-banner-title {
+.metric-val {
   font-family: var(--font-body);
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.35rem;
+  color: var(--accent-secondary);
+  margin-bottom: 0.2rem;
 }
 
-.album-banner-hint {
+.metric-lbl {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.55rem;
   color: var(--text-muted);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
-.project-album-zoom-badge {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  background: rgba(9, 9, 14, 0.75);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--text-secondary);
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+/* Slide Selector Bar */
+.mockup-slide-selector {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s;
-}
-
-.project-album-cover-box:hover .project-album-zoom-badge {
-  color: var(--text-primary);
-  border-color: rgba(139, 92, 246, 0.4);
-  transform: scale(1.1);
-}
-
-.project-album-thumbs-strip {
-  display: flex;
-  gap: 0.4rem;
-  padding: 0.65rem 0.85rem;
-  background: rgba(9, 9, 11, 0.8);
+  gap: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  background: rgba(9, 9, 11, 0.95);
   border-top: 1px solid var(--border-color);
   overflow-x: auto;
 }
 
-.album-thumb-btn {
-  position: relative;
-  width: 55px;
-  height: 36px;
-  border-radius: 5px;
-  border: 1.5px solid var(--border-color);
-  background: rgba(255, 255, 255, 0.04);
-  overflow: hidden;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.2s;
-  padding: 0;
-}
-
-.album-thumb-btn--active,
-.album-thumb-btn:hover {
-  border-color: var(--accent-secondary);
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.35);
-  transform: translateY(-1px);
-}
-
-.album-thumb-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.album-thumb-fallback {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.slide-tab-btn {
   font-family: var(--font-mono);
   font-size: 0.58rem;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   color: var(--text-muted);
-  background: #121218;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.slide-tab-btn--active,
+.slide-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
 }
 
 .project-album-body {
