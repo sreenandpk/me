@@ -1548,7 +1548,7 @@ a {
   gap: 0.85rem;
 }
 
-/* ── Cinematic Glass Backdrop Blur Overlay ── */
+/* ── Cinematic Subtle Glass Backdrop Blur Overlay ── */
 .rag-chat-backdrop-blur {
   position: fixed;
   top: 0;
@@ -1559,27 +1559,27 @@ a {
   height: 100vh;
   height: 100dvh;
   z-index: 9998;
-  background: rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   opacity: 0;
-  animation: cinematicBackdropFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: cinematicBackdropFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: auto;
 }
 
-/* Cinematic Background Blur for Portfolio Sections when Chat is Open */
+/* Subtle Background Blur for Portfolio Sections when Chat is Open */
 body.rag-backdrop-blurred .hero-section,
 body.rag-backdrop-blurred .section,
 body.rag-backdrop-blurred .navbar,
 body.rag-backdrop-blurred footer {
-  filter: blur(16px) saturate(160%);
+  filter: blur(4px);
 }
 
 .hero-section,
 .section,
 .navbar,
 footer {
-  transition: filter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes cinematicBackdropFade {
@@ -1590,8 +1590,8 @@ footer {
   }
   100% {
     opacity: 1;
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 }
 
