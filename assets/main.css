@@ -1733,10 +1733,14 @@ footer,
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Global body lock when chatbox is open/fullscreen */
+/* Global body lock when chatbox is open */
 body.rag-body-lock {
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
   overflow: hidden !important;
   touch-action: none !important;
+  overscroll-behavior: none !important;
 }
 
 /* Fullscreen mode for chatbox */
@@ -2074,33 +2078,25 @@ button,
    ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .rag-chat-panel--open {
-    position: fixed !important;
-    inset: 0 !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    max-width: none !important;
-    max-height: none !important;
-    border-radius: 0 !important;
-    border: none !important;
-    margin: 0 !important;
-    z-index: 999999 !important;
-    display: flex !important;
-    flex-direction: column !important;
+  .rag-ai-wrapper {
+    bottom: 1rem !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    align-items: flex-end;
   }
 
-  .rag-chat-panel--open .rag-chat-header {
-    border-radius: 0 !important;
+  .rag-chat-panel {
+    width: 100% !important;
+    max-width: 380px !important;
+    max-height: 75vh !important;
+    max-height: 75dvh !important;
+    margin: 0 auto;
   }
 
   .rag-chat-panel--open .rag-chat-messages {
     flex: 1 !important;
-    max-height: none !important;
+    max-height: 52vh !important;
+    max-height: 52dvh !important;
   }
 }
 

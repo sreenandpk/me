@@ -179,39 +179,6 @@ pub fn RagAiButton() -> Element {
                     }
                     div { class: "rag-chat-header-actions",
                         button {
-                            class: "rag-chat-expand",
-                            onclick: move |_| {
-                                let cur = *is_full_screen.read();
-                                is_full_screen.set(!cur);
-                            },
-                            aria_label: "Toggle Fullscreen",
-                            if full {
-                                svg {
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                    width: "14", height: "14",
-                                    view_box: "0 0 24 24",
-                                    fill: "none",
-                                    stroke: "currentColor",
-                                    stroke_width: "2",
-                                    stroke_linecap: "round",
-                                    stroke_linejoin: "round",
-                                    path { d: "M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" }
-                                }
-                            } else {
-                                svg {
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                    width: "14", height: "14",
-                                    view_box: "0 0 24 24",
-                                    fill: "none",
-                                    stroke: "currentColor",
-                                    stroke_width: "2",
-                                    stroke_linecap: "round",
-                                    stroke_linejoin: "round",
-                                    path { d: "M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" }
-                                }
-                            }
-                        }
-                        button {
                             class: "rag-chat-close",
                             onclick: move |_| {
                                 is_open.set(false);
