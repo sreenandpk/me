@@ -424,11 +424,27 @@ A microservices-based backend system designed for financial market data, contain
 
   return null;
 }
-
 // ---------------------------------------------------------------------------
 // Request handler
 // ---------------------------------------------------------------------------
 module.exports = async function handler(req, res) {
+  // Polyfill Vercel/Express res helper methods if missing (e.g. plain Node.js server)
+  if (typeof res.status !== "function") {
+    let statusCode = 200;
+    res.status = function (code) {
+      statusCode = code;
+      return res;
+    };
+    res.json = function (data) {
+      if (!res.headersSent) {
+        res.setHeader("Content-Type", "application/json");
+        res.statusCode = statusCode;
+      }
+      res.end(JSON.stringify(data));
+      return res;
+    };
+  }
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
