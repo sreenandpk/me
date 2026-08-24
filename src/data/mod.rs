@@ -24,7 +24,7 @@ pub const PERSONAL_INFO: PersonalInfo = PersonalInfo {
     name: "Sreenand P K",
     title: "Full Stack Developer",
     github_url: "https://github.com/sreenandpk",
-    linkedin_url: "https://linkedin.com/in/sreenand-p-k",
+    linkedin_url: "https://www.linkedin.com/in/sreenand-p-k-3842b936b/",
     email: "sreenandpk3@gmail.com",
     summary: "I build web applications — from the interface users interact with to the systems running quietly behind the scenes. I enjoy solving real problems with technology, writing clean code that is easy to understand and maintain, and shipping software that actually works reliably in the real world.",
     leetcode_url: "https://leetcode.com/sreenandpk-placeholder",

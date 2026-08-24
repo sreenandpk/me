@@ -10,7 +10,7 @@
 | Platform  | URL                                          |
 |-----------|----------------------------------------------|
 | GitHub    | https://github.com/sreenandpk               |
-| LinkedIn  | https://linkedin.com/in/sreenand-p-k        |
+| LinkedIn  | https://www.linkedin.com/in/sreenand-p-k-3842b936b/ |
 | Email     | sreenandpk3@gmail.com                        |
 | WhatsApp  | https://wa.me/919539379577                  |
 
