@@ -429,7 +429,7 @@ a {
 .hero-name {
   font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
   font-size: clamp(4rem, 15vw, 12rem);
-  line-height: 0.85;
+  line-height: 1.05;
   margin-bottom: 1.5rem;
   font-weight: 900;
   letter-spacing: -0.04em;
