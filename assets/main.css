@@ -2481,9 +2481,11 @@ footer.footer-section { z-index: 80; }
   }
   
   .hero-name {
-    font-size: clamp(2rem, 11vw, 5.5rem);
-    letter-spacing: 0.08em;
+    white-space: normal;
+    font-size: clamp(3.5rem, 15vw, 5.5rem);
+    letter-spacing: 0.02em;
     margin-bottom: 1.25rem;
+    line-height: 1.1;
   }
   
   .hero-headline {
