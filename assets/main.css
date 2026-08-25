@@ -427,16 +427,19 @@ a {
 }
 
 .hero-name {
-  font-family: Impact, 'Arial Black', 'Teko', 'Anton', sans-serif;
-  font-size: clamp(3.5rem, 12vw, 8rem);
-  line-height: 0.9;
+  font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 15vw, 12rem);
+  line-height: 0.85;
   margin-bottom: 1.5rem;
-  color: var(--text-primary);
   font-weight: 900;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   align-self: center;
-  transform: scaleY(1.1); /* Slight vertical stretch to match screenshot */
+  background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback */
 }
 
 .hero-headline {
