@@ -553,27 +553,39 @@ a {
   color: var(--accent-color);
 }
 
-/* --- About Section: Centered Hollow Text --- */
-.about-centered-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+/* --- About Section: Split Layout --- */
+.about-split-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
   padding: 0 0 4rem;
   margin-top: -4rem;
   position: relative;
 }
 
-.about-huge-title {
+@media (min-width: 900px) {
+  .about-split-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+}
+
+.about-heading-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-huge-title-left {
   font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
-  font-size: clamp(1.5rem, 6.5vw, 4.5rem);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 2rem;
+  text-align: left;
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 1.1;
+  margin-bottom: 0;
   
   /* Hollow text with fill effect */
   color: transparent;
@@ -584,14 +596,13 @@ a {
   -webkit-background-clip: text;
   background-clip: text;
   
-  /* Scroll-driven animation (supported in modern Chromium) */
+  /* Scroll-driven animation */
   animation: fillText linear forwards;
   animation-timeline: view();
   animation-range: cover 15% cover 50%;
 }
 
-/* Remove default h2 blue underline for this title */
-.about-huge-title::after {
+.about-huge-title-left::after {
   display: none !important;
 }
 
@@ -601,9 +612,15 @@ a {
   }
 }
 
-.about-centered-bio {
-  max-width: 650px;
-  margin: 0 auto 3rem;
+.about-content-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.about-bio-text {
   font-family: var(--font-display), 'Arial', sans-serif;
   font-size: 0.85rem;
   line-height: 1.8;
@@ -611,11 +628,20 @@ a {
   text-transform: uppercase;
   font-weight: 500;
   letter-spacing: 0.05em;
+  margin-bottom: 2.5rem;
 }
 
-.about-cta-container {
+.about-bio-text p {
+  margin-bottom: 1.5rem;
+}
+
+.about-bio-text p:last-child {
+  margin-bottom: 0;
+}
+
+.about-cta-left {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* --- Skills Section: Minimal Side-by-Side --- */
