@@ -140,11 +140,11 @@ fn App() -> Element {
             // About section
             About {}
 
+            // Projects section (Now directly after About)
+            Projects {}
+
             // Skills section
             Skills {}
-
-            // Projects section
-            Projects {}
 
             // Experience timeline
             ExperienceSection {}
