@@ -68,15 +68,19 @@ fn App() -> Element {
                             return;
                         }
 
-                        if (top > viewportHeight) {
+                        const focusStart = viewportHeight * 0.85;
+                        const focusEnd = viewportHeight * 0.20;
+
+                        if (top > focusStart) {
                             sec.style.transform = `translateY(${travelMaxY}px) scale(1)`;
-                            sec.style.opacity = '0.3';
-                            sec.style.filter = 'blur(10px)';
+                            sec.style.opacity = '0.25';
+                            sec.style.filter = 'blur(12px)';
                         } else if (top >= 0) {
-                            const enterProgress = 1 - (top / viewportHeight);
+                            let enterProgress = 1 - ((top - focusEnd) / (focusStart - focusEnd));
+                            enterProgress = Math.min(Math.max(enterProgress, 0), 1);
                             const translateY = (1 - enterProgress) * travelMaxY;
-                            const opacity = 0.3 + enterProgress * 0.7;
-                            const blur = (1 - enterProgress) * 10;
+                            const opacity = 0.25 + enterProgress * 0.75;
+                            const blur = (1 - enterProgress) * 12;
                             sec.style.transform = `translateY(${translateY.toFixed(1)}px) scale(1)`;
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
