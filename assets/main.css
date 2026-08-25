@@ -2836,6 +2836,7 @@ footer.footer-section { z-index: 80; }
 }
 
 .projects-massive-title {
+  display: block;
   font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
   font-size: clamp(3rem, 12vw, 8rem);
   text-transform: uppercase;
