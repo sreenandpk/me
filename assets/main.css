@@ -511,8 +511,8 @@ a {
 
 .btn-primary {
   background: 
-    linear-gradient(90deg, #09090b 30%, #e016ff 55%, #8b5cf6 80%, #ffb75e 100%) padding-box,
-    linear-gradient(90deg, rgba(100, 100, 255, 0.4) 0%, rgba(224, 22, 255, 0.8) 55%, rgba(255, 183, 94, 0.9) 100%) border-box;
+    linear-gradient(90deg, #09090b 15%, #e016ff 40%, #8b5cf6 75%, #ffb75e 100%) padding-box,
+    linear-gradient(90deg, rgba(100, 100, 255, 0.4) 0%, rgba(224, 22, 255, 0.8) 40%, rgba(255, 183, 94, 0.9) 100%) border-box;
   border: 1px solid transparent;
   color: #ffffff;
   padding: 0.85rem 2.5rem;
