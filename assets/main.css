@@ -2843,22 +2843,30 @@ footer.footer-section { z-index: 80; }
   font-weight: 900;
   letter-spacing: -0.03em;
   margin-bottom: 4rem;
-  
-  /* Hollow text with fill effect */
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.1);
-  background-image: linear-gradient(180deg, #d1d5db 0%, #000000 100%);
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  
-  /* Scroll-driven animation */
-  animation: fillText linear forwards;
+  animation: colorPhase linear forwards;
   animation-timeline: view();
   animation-range: cover 10% cover 50%;
 }
 
+.projects-massive-title::after {
+  display: none;
+}
+
+@keyframes colorPhase {
+  0% { 
+    color: transparent; 
+  }
+  50% { 
+    color: #d1d5db; 
+    -webkit-text-stroke: 0px rgba(0,0,0,0);
+  }
+  100% { 
+    color: #000000; 
+    -webkit-text-stroke: 0px rgba(0,0,0,0);
+  }
+}
 
 .projects-list {
   display: flex;
