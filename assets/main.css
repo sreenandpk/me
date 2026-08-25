@@ -2382,8 +2382,8 @@ footer.footer-section {
   will-change: transform, opacity, filter;
   transform-origin: center top;
   background-color: var(--bg-color);
-  padding-top: 2rem;
-  padding-bottom: 50vh !important; /* Generous 50vh scroll runway so footer completes smooth blur animation 100% cleanly */
+  padding-top: 1rem;
+  padding-bottom: 3rem !important; /* Clean stop right at the bottom of the last container */
 }
 
 /* Stacking z-indexes so sections blend seamlessly */
