@@ -8,13 +8,21 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
     use_effect(move || {
         let _ = document::eval(
             r#"
-            // Scroll progress bar
+            // Scroll progress bar & header scroll class
             const updateScrollProgress = () => {
                 const scrollProgress = document.querySelector('.scroll-progress');
                 if (scrollProgress) {
                     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
                     const progress = totalHeight > 0 ? (window.pageYOffset / totalHeight) * 100 : 0;
                     scrollProgress.style.width = progress + '%';
+                }
+                const header = document.querySelector('.navbar-header');
+                if (header) {
+                    if (window.pageYOffset > 30) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
                 }
             };
             window.addEventListener('scroll', updateScrollProgress);

@@ -133,28 +133,6 @@ a {
   z-index: 10;
 }
 
-/* --- Cinematic Blur Scroll Reveal --- */
-.reveal-on-scroll {
-  /* Content is visible by default — JS adds 'revealed' to play the animation */
-}
-
-.reveal-on-scroll.revealed {
-  animation: cinematic-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes cinematic-in {
-  from {
-    opacity: 0;
-    filter: blur(14px);
-    transform: translateY(36px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0px);
-    transform: translateY(0) scale(1);
-  }
-}
-
 /* --- Glassmorphic Navigation Header --- */
 .navbar-header {
   position: fixed;
@@ -2387,24 +2365,39 @@ button,
 
 
 /* --- Scroll Reveal --- */
-.reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+/* ── Pure Scroll-Driven Sticky Depth & Blur Architecture ── */
+section.section,
+footer.footer-section {
+  position: relative;
+  will-change: transform, opacity, filter;
+  transform-origin: center top;
+  background-color: var(--bg-color);
 }
 
-.reveal-on-scroll.revealed {
-  opacity: 1;
-  transform: translateY(0);
+/* Stacking z-indexes so sections blend seamlessly */
+#home { z-index: 10; }
+#about { z-index: 20; }
+#skills { z-index: 30; }
+#projects { z-index: 40; }
+#experience { z-index: 50; }
+#philosophy { z-index: 60; }
+#contact { z-index: 70; }
+footer.footer-section { z-index: 80; }
+
+/* Navbar stays above all sections */
+.navbar-header {
+  z-index: 1000 !important;
 }
 
-/* Reduced motion accessibility */
+/* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal-on-scroll {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  section.section,
+  footer.footer-section {
+    transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    transition: none !important;
   }
 }
 

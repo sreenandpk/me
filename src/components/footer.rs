@@ -4,7 +4,7 @@ use crate::data::PERSONAL_INFO;
 #[component]
 pub fn Footer() -> Element {
     rsx! {
-        footer { class: "footer-section",
+        footer { class: "footer-section reveal-on-scroll",
             div { class: "container",
                 div { class: "footer-grid",
                     // Left Column: Credentials

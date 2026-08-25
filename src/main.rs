@@ -17,30 +17,102 @@ fn main() {
 fn App() -> Element {
     let is_light = use_signal(|| false);
 
-    // Effect to handle cinematic scroll reveal using IntersectionObserver
+    // Pure Scroll-Driven Sticky Depth Progress Engine
     use_effect(move || {
         let _ = document::eval(
             r#"
-            const initReveal = () => {
-                const elements = document.querySelectorAll('.reveal-on-scroll');
-                if (elements.length === 0) {
-                    // Elements not rendered yet, retry
-                    setTimeout(initReveal, 150);
+            const initScrollDrivenSticky = () => {
+                const sections = Array.from(document.querySelectorAll('section.section, footer.footer-section'));
+                if (sections.length === 0) {
+                    setTimeout(initScrollDrivenSticky, 100);
                     return;
                 }
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('revealed');
+
+                let ticking = false;
+
+                const updateScrollProgress = () => {
+                    const viewportHeight = window.innerHeight;
+                    const isMobile = window.innerWidth <= 768;
+
+                    const recedeScale = isMobile ? 0.985 : 0.96;
+                    const travelMaxY = isMobile ? 45 : 90;
+
+                    sections.forEach((sec, idx) => {
+                        const rect = sec.getBoundingClientRect();
+                        const top = rect.top;
+                        const height = rect.height || viewportHeight;
+
+                        const isFooterOrLast = sec.tagName === 'FOOTER' || idx >= sections.length - 2;
+
+                        if (idx === 0) {
+                            if (top >= 0) {
+                                sec.style.transform = 'scale(1) translateY(0px)';
+                                sec.style.opacity = '1';
+                                sec.style.filter = 'blur(0px)';
+                            } else {
+                                const p = Math.min(Math.abs(top) / (height * 0.7), 1);
+                                const scale = 1 - p * (1 - recedeScale);
+                                const opacity = 1 - p * 0.15;
+                                sec.style.transform = `scale(${scale.toFixed(4)}) translateY(${(-p * 15).toFixed(1)}px)`;
+                                sec.style.opacity = opacity.toFixed(2);
+                                sec.style.filter = 'blur(0px)';
+                            }
+                            return;
+                        }
+
+                        // Always keep footer and bottom contact section 100% crisp and unblurred once visible
+                        if (isFooterOrLast && top < viewportHeight * 0.95) {
+                            sec.style.transform = 'scale(1) translateY(0px)';
+                            sec.style.opacity = '1';
+                            sec.style.filter = 'blur(0px)';
+                            return;
+                        }
+
+                        if (top > viewportHeight) {
+                            sec.style.transform = `translateY(${travelMaxY}px) scale(1)`;
+                            sec.style.opacity = '0.3';
+                            sec.style.filter = 'blur(10px)';
+                        } else if (top >= 0) {
+                            const enterProgress = 1 - (top / viewportHeight);
+                            const translateY = (1 - enterProgress) * travelMaxY;
+                            const opacity = 0.3 + enterProgress * 0.7;
+                            const blur = (1 - enterProgress) * 10;
+                            sec.style.transform = `translateY(${translateY.toFixed(1)}px) scale(1)`;
+                            sec.style.opacity = opacity.toFixed(2);
+                            sec.style.filter = `blur(${blur.toFixed(1)}px)`;
+                        } else {
+                            if (idx === sections.length - 1) {
+                                sec.style.transform = 'scale(1) translateY(0px)';
+                                sec.style.opacity = '1';
+                                sec.style.filter = 'blur(0px)';
+                            } else {
+                                const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
+                                const scale = 1 - recedeProgress * (1 - recedeScale);
+                                const opacity = 1 - recedeProgress * 0.15;
+                                sec.style.transform = `scale(${scale.toFixed(4)}) translateY(${(-recedeProgress * 15).toFixed(1)}px)`;
+                                sec.style.opacity = opacity.toFixed(2);
+                                sec.style.filter = 'blur(0px)';
+                            }
                         }
                     });
-                }, {
-                    threshold: 0.08,
-                    rootMargin: '0px 0px -60px 0px'
-                });
-                elements.forEach(el => observer.observe(el));
+
+                    ticking = false;
+                };
+
+                const onScroll = () => {
+                    if (!ticking) {
+                        requestAnimationFrame(updateScrollProgress);
+                        ticking = true;
+                    }
+                };
+
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', onScroll, { passive: true });
+                updateScrollProgress();
             };
-            setTimeout(initReveal, 300);
+
+            setTimeout(initScrollDrivenSticky, 100);
+            setTimeout(initScrollDrivenSticky, 400);
             "#
         );
     });
