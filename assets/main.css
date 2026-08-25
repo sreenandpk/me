@@ -2382,8 +2382,8 @@ footer.footer-section {
   will-change: transform, opacity, filter;
   transform-origin: center top;
   background-color: var(--bg-color);
-  padding-top: 1.5rem;
-  padding-bottom: 20vh !important; /* Positions footer cleanly immediately after LeetCode links */
+  padding-top: 2rem;
+  padding-bottom: 50vh !important; /* Generous 50vh scroll runway so footer completes smooth blur animation 100% cleanly */
 }
 
 /* Stacking z-indexes so sections blend seamlessly */
