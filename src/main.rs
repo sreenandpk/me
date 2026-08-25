@@ -62,47 +62,12 @@ fn App() -> Element {
 
                     sectionData.forEach(item => {
                         const sec = item.sec;
-                        const idx = item.idx;
                         const top = item.top - scrollY;
                         const height = item.height;
 
-                        const isFooter = sec.tagName === 'FOOTER';
-                        const isContactOrFooter = sec.id === 'contact' || sec.tagName === 'FOOTER';
-
-                        if (idx === 0) {
-                            if (top >= 0) {
-                                sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                                sec.style.opacity = '1';
-                                sec.style.filter = 'blur(0px)';
-                            } else {
-                                const p = Math.min(Math.abs(top) / (height * 0.7), 1);
-                                const scale = 1 - p * (1 - recedeScale);
-                                const opacity = 1 - p * 0.15;
-                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-p * 15).toFixed(1)}px, 0)`;
-                                sec.style.opacity = opacity.toFixed(2);
-                                sec.style.filter = 'blur(0px)';
-                            }
-                            return;
-                        }
-
-                        // Footer is 100% crisp and visible as soon as it enters viewport
-                        if (isFooter && top < viewportHeight) {
-                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                            sec.style.opacity = '1';
-                            sec.style.filter = 'blur(0px)';
-                            return;
-                        }
-
-                        // Dedicated smooth enter curve for About & all content sections
-                        const enterStart = viewportHeight * 0.65;
-                        const enterEnd = viewportHeight * 0.10;
-
-                        if (top > enterStart) {
-                            sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(0.94)`;
-                            sec.style.opacity = '0.15';
-                            sec.style.filter = 'blur(16px)';
-                        } else if (top > enterEnd) {
-                            let p = (enterStart - top) / (enterStart - enterEnd);
+                        if (top > 0) {
+                            // Entering phase: section rises from below, unblurs 16px -> 0px, scales 0.94 -> 1.0, opacity 0.15 -> 1.0
+                            let p = (viewportHeight - top) / (viewportHeight * 0.75);
                             p = Math.min(Math.max(p, 0), 1);
                             const translateY = (1 - p) * travelMaxY;
                             const scale = 0.94 + p * 0.06;
@@ -112,18 +77,14 @@ fn App() -> Element {
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
                         } else {
-                            if (sec.id === 'contact' || isFooter) {
-                                sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                                sec.style.opacity = '1';
-                                sec.style.filter = 'blur(0px)';
-                            } else {
-                                const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
-                                const scale = 1 - recedeProgress * (1 - recedeScale);
-                                const opacity = 1 - recedeProgress * 0.15;
-                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-recedeProgress * 15).toFixed(1)}px, 0)`;
-                                sec.style.opacity = opacity.toFixed(2);
-                                sec.style.filter = 'blur(0px)';
-                            }
+                            // Receding phase: active section recedes into depth as user scrolls past top
+                            const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
+                            const scale = 1 - recedeProgress * (1 - recedeScale);
+                            const opacity = 1 - recedeProgress * 0.15;
+                            const translateY = -recedeProgress * 15;
+                            sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+                            sec.style.opacity = opacity.toFixed(2);
+                            sec.style.filter = 'blur(0px)';
                         }
                     });
 
