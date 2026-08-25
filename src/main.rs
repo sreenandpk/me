@@ -66,6 +66,9 @@ fn App() -> Element {
                         const top = item.top - scrollY;
                         const height = item.height;
 
+                        const isFooter = sec.tagName === 'FOOTER';
+                        const isContactOrFooter = sec.id === 'contact' || sec.tagName === 'FOOTER';
+
                         if (idx === 0) {
                             if (top >= 0) {
                                 sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
@@ -82,8 +85,8 @@ fn App() -> Element {
                             return;
                         }
 
-                        // Always keep footer and bottom contact section 100% crisp and unblurred once visible near bottom
-                        if (item.isFooterOrLast && top < viewportHeight * 0.95) {
+                        // Always keep footer 100% crisp and unblurred once visible near bottom
+                        if (isFooter && top < viewportHeight * 0.95) {
                             sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
                             sec.style.opacity = '1';
                             sec.style.filter = 'blur(0px)';
@@ -107,7 +110,7 @@ fn App() -> Element {
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
                         } else {
-                            if (idx === sections.length - 1) {
+                            if (isContactOrFooter) {
                                 sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
                                 sec.style.opacity = '1';
                                 sec.style.filter = 'blur(0px)';
