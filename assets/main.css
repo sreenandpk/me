@@ -567,12 +567,13 @@ a {
 
 .about-huge-title {
   font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
-  font-size: clamp(2.5rem, 10vw, 5.5rem);
+  font-size: clamp(1.5rem, 6.5vw, 4.5rem);
   text-transform: uppercase;
   text-align: center;
   margin-bottom: 2rem;
   font-weight: 900;
   letter-spacing: -0.02em;
+  line-height: 1.1;
   
   /* Hollow text with fill effect */
   color: transparent;

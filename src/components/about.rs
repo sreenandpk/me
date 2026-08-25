@@ -6,7 +6,11 @@ pub fn About() -> Element {
         section { id: "about", class: "section reveal-on-scroll",
             div { class: "container",
                 div { class: "about-centered-layout",
-                    h2 { class: "about-huge-title", "ABOUT ME" }
+                    h2 { class: "about-huge-title", 
+                        "I BUILD THINGS"
+                        br {}
+                        "PEOPLE ACTUALLY USE."
+                    }
                     
                     div { class: "about-centered-bio",
                         p {
