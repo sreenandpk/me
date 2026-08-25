@@ -30,8 +30,8 @@ pub fn Hero() -> Element {
 
                         // CTAs
                         div { class: "hero-ctas",
-                            a { class: "btn btn-primary", href: "#projects", "View Projects" }
-                            a { class: "btn btn-secondary", href: "#contact", "Get In Touch" }
+                            a { class: "btn btn-primary", href: "#contact", "CONTACT ME" }
+                            a { class: "btn btn-secondary", href: "#projects", "VIEW PROJECTS" }
                         }
 
                         // Monospace status footer details
