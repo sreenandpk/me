@@ -499,7 +499,7 @@ a {
   font-size: 0.95rem;
   letter-spacing: 0.05em;
   font-weight: 600;
-  padding: 1rem 2rem;
+  padding: 0.85rem 2rem;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid var(--border-color);
@@ -515,7 +515,7 @@ a {
     linear-gradient(90deg, rgba(100, 100, 255, 0.4) 0%, rgba(224, 22, 255, 0.8) 40%, rgba(255, 183, 94, 0.9) 100%) border-box;
   border: 1px solid transparent;
   color: #ffffff;
-  padding: 1.15rem 3rem;
+  padding: 0.95rem 3rem;
 }
 
 .btn-primary:hover {
