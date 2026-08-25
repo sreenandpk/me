@@ -2383,11 +2383,11 @@ footer.footer-section {
   transform-origin: center top;
   background-color: var(--bg-color);
   padding-top: 1rem;
-  padding-bottom: 35vh !important; /* Pure empty blur container space for smooth scroll-driven transition */
+  padding-bottom: 18vh !important; /* Reduced height for compact, clean bottom blur container */
 }
 
 .footer-spacer {
-  min-height: 10vh;
+  min-height: 4vh;
 }
 
 /* Stacking z-indexes so sections blend seamlessly */
