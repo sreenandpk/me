@@ -605,7 +605,7 @@ a {
   /* Scroll-driven animation */
   animation: fillText linear forwards;
   animation-timeline: view();
-  animation-range: cover 15% cover 50%;
+  animation-range: cover 0% cover 35%;
 }
 
 .about-huge-title-left::after {
@@ -2823,7 +2823,7 @@ footer.footer-section { z-index: 80; }
   padding: 6rem 0;
   position: relative;
   z-index: 20;
-  margin-top: 50vh;
+  margin-top: 80vh;
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
 }
 
