@@ -5,27 +5,29 @@ pub fn About() -> Element {
     rsx! {
         section { id: "about", class: "section reveal-on-scroll",
             div { class: "container",
-                div { class: "about-grid-layout",
-                    // Left Column: Heading
-                    div { class: "about-heading-col",
-                        span { class: "about-pretitle", "ABOUT ME" }
-                        h2 { class: "about-headline",
-                            "I build things"
+                div { class: "about-centered-layout",
+                    h2 { class: "about-huge-title", "ABOUT ME" }
+                    
+                    div { class: "about-centered-bio",
+                        p {
+                            "I’m a Full Stack Developer working on both sides of the screen —"
                             br {}
-                            "people actually use."
+                            "from the experience people see to everything working behind it."
+                            br {}
+                            "I turn ideas into simple, reliable applications built to last."
                         }
-                        p { class: "about-role", "Full Stack Developer" }
-                        div { class: "about-divider" }
+                        br {}
+                        p {
+                            "My approach is simple: understand the problem, plan the work,"
+                            br {}
+                            "build it, and improve it as I go. I pay attention to the details,"
+                            br {}
+                            "and try to keep the final solution clear and easy to maintain."
+                        }
                     }
-
-                    // Right Column: Bio paragraphs
-                    div { class: "about-bio-col",
-                        p {
-                            "I’m a Full Stack Developer working on both sides of the screen — from the experience people see to everything working behind it. I turn ideas into simple, reliable applications built to last."
-                        }
-                        p {
-                            "My approach is simple: understand the problem, plan the work, build it, and improve it as I go. I pay attention to the details, test what I build, and try to keep the final solution clear and easy to maintain."
-                        }
+                    
+                    div { class: "about-cta-container",
+                        a { class: "btn btn-primary", href: "#contact", "CONTACT ME" }
                     }
                 }
             }
