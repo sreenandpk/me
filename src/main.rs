@@ -85,11 +85,22 @@ fn App() -> Element {
                             return;
                         }
 
-                        // Always keep footer 100% crisp and unblurred once visible near bottom
-                        if (isFooter && top < viewportHeight * 0.95) {
-                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                            sec.style.opacity = '1';
-                            sec.style.filter = 'blur(0px)';
+                        // Special smooth anchoring for Contact and Footer sections to prevent any fast-scroll position snap or shift
+                        if (isContactOrFooter) {
+                            if (top > viewportHeight) {
+                                sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(1)`;
+                                sec.style.opacity = '0.25';
+                                sec.style.filter = 'blur(10px)';
+                            } else {
+                                let enterProgress = (viewportHeight - top) / (viewportHeight * 0.65);
+                                enterProgress = Math.min(Math.max(enterProgress, 0), 1);
+                                const translateY = (1 - enterProgress) * travelMaxY;
+                                const opacity = 0.25 + enterProgress * 0.75;
+                                const blur = (1 - enterProgress) * 10;
+                                sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(1)`;
+                                sec.style.opacity = opacity.toFixed(2);
+                                sec.style.filter = `blur(${blur.toFixed(1)}px)`;
+                            }
                             return;
                         }
 
@@ -110,18 +121,12 @@ fn App() -> Element {
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
                         } else {
-                            if (isContactOrFooter) {
-                                sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                                sec.style.opacity = '1';
-                                sec.style.filter = 'blur(0px)';
-                            } else {
-                                const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
-                                const scale = 1 - recedeProgress * (1 - recedeScale);
-                                const opacity = 1 - recedeProgress * 0.15;
-                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-recedeProgress * 15).toFixed(1)}px, 0)`;
-                                sec.style.opacity = opacity.toFixed(2);
-                                sec.style.filter = 'blur(0px)';
-                            }
+                            const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
+                            const scale = 1 - recedeProgress * (1 - recedeScale);
+                            const opacity = 1 - recedeProgress * 0.15;
+                            sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-recedeProgress * 15).toFixed(1)}px, 0)`;
+                            sec.style.opacity = opacity.toFixed(2);
+                            sec.style.filter = 'blur(0px)';
                         }
                     });
 
