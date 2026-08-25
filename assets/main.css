@@ -554,6 +554,11 @@ a {
 }
 
 /* --- About Section: Split Layout --- */
+#about {
+  position: sticky;
+  top: 15vh;
+  z-index: 10;
+}
 
 .about-split-layout {
   display: grid;
@@ -2818,19 +2823,10 @@ footer.footer-section { z-index: 80; }
   padding: 6rem 0;
   position: relative;
   z-index: 20;
-  margin-top: 30vh;
-  margin-bottom: -30vh;
+  margin-top: 50vh;
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
-  
-  animation: slideUpCover linear forwards;
-  animation-timeline: view();
-  animation-range: entry 0% entry 100%;
 }
 
-@keyframes slideUpCover {
-  from { transform: translateY(0); }
-  to { transform: translateY(-30vh); }
-}
 
 .projects-container {
   max-width: 1000px;
