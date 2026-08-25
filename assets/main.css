@@ -2383,7 +2383,7 @@ footer.footer-section {
   transform-origin: center top;
   background-color: var(--bg-color);
   padding-top: 1.5rem;
-  padding-bottom: 55vh !important; /* Positions contact details at the top of the footer container so they reach top viewport & unblur completely */
+  padding-bottom: 20vh !important; /* Positions footer cleanly immediately after LeetCode links */
 }
 
 /* Stacking z-indexes so sections blend seamlessly */

@@ -65,6 +65,16 @@ fn App() -> Element {
                         const top = item.top - scrollY;
                         const height = item.height;
 
+                        const isContactOrFooter = sec.id === 'contact' || sec.tagName === 'FOOTER';
+
+                        // Ensure Contact and Footer sections unblur 100% crisp together right after LeetCode links
+                        if (isContactOrFooter && top < viewportHeight * 0.85) {
+                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                            sec.style.opacity = '1';
+                            sec.style.filter = 'blur(0px)';
+                            return;
+                        }
+
                         if (top > 0) {
                             // Entering phase: section rises from below, unblurs 16px -> 0px, scales 0.94 -> 1.0, opacity 0.15 -> 1.0
                             let p = (viewportHeight - top) / (viewportHeight * 0.75);
@@ -78,12 +88,8 @@ fn App() -> Element {
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
                         } else {
                             // Receding phase: active section recedes into depth as user scrolls past top
-                            const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
-                            const scale = 1 - recedeProgress * (1 - recedeScale);
-                            const opacity = 1 - recedeProgress * 0.15;
-                            const translateY = -recedeProgress * 15;
-                            sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${translateY.toFixed(1)}px, 0)`;
-                            sec.style.opacity = opacity.toFixed(2);
+                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                            sec.style.opacity = '1';
                             sec.style.filter = 'blur(0px)';
                         }
                     });
