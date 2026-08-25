@@ -9,21 +9,7 @@ pub fn Hero() -> Element {
                 div { class: "hero-grid",
                     div { class: "hero-content reveal-on-scroll revealed",
                         h1 { class: "hero-name", "HI, I'M SREENAND" }
-                        h2 { class: "hero-headline",
-                            span { style: "position: relative; display: inline-block;",
-                                "{PERSONAL_INFO.title}"
-                                svg {
-                                    class: "hero-headline-underline",
-                                    view_box: "0 0 300 12",
-                                    preserve_aspect_ratio: "none",
-                                    fill: "none",
-                                    stroke: "currentColor",
-                                    stroke_width: "3",
-                                    stroke_linecap: "round",
-                                    path { d: "M5 9 C 90 12, 180 5, 295 8" }
-                                }
-                            }
-                        }
+
                         p { class: "hero-description",
                             "I’m a Full Stack Developer working on both sides of the screen — from the experience people see to everything working behind it. I turn ideas into simple, reliable applications built to last."
                         }
