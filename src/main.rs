@@ -93,48 +93,37 @@ fn App() -> Element {
                             return;
                         }
 
-                        // Smooth progress for Contact section
-                        if (sec.id === 'contact') {
-                            if (top > viewportHeight) {
-                                sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(1)`;
-                                sec.style.opacity = '0.25';
-                                sec.style.filter = 'blur(10px)';
-                            } else {
-                                let enterProgress = (viewportHeight - top) / (viewportHeight * 0.45);
-                                enterProgress = Math.min(Math.max(enterProgress, 0), 1);
-                                const translateY = (1 - enterProgress) * travelMaxY;
-                                const opacity = 0.25 + enterProgress * 0.75;
-                                const blur = (1 - enterProgress) * 10;
-                                sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(1)`;
-                                sec.style.opacity = opacity.toFixed(2);
-                                sec.style.filter = `blur(${blur.toFixed(1)}px)`;
-                            }
-                            return;
-                        }
+                        // Dedicated smooth enter curve for About & all content sections
+                        const enterStart = viewportHeight * 0.92;
+                        const enterEnd = viewportHeight * 0.15;
 
-                        const focusStart = viewportHeight * 0.85;
-                        const focusEnd = viewportHeight * 0.20;
-
-                        if (top > focusStart) {
-                            sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(1)`;
-                            sec.style.opacity = '0.25';
-                            sec.style.filter = 'blur(10px)';
-                        } else if (top >= 0) {
-                            let enterProgress = 1 - ((top - focusEnd) / (focusStart - focusEnd));
-                            enterProgress = Math.min(Math.max(enterProgress, 0), 1);
-                            const translateY = (1 - enterProgress) * travelMaxY;
-                            const opacity = 0.25 + enterProgress * 0.75;
-                            const blur = (1 - enterProgress) * 10;
-                            sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(1)`;
+                        if (top > enterStart) {
+                            sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(0.95)`;
+                            sec.style.opacity = '0.2';
+                            sec.style.filter = 'blur(12px)';
+                        } else if (top > enterEnd) {
+                            let p = (enterStart - top) / (enterStart - enterEnd);
+                            p = Math.min(Math.max(p, 0), 1);
+                            const translateY = (1 - p) * travelMaxY;
+                            const scale = 0.95 + p * 0.05;
+                            const opacity = 0.2 + p * 0.8;
+                            const blur = (1 - p) * 12;
+                            sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
                         } else {
-                            const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
-                            const scale = 1 - recedeProgress * (1 - recedeScale);
-                            const opacity = 1 - recedeProgress * 0.15;
-                            sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-recedeProgress * 15).toFixed(1)}px, 0)`;
-                            sec.style.opacity = opacity.toFixed(2);
-                            sec.style.filter = 'blur(0px)';
+                            if (sec.id === 'contact' || isFooter) {
+                                sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                                sec.style.opacity = '1';
+                                sec.style.filter = 'blur(0px)';
+                            } else {
+                                const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
+                                const scale = 1 - recedeProgress * (1 - recedeScale);
+                                const opacity = 1 - recedeProgress * 0.15;
+                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-recedeProgress * 15).toFixed(1)}px, 0)`;
+                                sec.style.opacity = opacity.toFixed(2);
+                                sec.style.filter = 'blur(0px)';
+                            }
                         }
                     });
 
