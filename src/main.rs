@@ -137,11 +137,13 @@ fn App() -> Element {
             // Hero section
             Hero {}
 
-            // About section
-            About {}
+            div { class: "about-projects-wrapper",
+                // About section
+                About {}
 
-            // Projects section (Now directly after About)
-            Projects {}
+                // Projects section (Now directly after About)
+                Projects {}
+            }
 
             // Skills section
             Skills {}

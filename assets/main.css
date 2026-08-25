@@ -558,6 +558,7 @@ a {
   position: sticky;
   top: 15vh;
   z-index: 10;
+  border-bottom: none;
 }
 
 .about-split-layout {
