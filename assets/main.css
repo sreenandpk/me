@@ -554,14 +554,6 @@ a {
 }
 
 /* --- About Section: Split Layout --- */
-#about {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-}
 
 .about-split-layout {
   display: grid;
@@ -2826,7 +2818,7 @@ footer.footer-section { z-index: 80; }
   padding: 6rem 0;
   position: relative;
   z-index: 20;
-  margin-top: 15rem;
+  margin-top: 40vh;
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
 }
 
