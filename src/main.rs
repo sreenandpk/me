@@ -22,13 +22,11 @@ fn App() -> Element {
         let _ = document::eval(
             r#"
             const initScrollDrivenSticky = () => {
-                const sections = Array.from(document.querySelectorAll('section.section, footer.footer-section'));
-                if (sections.length === 0) {
-                    setTimeout(initScrollDrivenSticky, 100);
-                    return;
-                }
+                let sections = Array.from(document.querySelectorAll('section.section, footer.footer-section'));
+                if (!sections.length) return;
 
                 let sectionData = [];
+                let cachedWidth = window.innerWidth;
 
                 const measure = () => {
                     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
@@ -38,14 +36,18 @@ fn App() -> Element {
                             sec,
                             idx,
                             top: rect.top + scrollY,
-                            height: rect.height || window.innerHeight,
-                            isFooterOrLast: sec.tagName === 'FOOTER' || idx >= sections.length - 2
+                            height: rect.height || window.innerHeight
                         };
                     });
                 };
 
                 measure();
-                window.addEventListener('resize', measure, { passive: true });
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth !== cachedWidth) {
+                        cachedWidth = window.innerWidth;
+                        measure();
+                    }
+                }, { passive: true });
                 window.addEventListener('load', measure, { passive: true });
                 setTimeout(measure, 300);
                 setTimeout(measure, 1000);
@@ -58,7 +60,9 @@ fn App() -> Element {
                     const isMobile = window.innerWidth <= 768;
 
                     const recedeScale = isMobile ? 0.985 : 0.96;
-                    const travelMaxY = isMobile ? 45 : 90;
+                    const travelMaxY = isMobile ? 25 : 90;
+                    const maxBlur = isMobile ? 4 : 16;
+                    const minScale = isMobile ? 0.97 : 0.94;
 
                     sectionData.forEach(item => {
                         const sec = item.sec;
@@ -66,13 +70,13 @@ fn App() -> Element {
                         const height = item.height;
 
                         if (top > 0) {
-                            // Entering phase: section rises from below, unblurs 16px -> 0px, scales 0.94 -> 1.0, opacity 0.15 -> 1.0
+                            // Entering phase: smooth GPU entrance tailored for mobile and desktop
                             let p = (viewportHeight - top) / (viewportHeight * 0.70);
                             p = Math.min(Math.max(p, 0), 1);
                             const translateY = (1 - p) * travelMaxY;
-                            const scale = 0.94 + p * 0.06;
-                            const opacity = 0.15 + p * 0.85;
-                            const blur = (1 - p) * 16;
+                            const scale = minScale + p * (1 - minScale);
+                            const opacity = 0.2 + p * 0.8;
+                            const blur = (1 - p) * maxBlur;
                             sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
@@ -81,7 +85,7 @@ fn App() -> Element {
                             const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
                             const scale = 1 - recedeProgress * (1 - recedeScale);
                             const opacity = 1 - recedeProgress * 0.15;
-                            const translateY = -recedeProgress * 15;
+                            const translateY = -recedeProgress * (isMobile ? 8 : 15);
                             sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${translateY.toFixed(1)}px, 0)`;
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = 'blur(0px)';
@@ -99,6 +103,7 @@ fn App() -> Element {
                 };
 
                 window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('touchmove', onScroll, { passive: true });
                 updateScrollProgress();
             };
 
