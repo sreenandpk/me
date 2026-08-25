@@ -85,14 +85,22 @@ fn App() -> Element {
                             return;
                         }
 
-                        // Special smooth anchoring for Contact and Footer sections to prevent any fast-scroll position snap or shift
-                        if (isContactOrFooter) {
+                        // Footer is 100% crisp and visible as soon as it enters viewport
+                        if (isFooter && top < viewportHeight) {
+                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                            sec.style.opacity = '1';
+                            sec.style.filter = 'blur(0px)';
+                            return;
+                        }
+
+                        // Smooth progress for Contact section
+                        if (sec.id === 'contact') {
                             if (top > viewportHeight) {
                                 sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(1)`;
                                 sec.style.opacity = '0.25';
                                 sec.style.filter = 'blur(10px)';
                             } else {
-                                let enterProgress = (viewportHeight - top) / (viewportHeight * 0.65);
+                                let enterProgress = (viewportHeight - top) / (viewportHeight * 0.45);
                                 enterProgress = Math.min(Math.max(enterProgress, 0), 1);
                                 const translateY = (1 - enterProgress) * travelMaxY;
                                 const opacity = 0.25 + enterProgress * 0.75;
