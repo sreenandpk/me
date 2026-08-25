@@ -2382,8 +2382,8 @@ footer.footer-section {
   will-change: transform, opacity, filter;
   transform-origin: center top;
   background-color: var(--bg-color);
-  padding-top: 4rem;
-  padding-bottom: 40vh !important; /* Generous 40vh bottom scroll runway so footer scrolls high into upper viewport */
+  padding-top: 1.5rem;
+  padding-bottom: 55vh !important; /* Positions contact details at the top of the footer container so they reach top viewport & unblur completely */
 }
 
 /* Stacking z-indexes so sections blend seamlessly */
