@@ -421,14 +421,15 @@ a {
   flex-direction: column;
   align-items: flex-start;
   z-index: 10;
-  max-width: 750px;
+  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
 
 .hero-name {
   font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
-  font-size: clamp(4rem, 15vw, 12rem);
+  font-size: clamp(2.5rem, 8.5vw, 7.5rem);
+  white-space: nowrap;
   line-height: 1.05;
   margin-bottom: 1.5rem;
   font-weight: 900;
