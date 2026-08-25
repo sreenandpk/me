@@ -61,4 +61,27 @@ pub const PROJECTS: &[Project] = &[
         github_url: "https://github.com/sreenandpk/ecommerce",
         live_url: Some("https://ecommerce-django-frontend-lhvj.vercel.app"),
     },
+    Project {
+        name: "Trading Platform",
+        subtitle: "Real-Time Stock & Crypto Trading",
+        category: "Fintech",
+        cover_image: "/assets/projects/trading-1.jpg",
+        gallery_images: &[
+            "/assets/projects/trading-1.jpg",
+            "/assets/projects/trading-2.jpg",
+            "/assets/projects/trading-3.jpg",
+        ],
+        tech_badges: &[
+            "React",
+            "Node.js",
+            "WebSockets",
+            "PostgreSQL",
+            "Docker",
+        ],
+        overview: "A high-performance trading platform allowing users to monitor live market data and execute trades instantly.",
+        problem_faced: "Handling high-frequency market data streams without UI lag.",
+        solution_implemented: "Implemented optimized WebSockets with a React charting library for buttery-smooth live updates.",
+        github_url: "https://github.com/sreenandpk/trading-platform",
+        live_url: None,
+    },
 ];
