@@ -19,10 +19,6 @@ pub fn About() -> Element {
                                 "My approach is simple: understand the problem, plan the work, build it, and improve it as I go. I pay attention to the details, and try to keep the final solution clear and easy to maintain."
                             }
                         }
-                        
-                        div { class: "about-cta-left",
-                            a { class: "btn btn-primary", href: "#contact", "CONTACT ME" }
-                        }
                     }
                 }
             }
