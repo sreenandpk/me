@@ -579,7 +579,7 @@ a {
 
 .about-huge-title-left {
   font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(3rem, 10vw, 6rem);
   text-transform: uppercase;
   text-align: left;
   font-weight: 900;

@@ -7,13 +7,7 @@ pub fn About() -> Element {
             div { class: "container",
                 div { class: "about-split-layout",
                     div { class: "about-heading-left",
-                        h2 { class: "about-huge-title-left", 
-                            "I BUILD THINGS"
-                            br {}
-                            "PEOPLE ACTUALLY"
-                            br {}
-                            "USE."
-                        }
+                        h2 { class: "about-huge-title-left", "ABOUT ME" }
                     }
                     
                     div { class: "about-content-right",
