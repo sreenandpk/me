@@ -62,12 +62,23 @@ fn App() -> Element {
 
                     sectionData.forEach(item => {
                         const sec = item.sec;
+                        const idx = item.idx;
                         const top = item.top - scrollY;
                         const height = item.height;
 
+                        const isEndSection = sec.tagName === 'FOOTER' || idx >= sectionData.length - 2;
+
+                        // Ensure end sections (Contact & Footer) are 100% crisp, unblurred and visible once in view
+                        if (isEndSection && top < viewportHeight * 0.85) {
+                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
+                            sec.style.opacity = '1';
+                            sec.style.filter = 'blur(0px)';
+                            return;
+                        }
+
                         if (top > 0) {
                             // Entering phase: section rises from below, unblurs 16px -> 0px, scales 0.94 -> 1.0, opacity 0.15 -> 1.0
-                            let p = (viewportHeight - top) / (viewportHeight * 0.75);
+                            let p = (viewportHeight - top) / (viewportHeight * 0.65);
                             p = Math.min(Math.max(p, 0), 1);
                             const translateY = (1 - p) * travelMaxY;
                             const scale = 0.94 + p * 0.06;

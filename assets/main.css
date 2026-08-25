@@ -2383,7 +2383,7 @@ footer.footer-section {
   transform-origin: center top;
   background-color: var(--bg-color);
   padding-top: 4rem;
-  padding-bottom: 25vh !important; /* Generous 25vh bottom scroll space so footer unblurs and stays 100% visible */
+  padding-bottom: 40vh !important; /* Generous 40vh bottom scroll runway so footer scrolls high into upper viewport */
 }
 
 /* Stacking z-indexes so sections blend seamlessly */
