@@ -2370,12 +2370,20 @@ button,
 
 /* --- Scroll Reveal --- */
 /* ── Pure Scroll-Driven Sticky Depth & Blur Architecture ── */
-section.section,
+section.section {
+  position: relative;
+  will-change: transform, opacity, filter;
+  transform-origin: center top;
+  background-color: var(--bg-color);
+}
+
 footer.footer-section {
   position: relative;
   will-change: transform, opacity, filter;
   transform-origin: center top;
   background-color: var(--bg-color);
+  padding-top: 4rem;
+  padding-bottom: 8rem !important; /* Generous bottom spacing for comfortable scrolling */
 }
 
 /* Stacking z-indexes so sections blend seamlessly */
