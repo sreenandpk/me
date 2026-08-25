@@ -17,7 +17,7 @@ fn main() {
 fn App() -> Element {
     let is_light = use_signal(|| false);
 
-    // Pure Scroll-Driven Sticky Depth Progress Engine
+    // Pure Scroll-Driven Sticky Depth Progress Engine (Zero Layout Thrashing, 60FPS GPU Composite)
     use_effect(move || {
         let _ = document::eval(
             r#"
@@ -28,41 +28,63 @@ fn App() -> Element {
                     return;
                 }
 
+                let sectionData = [];
+
+                const measure = () => {
+                    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                    sectionData = sections.map((sec, idx) => {
+                        const rect = sec.getBoundingClientRect();
+                        return {
+                            sec,
+                            idx,
+                            top: rect.top + scrollY,
+                            height: rect.height || window.innerHeight,
+                            isFooterOrLast: sec.tagName === 'FOOTER' || idx >= sections.length - 2
+                        };
+                    });
+                };
+
+                measure();
+                window.addEventListener('resize', measure, { passive: true });
+                window.addEventListener('load', measure, { passive: true });
+                setTimeout(measure, 300);
+                setTimeout(measure, 1000);
+
                 let ticking = false;
 
                 const updateScrollProgress = () => {
+                    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
                     const viewportHeight = window.innerHeight;
                     const isMobile = window.innerWidth <= 768;
 
                     const recedeScale = isMobile ? 0.985 : 0.96;
                     const travelMaxY = isMobile ? 45 : 90;
 
-                    sections.forEach((sec, idx) => {
-                        const rect = sec.getBoundingClientRect();
-                        const top = rect.top;
-                        const height = rect.height || viewportHeight;
-
-                        const isFooterOrLast = sec.tagName === 'FOOTER' || idx >= sections.length - 2;
+                    sectionData.forEach(item => {
+                        const sec = item.sec;
+                        const idx = item.idx;
+                        const top = item.top - scrollY;
+                        const height = item.height;
 
                         if (idx === 0) {
                             if (top >= 0) {
-                                sec.style.transform = 'scale(1) translateY(0px)';
+                                sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
                                 sec.style.opacity = '1';
                                 sec.style.filter = 'blur(0px)';
                             } else {
                                 const p = Math.min(Math.abs(top) / (height * 0.7), 1);
                                 const scale = 1 - p * (1 - recedeScale);
                                 const opacity = 1 - p * 0.15;
-                                sec.style.transform = `scale(${scale.toFixed(4)}) translateY(${(-p * 15).toFixed(1)}px)`;
+                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-p * 15).toFixed(1)}px, 0)`;
                                 sec.style.opacity = opacity.toFixed(2);
                                 sec.style.filter = 'blur(0px)';
                             }
                             return;
                         }
 
-                        // Always keep footer and bottom contact section 100% crisp and unblurred once visible
-                        if (isFooterOrLast && top < viewportHeight * 0.95) {
-                            sec.style.transform = 'scale(1) translateY(0px)';
+                        // Always keep footer and bottom contact section 100% crisp and unblurred once visible near bottom
+                        if (item.isFooterOrLast && top < viewportHeight * 0.95) {
+                            sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
                             sec.style.opacity = '1';
                             sec.style.filter = 'blur(0px)';
                             return;
@@ -72,28 +94,28 @@ fn App() -> Element {
                         const focusEnd = viewportHeight * 0.20;
 
                         if (top > focusStart) {
-                            sec.style.transform = `translateY(${travelMaxY}px) scale(1)`;
+                            sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(1)`;
                             sec.style.opacity = '0.25';
-                            sec.style.filter = 'blur(12px)';
+                            sec.style.filter = 'blur(10px)';
                         } else if (top >= 0) {
                             let enterProgress = 1 - ((top - focusEnd) / (focusStart - focusEnd));
                             enterProgress = Math.min(Math.max(enterProgress, 0), 1);
                             const translateY = (1 - enterProgress) * travelMaxY;
                             const opacity = 0.25 + enterProgress * 0.75;
-                            const blur = (1 - enterProgress) * 12;
-                            sec.style.transform = `translateY(${translateY.toFixed(1)}px) scale(1)`;
+                            const blur = (1 - enterProgress) * 10;
+                            sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(1)`;
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
                         } else {
                             if (idx === sections.length - 1) {
-                                sec.style.transform = 'scale(1) translateY(0px)';
+                                sec.style.transform = 'translate3d(0, 0, 0) scale(1)';
                                 sec.style.opacity = '1';
                                 sec.style.filter = 'blur(0px)';
                             } else {
                                 const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
                                 const scale = 1 - recedeProgress * (1 - recedeScale);
                                 const opacity = 1 - recedeProgress * 0.15;
-                                sec.style.transform = `scale(${scale.toFixed(4)}) translateY(${(-recedeProgress * 15).toFixed(1)}px)`;
+                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${(-recedeProgress * 15).toFixed(1)}px, 0)`;
                                 sec.style.opacity = opacity.toFixed(2);
                                 sec.style.filter = 'blur(0px)';
                             }
@@ -111,7 +133,6 @@ fn App() -> Element {
                 };
 
                 window.addEventListener('scroll', onScroll, { passive: true });
-                window.addEventListener('resize', onScroll, { passive: true });
                 updateScrollProgress();
             };
 
