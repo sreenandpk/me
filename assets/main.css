@@ -558,7 +558,7 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
-  padding: 0 0 4rem;
+  padding: 0 0 2rem;
   margin-top: -4rem;
   position: relative;
 }
@@ -628,7 +628,7 @@ a {
   text-transform: uppercase;
   font-weight: 500;
   letter-spacing: 0.05em;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0;
 }
 
 .about-bio-text p {
