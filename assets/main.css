@@ -560,7 +560,7 @@ a {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 4rem 0;
+  padding: 1rem 0 4rem;
   position: relative;
 }
 
@@ -586,6 +586,11 @@ a {
   animation: fillText linear forwards;
   animation-timeline: view();
   animation-range: cover 15% cover 50%;
+}
+
+/* Remove default h2 blue underline for this title */
+.about-huge-title::after {
+  display: none !important;
 }
 
 @keyframes fillText {
