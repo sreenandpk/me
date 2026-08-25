@@ -157,9 +157,6 @@ fn App() -> Element {
             // Contact details
             Contact {}
 
-            // Page Footer
-            Footer {}
-
             // Floating RAG AI indicator
             RagAiButton {}
         }
