@@ -12,6 +12,7 @@ pub mod skills;
 pub use about::About;
 pub use contact::Contact;
 pub use experience::ExperienceSection;
+pub use footer::Footer;
 pub use hero::Hero;
 pub use navbar::Navbar;
 pub use philosophy::Philosophy;

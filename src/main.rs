@@ -157,6 +157,9 @@ fn App() -> Element {
             // Contact details
             Contact {}
 
+            // Page Footer Container (Pure Depth & Blur Transition)
+            Footer {}
+
             // Floating RAG AI indicator
             RagAiButton {}
         }
