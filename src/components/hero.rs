@@ -8,8 +8,7 @@ pub fn Hero() -> Element {
             div { class: "container",
                 div { class: "hero-grid",
                     div { class: "hero-content reveal-on-scroll revealed",
-                        span { class: "hero-pretitle", "HELLO, I'M" }
-                        h1 { class: "hero-name", "SREENAND P K" }
+                        h1 { class: "hero-name", "HI, I'M SREENAND P K" }
                         h2 { class: "hero-headline",
                             span { style: "position: relative; display: inline-block;",
                                 "{PERSONAL_INFO.title}"

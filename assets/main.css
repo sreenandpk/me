@@ -426,28 +426,17 @@ a {
   text-align: center;
 }
 
-.hero-pretitle {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--accent-color);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-top: 1.75rem;
-  margin-bottom: 1rem;
-  align-self: center;
-}
-
 .hero-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4rem, 10vw, 7rem);
-  line-height: 0.95;
+  font-family: Impact, 'Arial Black', 'Teko', 'Anton', sans-serif;
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  line-height: 0.9;
   margin-bottom: 1.5rem;
   color: var(--text-primary);
-  font-weight: 400;
-  letter-spacing: 0.12em;
+  font-weight: 900;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   align-self: center;
+  transform: scaleY(1.1); /* Slight vertical stretch to match screenshot */
 }
 
 .hero-headline {
