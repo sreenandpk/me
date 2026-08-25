@@ -94,20 +94,20 @@ fn App() -> Element {
                         }
 
                         // Dedicated smooth enter curve for About & all content sections
-                        const enterStart = viewportHeight * 0.92;
-                        const enterEnd = viewportHeight * 0.15;
+                        const enterStart = viewportHeight * 0.65;
+                        const enterEnd = viewportHeight * 0.10;
 
                         if (top > enterStart) {
-                            sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(0.95)`;
-                            sec.style.opacity = '0.2';
-                            sec.style.filter = 'blur(12px)';
+                            sec.style.transform = `translate3d(0, ${travelMaxY}px, 0) scale(0.94)`;
+                            sec.style.opacity = '0.15';
+                            sec.style.filter = 'blur(16px)';
                         } else if (top > enterEnd) {
                             let p = (enterStart - top) / (enterStart - enterEnd);
                             p = Math.min(Math.max(p, 0), 1);
                             const translateY = (1 - p) * travelMaxY;
-                            const scale = 0.95 + p * 0.05;
-                            const opacity = 0.2 + p * 0.8;
-                            const blur = (1 - p) * 12;
+                            const scale = 0.94 + p * 0.06;
+                            const opacity = 0.15 + p * 0.85;
+                            const blur = (1 - p) * 16;
                             sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
                             sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
