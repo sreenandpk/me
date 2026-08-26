@@ -6,7 +6,7 @@ pub fn Projects() -> Element {
     rsx! {
         section { id: "projects", class: "projects-white-section",
             div { class: "container projects-container",
-                h2 { class: "projects-massive-title", "PROJECTS" }
+                h2 { class: "projects-massive-title", "SERVICES" }
                 
                 div { class: "projects-list",
                     for (project_idx, project) in PROJECTS.iter().enumerate() {
