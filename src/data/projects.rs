@@ -30,4 +30,15 @@ pub const PROJECTS: &[RealProject] = &[
         ],
         live_link: "#",
     },
+    RealProject {
+        id: "03",
+        client: "CLIENT",
+        title: "Aura Creative",
+        images: &[
+            "/assets/projects/placeholder_2.jpg",
+            "/assets/projects/placeholder_3.jpg",
+            "/assets/projects/placeholder_1.jpg",
+        ],
+        live_link: "#",
+    },
 ];
