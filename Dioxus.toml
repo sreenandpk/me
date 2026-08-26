@@ -7,7 +7,7 @@ asset_dir = "assets"
 [web.app]
 title = "Sreenand P K | Python Developer & Backend Engineer"
 icon = "assets/header.png"
-port = 8085
+port = 3000
 
 [web.watcher]
 reload_html = true

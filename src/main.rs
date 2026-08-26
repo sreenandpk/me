@@ -143,10 +143,10 @@ fn App() -> Element {
 
                 // Services section (Formerly Projects)
                 Services {}
-
-                // Real Projects Section (Will stick over Services)
-                Projects {}
             }
+
+            // Real Projects Section (Normal scroll initially)
+            Projects {}
 
             // Skills section
             Skills {}

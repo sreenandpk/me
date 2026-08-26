@@ -19,5 +19,15 @@ pub const PROJECTS: &[RealProject] = &[
         ],
         live_link: "#",
     },
-    // We can add more projects here later, but for now we'll just implement the layout for one
+    RealProject {
+        id: "02",
+        client: "CLIENT",
+        title: "Nexus Dynamics",
+        images: &[
+            "/assets/projects/placeholder_3.jpg",
+            "/assets/projects/placeholder_1.jpg",
+            "/assets/projects/placeholder_2.jpg",
+        ],
+        live_link: "#",
+    },
 ];

@@ -2955,13 +2955,7 @@ footer.footer-section { z-index: 80; }
   }
 }
 
-/* --- Sticky Services Section --- */
-#projects {
-  position: sticky;
-  top: 15vh;
-  z-index: 15; /* Above About */
-  border-bottom: none;
-}
+/* Removed sticky for #projects so it scrolls normally */
 
 /* --- Real Projects Section (Dark Card UI) --- */
 .real-projects-section {
@@ -3006,6 +3000,8 @@ footer.footer-section { z-index: 80; }
 }
 
 .real-project-card {
+  position: sticky;
+  top: 15vh; /* Sticks near the top of the viewport */
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 2rem;
@@ -3014,6 +3010,17 @@ footer.footer-section { z-index: 80; }
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   transition: transform 0.3s ease;
+}
+
+/* Offset subsequent cards slightly so they stack nicely */
+.real-project-card:nth-child(2) {
+  top: 18vh;
+}
+.real-project-card:nth-child(3) {
+  top: 21vh;
+}
+.real-project-card:nth-child(4) {
+  top: 24vh;
 }
 
 .real-project-card:hover {
