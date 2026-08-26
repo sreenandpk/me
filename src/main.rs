@@ -141,7 +141,10 @@ fn App() -> Element {
                 // About section
                 About {}
 
-                // Projects section (Now directly after About)
+                // Services section (Formerly Projects)
+                Services {}
+
+                // Real Projects Section (Will stick over Services)
                 Projects {}
             }
 

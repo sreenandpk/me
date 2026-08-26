@@ -1,9 +1,11 @@
 pub mod experience;
 pub mod projects;
+pub mod services;
 pub mod skills;
 
 pub use experience::EXPERIENCE_ITEMS;
 pub use projects::PROJECTS;
+pub use services::PROJECTS as SERVICES;
 pub use skills::SKILL_CATEGORIES;
 
 #[derive(Debug, Clone, PartialEq)]

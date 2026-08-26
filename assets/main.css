@@ -2954,3 +2954,159 @@ footer.footer-section { z-index: 80; }
     margin-bottom: 1rem;
   }
 }
+
+/* --- Sticky Services Section --- */
+#projects {
+  position: sticky;
+  top: 15vh;
+  z-index: 15; /* Above About */
+  border-bottom: none;
+}
+
+/* --- Real Projects Section (Dark Card UI) --- */
+.real-projects-section {
+  position: relative;
+  z-index: 20; /* Above Services */
+  background-color: #050505; /* Deep dark background */
+  color: #fff;
+  border-top-left-radius: 2.5rem;
+  border-top-right-radius: 2.5rem;
+  padding: 8rem 0;
+  min-height: 100vh;
+}
+
+.real-projects-3d-title {
+  display: block;
+  font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 15vw, 10rem);
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  margin-bottom: 2rem;
+  color: #fff;
+  /* 3D Extruded Text Effect */
+  text-shadow: 
+    0 1px 0 #cccccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15);
+}
+
+.real-projects-3d-title::after {
+  display: none; /* Hide global h2 underline */
+}
+
+.real-project-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  padding: 3rem;
+  margin-bottom: 4rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease;
+}
+
+.real-project-card:hover {
+  transform: translateY(-5px);
+}
+
+.real-project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.real-project-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.real-project-id {
+  font-family: 'Arial Black', Impact, sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+
+.real-project-client {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a1a1aa; /* Zinc 400 */
+}
+
+.real-project-live-btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+}
+
+.real-project-live-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.real-project-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.real-project-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 1rem;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: grayscale(20%);
+}
+
+.real-project-img:hover {
+  transform: scale(1.02);
+  filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+  .real-projects-section {
+    padding: 4rem 0;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+  }
+  .real-project-card {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+  }
+  .real-project-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .real-project-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
