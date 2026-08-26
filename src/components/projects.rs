@@ -13,17 +13,24 @@ pub fn Projects() -> Element {
                         div { key: "{project.id}", class: "real-project-card",
                             // Card Header
                             div { class: "real-project-card-header",
-                                div { class: "real-project-card-title-group",
+                                div { class: "real-project-title-left",
                                     span { class: "real-project-id", "{project.id}" }
-                                    span { class: "real-project-client", "{project.title} - {project.client}" }
+                                    div { class: "real-project-client-group",
+                                        span { class: "real-project-client-label", "CLIENT" }
+                                        span { class: "real-project-client-name", "{project.title}" }
+                                    }
                                 }
                                 a { class: "real-project-live-btn", href: "{project.live_link}", target: "_blank", "LIVE PROJECT" }
                             }
                             
                             // Image Gallery
                             div { class: "real-project-gallery",
-                                for (img_idx, img_src) in project.images.iter().enumerate() {
-                                    img { key: "{img_idx}", class: "real-project-img", src: "{img_src}", alt: "{project.title} screenshot" }
+                                if project.images.len() >= 3 {
+                                    img { class: "real-project-img img-main", src: "{project.images[0]}", alt: "Main Project View" }
+                                    div { class: "real-project-subgrid",
+                                        img { class: "real-project-img img-sub", src: "{project.images[1]}", alt: "Secondary Project View" }
+                                        img { class: "real-project-img img-sub", src: "{project.images[2]}", alt: "Tertiary Project View" }
+                                    }
                                 }
                             }
                         }
