@@ -2990,19 +2990,16 @@ footer.footer-section { z-index: 80; }
   /* Scroll fill animation like services */
   animation: projectColorPhase linear forwards;
   animation-timeline: view();
-  animation-range: cover 10% cover 50%;
+  animation-range: cover 10% cover 25%;
 }
 
 @keyframes projectColorPhase {
   0% {
     color: transparent;
   }
-  50% {
-    color: #6b7280;
-    -webkit-text-stroke: 0px rgba(0,0,0,0);
-  }
   100% {
     color: #fff;
+    -webkit-text-stroke: 0px rgba(0,0,0,0);
   }
 }
 
