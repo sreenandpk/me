@@ -2990,7 +2990,7 @@ footer.footer-section { z-index: 80; }
   /* Scroll fill animation like services */
   animation: projectColorPhase linear forwards;
   animation-timeline: view();
-  animation-range: cover 10% cover 25%;
+  animation-range: cover 10% cover 35%;
 }
 
 @keyframes projectColorPhase {
