@@ -71,7 +71,7 @@ fn App() -> Element {
 
                         if (top > 0) {
                             // Entering phase: smooth GPU entrance tailored for mobile and desktop
-                            let p = (viewportHeight - top) / (viewportHeight * 0.70);
+                            let p = (viewportHeight - top) / (viewportHeight * 0.35);
                             p = Math.min(Math.max(p, 0), 1);
                             const translateY = (1 - p) * travelMaxY;
                             const scale = minScale + p * (1 - minScale);
