@@ -2816,12 +2816,13 @@ footer.footer-section { z-index: 80; }
 }
 
 /* --- Projects Section: White Card UI --- */
-.projects-white-section {
+section.projects-white-section {
   background-color: #f8fafc;
   color: #000000;
   border-top-left-radius: 2.5rem;
   border-top-right-radius: 2.5rem;
   padding: 6rem 0;
+  padding-bottom: 0 !important;
   position: relative;
   z-index: 20;
   margin-top: 80vh;
@@ -2958,8 +2959,9 @@ footer.footer-section { z-index: 80; }
 /* Removed sticky for #projects so it scrolls normally */
 
 /* --- Real Projects Section (Dark Card UI) --- */
-.real-projects-wrapper {
+section.real-projects-wrapper {
   background-color: #f8fafc;
+  padding-bottom: 0 !important;
 }
 
 .real-projects-inner {

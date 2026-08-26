@@ -4,7 +4,7 @@ use crate::data::PROJECTS;
 #[component]
 pub fn Projects() -> Element {
     rsx! {
-        section { id: "real-projects-wrapper", class: "real-projects-wrapper",
+        section { id: "real-projects-wrapper", class: "real-projects-wrapper section",
             div { class: "real-projects-inner",
                 div { class: "container projects-container",
                     h2 { class: "real-projects-3d-title", "PROJECTS" }
