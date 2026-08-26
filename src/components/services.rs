@@ -4,7 +4,7 @@ use crate::data::SERVICES;
 #[component]
 pub fn Services() -> Element {
     rsx! {
-        section { id: "projects", class: "projects-white-section section",
+        section { id: "projects", class: "projects-white-section blur-on-enter",
             div { class: "container projects-container",
                 h2 { class: "projects-massive-title", "SERVICES" }
                 

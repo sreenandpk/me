@@ -22,7 +22,7 @@ fn App() -> Element {
         let _ = document::eval(
             r#"
             const initScrollDrivenSticky = () => {
-                let sections = Array.from(document.querySelectorAll('section.section, footer.footer-section'));
+                let sections = Array.from(document.querySelectorAll('section.section, footer.footer-section, .blur-on-enter'));
                 if (!sections.length) return;
 
                 let sectionData = [];
@@ -35,6 +35,7 @@ fn App() -> Element {
                         return {
                             sec,
                             idx,
+                            isBlurOnly: sec.classList.contains('blur-on-enter'),
                             top: rect.top + scrollY,
                             height: rect.height || window.innerHeight
                         };
@@ -73,22 +74,29 @@ fn App() -> Element {
                             // Entering phase: smooth GPU entrance tailored for mobile and desktop
                             let p = (viewportHeight - top) / (viewportHeight * 0.35);
                             p = Math.min(Math.max(p, 0), 1);
-                            const translateY = (1 - p) * travelMaxY;
-                            const scale = minScale + p * (1 - minScale);
-                            const opacity = 0.2 + p * 0.8;
+                            
                             const blur = (1 - p) * maxBlur;
-                            sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
-                            sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = `blur(${blur.toFixed(1)}px)`;
+                            
+                            if (!item.isBlurOnly) {
+                                const translateY = (1 - p) * travelMaxY;
+                                const scale = minScale + p * (1 - minScale);
+                                const opacity = 0.2 + p * 0.8;
+                                sec.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+                                sec.style.opacity = opacity.toFixed(2);
+                            }
                         } else {
                             // Receding phase: active section recedes into depth as user scrolls past top
-                            const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
-                            const scale = 1 - recedeProgress * (1 - recedeScale);
-                            const opacity = 1 - recedeProgress * 0.15;
-                            const translateY = -recedeProgress * (isMobile ? 8 : 15);
-                            sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${translateY.toFixed(1)}px, 0)`;
-                            sec.style.opacity = opacity.toFixed(2);
                             sec.style.filter = 'blur(0px)';
+                            
+                            if (!item.isBlurOnly) {
+                                const recedeProgress = Math.min(Math.abs(top) / (height * 0.8), 1);
+                                const scale = 1 - recedeProgress * (1 - recedeScale);
+                                const opacity = 1 - recedeProgress * 0.15;
+                                const translateY = -recedeProgress * (isMobile ? 8 : 15);
+                                sec.style.transform = `scale(${scale.toFixed(4)}) translate3d(0, ${translateY.toFixed(1)}px, 0)`;
+                                sec.style.opacity = opacity.toFixed(2);
+                            }
                         }
                     });
 
