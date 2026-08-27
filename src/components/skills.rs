@@ -141,7 +141,7 @@ pub fn Skills() -> Element {
     });
 
     rsx! {
-        section { id: "skills", class: "dino-skills-section",
+        section { id: "skills", class: "dino-skills-section blur-on-enter",
             // The Scroll Track
             div { class: "dino-scroll-track", id: "dino-scroll-track",
                 div { class: "dino-sticky-view",
