@@ -1,0 +1,12 @@
+{
+  "workflow": "img2threejs",
+  "character_name": "my-anime-character",
+  "current_step": "pipeline_validation",
+  "status": "BLOCKED",
+  "error": "SKILL.md pipeline documentation not found in the repository.",
+  "next_mandatory_step": "supply_pipeline_documentation",
+  "files_tracked": [
+    "references/my-anime-character.png",
+    "grimoire/intake/image_analysis.md"
+  ]
+}
