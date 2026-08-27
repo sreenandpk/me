@@ -5,24 +5,24 @@ const TOTAL_FRAMES: usize = 50;
 
 #[component]
 pub fn Skills() -> Element {
-    // Inject the scroll-controlled frame animation engine (isolated to Skills section)
     use_effect(move || {
         let _ = document::eval(
             r#"
             (function initCharacterScroll() {
                 const TOTAL_FRAMES = 50;
-                const track   = document.getElementById('char-scroll-track');
+                const track = document.getElementById('char-scroll-track');
                 if (!track) return;
 
                 // ── Reduced motion fallback ──────────────────────────────────
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    const img = document.getElementById('char-frame-img');
-                    if (img) img.src = '/assets/character/skills/frame-050.png';
+                    const imgA = document.getElementById('char-frame-a');
+                    if (imgA) imgA.src = '/assets/character/skills/frame-025.png';
                     return;
                 }
 
-                const frameImg = document.getElementById('char-frame-img');
-                if (!frameImg) return;
+                const imgA = document.getElementById('char-frame-a');
+                const imgB = document.getElementById('char-frame-b');
+                if (!imgA || !imgB) return;
 
                 // ── Preload all frames ───────────────────────────────────────
                 const frames = [];
@@ -38,52 +38,70 @@ pub fn Skills() -> Element {
                     }
                 });
 
-                let currentFrame = 0;
-                let ticking = false;
+                let lastExact = -1;
+                let ticking   = false;
 
-                const setFrame = (idx) => {
-                    const clamped = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
-                    if (clamped !== currentFrame || currentFrame === 0) {
-                        currentFrame = clamped;
-                        frameImg.src = frames[clamped]?.src || frameImg.src;
+                // ── Smooth cross-fade between consecutive frames ──────────────
+                // imgA shows floor frame, imgB overlays ceil frame at fractional opacity
+                const setBlendedFrame = (exactFrame) => {
+                    if (Math.abs(exactFrame - lastExact) < 0.001) return;
+                    lastExact = exactFrame;
+
+                    const idxA = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.floor(exactFrame)));
+                    const idxB = Math.max(0, Math.min(TOTAL_FRAMES - 1, idxA + 1));
+                    const blend = exactFrame - idxA;  // 0..1 fractional part
+
+                    if (frames[idxA]?.complete) imgA.src = frames[idxA].src;
+                    if (frames[idxB]?.complete) {
+                        imgB.src     = frames[idxB].src;
+                        imgB.style.opacity = String(blend.toFixed(3));
+                    } else {
+                        imgB.style.opacity = '0';
                     }
                 };
 
                 const update = () => {
-                    const rect    = track.getBoundingClientRect();
-                    const vh      = window.innerHeight;
+                    const rect     = track.getBoundingClientRect();
+                    const vh       = window.innerHeight;
                     const maxScroll = rect.height - vh;
 
                     let p = -rect.top / maxScroll;
                     if (p < 0) p = 0;
                     if (p > 1) p = 1;
 
-                    // Map scroll progress to frame index (0→0, 1→49)
-                    const frameIdx = Math.round(p * (TOTAL_FRAMES - 1));
-                    setFrame(frameIdx);
+                    // Smooth ease: slow-in + slow-out so the run cycle feels natural
+                    // Using cubic ease-in-out on p
+                    const ep = p < 0.5
+                        ? 4 * p * p * p
+                        : 1 - Math.pow(-2 * p + 2, 3) / 2;
 
-                    // Fade in the terminal text at start, fade out as we scroll
+                    // Map eased progress → exact frame position (continuous)
+                    const exactFrame = ep * (TOTAL_FRAMES - 1);
+                    setBlendedFrame(exactFrame);
+
+                    // ── Intro text: fade out first 10% ───────────────────────
                     const termEl = document.getElementById('char-terminal');
                     if (termEl) {
-                        if (p < 0.12) {
-                            termEl.style.opacity = String(1 - (p / 0.12));
-                            termEl.style.transform = `translate3d(0, ${-p * 120}px, 0)`;
-                            termEl.style.pointerEvents = 'auto';
+                        if (p < 0.10) {
+                            const t = 1 - (p / 0.10);
+                            termEl.style.opacity   = String(t);
+                            termEl.style.transform = `translate3d(0,${-p * 80}px,0)`;
                         } else {
-                            termEl.style.opacity = '0';
-                            termEl.style.pointerEvents = 'none';
+                            termEl.style.opacity   = '0';
+                            termEl.style.transform = `translate3d(0,-80px,0)`;
                         }
                     }
 
-                    // Fade in the final text near end
+                    // ── Final text: fade in last 10% ─────────────────────────
                     const finalEl = document.getElementById('char-final');
                     if (finalEl) {
-                        if (p > 0.88) {
-                            const fp = (p - 0.88) / 0.12;
-                            finalEl.style.opacity = String(fp);
-                            finalEl.style.transform = `translate3d(0, ${20 - fp * 20}px, 0)`;
+                        if (p > 0.90) {
+                            const fp = (p - 0.90) / 0.10;
+                            finalEl.style.opacity   = String(fp);
+                            finalEl.style.transform = `translate3d(0,${20 - fp * 20}px,0)`;
                         } else {
-                            finalEl.style.opacity = '0';
+                            finalEl.style.opacity   = '0';
+                            finalEl.style.transform = 'translate3d(0,20px,0)';
                         }
                     }
 
@@ -92,7 +110,6 @@ pub fn Skills() -> Element {
 
                 const onScroll = () => {
                     const rect = track.getBoundingClientRect();
-                    // Only update when section is in viewport
                     if (rect.top <= window.innerHeight && rect.bottom >= 0) {
                         if (!ticking) {
                             requestAnimationFrame(update);
@@ -101,18 +118,18 @@ pub fn Skills() -> Element {
                     }
                 };
 
-                // Start showing frame 1 as soon as first frame loads
-                frames[0] && (frames[0].onload = () => setFrame(0));
+                // Show first frame immediately
+                imgA.src = '/assets/character/skills/frame-001.png';
+                imgB.style.opacity = '0';
 
                 allLoaded.then(() => {
-                    setFrame(0);
+                    setBlendedFrame(0);
                     update();
                 });
 
                 window.addEventListener('scroll', onScroll, { passive: true });
                 window.addEventListener('resize', update,   { passive: true });
 
-                // Cleanup on hot-reload
                 return () => {
                     window.removeEventListener('scroll', onScroll);
                     window.removeEventListener('resize', update);
@@ -125,11 +142,11 @@ pub fn Skills() -> Element {
     rsx! {
         section { id: "skills", class: "char-skills-section blur-on-enter",
 
-            // ── SCROLL TRACK (600vh gives enough scroll room for 50 frames) ──
+            // ── SCROLL TRACK — 700vh gives a leisurely animation pace ──────────
             div { id: "char-scroll-track", class: "char-scroll-track",
                 div { class: "char-sticky-view",
 
-                    // ── Terminal intro text ──────────────────────────────────
+                    // ── Terminal intro text ──────────────────────────────────────
                     div { id: "char-terminal", class: "char-terminal-text",
                         p { "CONNECTION LOST" }
                         p { "NETWORK OFFLINE" }
@@ -137,14 +154,13 @@ pub fn Skills() -> Element {
                         span { class: "char-cursor", "_" }
                     }
 
-                    // ── Skills content (left column) ─────────────────────────
+                    // ── Skills content (left column) ─────────────────────────────
                     div { class: "char-content-col",
                         h2 { class: "char-section-heading", "Skills" }
                         p { class: "char-section-sub",
                             "Technologies I work with every day — from systems design to shipping products."
                         }
 
-                        // Core skill badges
                         div { class: "char-core-badges",
                             for cat in SKILL_CATEGORIES.iter().take(3) {
                                 div { class: "char-badge-group",
@@ -159,20 +175,30 @@ pub fn Skills() -> Element {
                         }
                     }
 
-                    // ── Anime character frame (right column) ─────────────────
+                    // ── Anime character (right column) — two images for blending ──
                     div { class: "char-frame-col",
                         div { class: "char-frame-container",
+                            // Layer A: base frame (opacity always 1)
                             img {
-                                id: "char-frame-img",
+                                id: "char-frame-a",
                                 class: "char-frame-img",
                                 src: "/assets/character/skills/frame-001.png",
                                 alt: "Developer character animation",
                                 draggable: "false",
                             }
+                            // Layer B: next frame (opacity 0→1 for smooth blend)
+                            img {
+                                id: "char-frame-b",
+                                class: "char-frame-img char-frame-blend",
+                                src: "/assets/character/skills/frame-001.png",
+                                alt: "",
+                                draggable: "false",
+                                aria_hidden: "true",
+                            }
                         }
                     }
 
-                    // ── Final restored text ──────────────────────────────────
+                    // ── Final text ───────────────────────────────────────────────
                     div { id: "char-final", class: "char-final-text",
                         p { class: "char-green", "CONNECTION RESTORED" }
                         br {}
@@ -185,7 +211,7 @@ pub fn Skills() -> Element {
                 }
             }
 
-            // ── Secondary Skills Grid (unchanged, normal page flow) ──────────
+            // ── Secondary Skills Grid (normal page flow, unchanged) ────────────
             div { class: "char-secondary-skills container",
                 div { class: "secondary-grid",
                     for category in SKILL_CATEGORIES {

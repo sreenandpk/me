@@ -3470,3 +3470,33 @@ section.char-skills-section {
   .char-frame-container { width: 70vw; height: 38vw; min-height: 180px; }
   .char-secondary-skills { padding: 4rem 0 6rem 0; }
 }
+
+/* -- Character frame blending layer (imgB sits on top of imgA) -------------- */
+.char-frame-blend {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  /* GPU compositing — critical for smooth blend without repaints */
+  will-change: opacity;
+  /* Smooth high-quality image scaling */
+  image-rendering: auto;
+  -ms-interpolation-mode: bicubic;
+}
+
+/* -- Scroll track: 700vh for a leisurely animation pace ------------------- */
+.char-scroll-track {
+  height: 700vh;
+}
+
+/* -- Frame container: relative so blend layer can position absolutely ------- */
+.char-frame-container {
+  position: relative;
+}
+
+/* -- High-quality image scaling on all frame images ------------------------ */
+.char-frame-img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: auto;
+}
