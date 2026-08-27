@@ -651,137 +651,267 @@ a {
   justify-content: flex-start;
 }
 
-/* --- New Skills Section (Premium White UI) --- */
-section.skills-white-section {
-  background-color: #ffffff;
-  color: #000000;
-  border-top-left-radius: 2.5rem;
-  border-top-right-radius: 2.5rem;
-  padding: 6rem 0 10rem 0;
+/* --- Dino Run Skills Section (Interactive Offline Mode) --- */
+section.dino-skills-section {
+  background-color: #09090b;
+  color: #f4f4f5;
   position: relative;
   z-index: 30; /* Overlaps Projects */
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+  margin-top: 0;
+  /* Subtle technical grid overlay */
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-.skills-massive-title {
-  font-family: 'Arial Black', Impact, 'Bebas Neue', sans-serif;
-  font-size: clamp(4.5rem, 18vw, 15rem);
-  text-align: center;
-  margin-bottom: -4rem;
-  line-height: 0.8;
-  letter-spacing: -0.05em;
-  font-weight: 900;
+.dino-scroll-track {
+  height: 600vh; /* Scroll track for the animation */
+  width: 100%;
+  position: relative;
+}
+
+/* Fallback for reduced motion */
+.reduced-motion-fallback {
+  height: auto !important;
+  padding: 4rem 0;
+}
+.reduced-motion-fallback .dino-sticky-view {
+  display: none !important;
+}
+
+.dino-sticky-view {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dino-terminal-text {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  font-family: var(--font-mono);
+  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  line-height: 1.4;
+  color: #f4f4f5;
   text-transform: uppercase;
-  z-index: 0;
   pointer-events: none;
-
-  /* Hollow text with fill effect */
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.15);
-  background-image: linear-gradient(180deg, #000000 0%, #333333 100%);
-  background-repeat: no-repeat;
-  background-size: 100% 0%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  
-  /* Scroll-driven animation */
-  animation: fillTextBottomUp linear forwards;
-  animation-timeline: view();
-  animation-range: cover 0% cover 40%;
+  z-index: 10;
+  will-change: transform, opacity;
 }
 
-.skills-grid-modern {
+.dino-terminal-text p {
+  margin: 0;
+}
+.dino-terminal-text p:first-child {
+  color: #ef4444; /* red error */
+}
+
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.dino-ground {
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+  z-index: 5;
+}
+
+.dino-character {
+  position: absolute;
+  bottom: calc(25% + 1px); /* Rest on ground */
+  left: 20%;
+  width: clamp(60px, 8vw, 100px);
+  height: clamp(60px, 8vw, 100px);
+  z-index: 15;
+  will-change: transform;
+}
+
+.dino-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dino-obstacles {
+  position: absolute;
+  bottom: calc(25% + 1px);
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  z-index: 10;
+  will-change: transform;
+}
+
+.dino-spacer {
+  width: 80vw;
+  flex-shrink: 0;
+}
+
+.dino-obstacle {
+  width: 300px; /* distance between obstacles */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .dino-obstacle { width: 220px; }
+  .dino-spacer { width: 100vw; }
+}
+
+.dino-obstacle-box {
+  width: 30px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.8);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+.dino-obstacle.cleared .dino-obstacle-box {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px) scale(0.8);
+}
+
+.dino-obstacle-reveal {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  width: max-content;
+  text-align: center;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.dino-obstacle.cleared .dino-obstacle-reveal {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.reveal-title {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.reveal-line {
+  width: 2rem;
+  height: 1px;
+  background: var(--accent-gradient);
+  margin: 0 auto 0.5rem auto;
+}
+
+.reveal-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.dino-final-text {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  line-height: 1.6;
+  color: #f4f4f5;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  will-change: transform, opacity;
+}
+
+.green-text {
+  color: #10b981;
+}
+.dino-final-text h3 {
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: var(--text-primary);
+  margin-top: 1rem;
+  letter-spacing: -0.02em;
+}
+
+/* Secondary Skills Grid */
+.dino-secondary-skills {
+  padding: 6rem 0 10rem 0;
+  background: #09090b;
+  position: relative;
+  z-index: 20;
+}
+
+.secondary-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
-  width: 100%;
+  gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
-  position: relative;
-  z-index: 10;
 }
 
 @media (min-width: 768px) {
-  .skills-grid-modern {
+  .secondary-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (min-width: 1024px) {
-  .skills-grid-modern {
+  .secondary-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.skill-category-card {
-  background: rgba(248, 250, 252, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 1.5rem;
-  padding: 2rem;
+.secondary-card {
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.skill-category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-.skill-card-title {
-  font-family: var(--font-body);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #111827;
+.secondary-title {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--accent-color);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  letter-spacing: -0.01em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.skill-icon-emoji {
-  font-size: 1.5rem;
-}
-
-.skill-pill-container {
+.secondary-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
-.skill-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 99px;
-  padding: 0.4rem 0.85rem;
+.secondary-tag {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #374151;
-  transition: all 0.2s ease;
-}
-
-.skill-pill i {
-  font-size: 1.1rem;
-  color: #4b5563;
-  transition: color 0.2s ease;
-}
-
-.skill-pill:hover {
-  background: #f3f4f6;
-  color: #111827;
-  border-color: rgba(0, 0, 0, 0.15);
-}
-
-.skill-pill:hover i {
-  color: #111827;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.02);
 }
 
 /* --- Projects Section: Minimal Side-by-Side --- */
