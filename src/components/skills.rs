@@ -165,7 +165,7 @@ pub fn Skills() -> Element {
                             // An original, sleek geometric shape
                             polygon { points: "30,80 30,50 50,30 70,30 70,50 90,50 90,70 70,70 70,80 50,80", fill: "currentColor" }
                             // Eye
-                            rect { x: "75", y: "35", width: "5", height: "5", fill: "#09090b" }
+                            rect { x: "75", y: "35", width: "5", height: "5", fill: "#ffffff" }
                             // Leg 1
                             rect { x: "40", y: "80", width: "8", height: "20", fill: "currentColor" }
                             // Leg 2
