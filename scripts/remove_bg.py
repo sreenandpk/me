@@ -1,7 +1,15 @@
 """
-Background removal script for anime character animation frames.
-Uses flood-fill from corners to identify the uniform gray background,
-then removes it, producing transparent PNGs.
+Background removal script v2 — fixes enclosed gray pockets.
+
+Strategy:
+  Pass 1: Flood-fill from all four edges  (removes exterior background)
+  Pass 2: Global neutral-gray color match  (removes ANY enclosed gray that
+           matches the background hue — safe because the anime character has
+           NO neutral gray in its design: clothing is black, skin is warm,
+           hair is near-black.)
+  Pass 3: Drop-shadow removal (bottom strip, close-to-bg)
+  Pass 4: Watermark removal   (bottom-right sparkle)
+  Pass 5: Edge anti-halo      (erode 1-2px border near bg)
 
 Usage: python scripts/remove_bg.py
 """
@@ -21,136 +29,159 @@ OUTPUT_DIR  = REPO_ROOT / "assets" / "character" / "skills"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# ── Tuning parameters ──────────────────────────────────────────────────────────
-# The background gray.  All three frames sampled ≈ (179,179,179).
-BG_TOLERANCE   = 30   # per-channel tolerance for background colour
-EDGE_ERODE_PX  = 1    # extra erosion at the alpha edge to kill halos
-SHADOW_THRESH  = 40   # pixels darker than BG by this much = shadow → transparent
+# ── Tuning ─────────────────────────────────────────────────────────────────────
+FLOOD_TOL      = 28   # flood-fill colour tolerance (per channel)
+GLOBAL_TOL     = 22   # global-match colour tolerance (tighter = safer)
+MAX_SAT        = 0.18 # max HSV saturation for a pixel to be considered "gray"
+SHADOW_STRIP   = 0.65 # y-fraction below which shadow removal applies
+SHADOW_TOL     = 55   # additional tolerance for shadow pixels
+WM_THRESH      = 215  # min brightness for watermark pixel
+EDGE_ERODE     = 2    # px of anti-halo erosion passes
 
-def flood_fill_mask(rgb_arr: np.ndarray, seed_coords, tol: int) -> np.ndarray:
-    """
-    BFS flood-fill from seed_coords on rgb_arr.
-    Returns a boolean mask (True = background).
-    """
-    h, w = rgb_arr.shape[:2]
+
+def sample_bg_color(rgb: np.ndarray) -> np.ndarray:
+    """Average the four 5×5 corner patches to get the background colour."""
+    h, w = rgb.shape[:2]
+    s = 5
+    corners = [
+        rgb[:s,   :s  ],
+        rgb[:s,   w-s:],
+        rgb[h-s:, :s  ],
+        rgb[h-s:, w-s:],
+    ]
+    return np.mean([c.mean(axis=(0,1)) for c in corners], axis=0)
+
+
+def flood_fill_mask(rgb: np.ndarray, bg: np.ndarray, tol: int) -> np.ndarray:
+    """BFS flood-fill from all four image edges. Returns bool mask (True=bg)."""
+    h, w = rgb.shape[:2]
     visited = np.zeros((h, w), dtype=bool)
     q = deque()
 
-    for (sy, sx) in seed_coords:
-        if 0 <= sy < h and 0 <= sx < w and not visited[sy, sx]:
-            q.append((sy, sx))
-            visited[sy, sx] = True
-
-    # Sample background colour from the four corner regions (avg)
-    corners = [rgb_arr[0, 0], rgb_arr[0, w-1], rgb_arr[h-1, 0], rgb_arr[h-1, w-1]]
-    bg_color = np.mean(corners, axis=0)  # shape (3,)
+    seeds = (
+        [(0, x) for x in range(w)]
+      + [(h-1, x) for x in range(w)]
+      + [(y, 0) for y in range(h)]
+      + [(y, w-1) for y in range(h)]
+    )
+    for sy, sx in seeds:
+        if not visited[sy, sx]:
+            diff = np.abs(rgb[sy, sx].astype(int) - bg)
+            if np.all(diff <= tol):
+                visited[sy, sx] = True
+                q.append((sy, sx))
 
     while q:
         y, x = q.popleft()
-        for dy, dx in [(-1,0),(1,0),(0,-1),(0,1)]:
-            ny, nx = y + dy, x + dx
+        for dy, dx in ((-1,0),(1,0),(0,-1),(0,1)):
+            ny, nx = y+dy, x+dx
             if 0 <= ny < h and 0 <= nx < w and not visited[ny, nx]:
-                diff = np.abs(rgb_arr[ny, nx].astype(int) - bg_color)
+                diff = np.abs(rgb[ny, nx].astype(int) - bg)
                 if np.all(diff <= tol):
                     visited[ny, nx] = True
                     q.append((ny, nx))
+    return visited
 
-    return visited  # True = background region
+
+def global_gray_mask(rgb: np.ndarray, bg: np.ndarray, tol: int, max_sat: float) -> np.ndarray:
+    """
+    Mark every pixel that is BOTH close to bg colour AND is a neutral gray
+    (low HSV saturation).  This catches enclosed pockets the flood-fill missed.
+
+    The character has no neutral gray:
+      - Suit/clothing  : near-black
+      - Skin           : warm/yellow-ish
+      - Hair           : near-black
+      - Belt buckle    : silver — but that is very bright; excluded by tol
+    """
+    r = rgb[:,:,0].astype(np.float32)
+    g = rgb[:,:,1].astype(np.float32)
+    b = rgb[:,:,2].astype(np.float32)
+
+    # Distance to bg colour (L-inf)
+    diff = np.abs(rgb.astype(np.float32) - bg)
+    close_to_bg = np.all(diff <= tol, axis=-1)
+
+    # HSV saturation = (max-min)/max
+    mx = np.maximum(np.maximum(r, g), b)
+    mn = np.minimum(np.minimum(r, g), b)
+    sat = np.where(mx > 1e-6, (mx - mn) / mx, 0.0)
+    is_neutral = sat < max_sat
+
+    return close_to_bg & is_neutral
 
 
-def remove_background(in_path: Path, out_path: Path) -> None:
-    img  = Image.open(in_path).convert("RGBA")
+def remove_background(src: Path, dst: Path) -> None:
+    img  = Image.open(src).convert("RGBA")
     rgba = np.array(img, dtype=np.uint8)
     rgb  = rgba[:, :, :3]
     h, w = rgb.shape[:2]
 
-    # ── 1. Flood-fill from all four edges ──────────────────────────────────────
-    seeds = (
-        [(0, x) for x in range(w)]          # top row
-      + [(h-1, x) for x in range(w)]        # bottom row
-      + [(y, 0) for y in range(h)]          # left col
-      + [(y, w-1) for y in range(h)]        # right col
-    )
-    bg_mask = flood_fill_mask(rgb, seeds, BG_TOLERANCE)
+    bg = sample_bg_color(rgb)
 
-    # ── 2. Also remove the drop-shadow (desaturated gray near bottom) ──────────
-    # Shadow pixels: close to bg colour but slightly darker, below 65% of image
-    bg_color = np.mean([rgb[0,0], rgb[0,w-1], rgb[h-1,0], rgb[h-1,w-1]], axis=0)
-    shadow_start_row = int(h * 0.65)
-    shadow_region = rgb[shadow_start_row:, :]
-    diff_from_bg = np.abs(shadow_region.astype(int) - bg_color)
-    # Shadow = grayish, closer to bg than character but distinct from pure bg
-    shadow_close = np.all(diff_from_bg <= BG_TOLERANCE + SHADOW_THRESH, axis=-1)
-    shadow_mask  = np.zeros((h, w), dtype=bool)
-    shadow_mask[shadow_start_row:, :] = shadow_close
+    # ── Pass 1: edge flood-fill ──────────────────────────────────────────────
+    mask = flood_fill_mask(rgb, bg, FLOOD_TOL)
 
-    # ── 3. Remove the sparkle watermark (bottom-right bright pixel cluster) ────
-    # The sparkle is white/near-white in the bottom-right 15% of the image
-    watermark_row = int(h * 0.75)
-    watermark_col = int(w * 0.75)
-    wm_region = rgb[watermark_row:, watermark_col:]
-    # Bright pixels in that area that are also background-ish
-    wm_bright = np.all(wm_region > 220, axis=-1)
-    wm_close  = np.all(np.abs(wm_region.astype(int) - bg_color) <= BG_TOLERANCE + 60, axis=-1)
-    watermark_mask = np.zeros((h, w), dtype=bool)
-    watermark_mask[watermark_row:, watermark_col:] = wm_bright | wm_close
+    # ── Pass 2: global neutral-gray match (fixes enclosed pockets) ───────────
+    mask |= global_gray_mask(rgb, bg, GLOBAL_TOL, MAX_SAT)
 
-    # ── 4. Combine all transparency masks ──────────────────────────────────────
-    full_mask = bg_mask | shadow_mask | watermark_mask
+    # ── Pass 3: drop-shadow strip ────────────────────────────────────────────
+    row0 = int(h * SHADOW_STRIP)
+    shadow_diff = np.abs(rgb[row0:].astype(np.float32) - bg)
+    shadow_close = np.all(shadow_diff <= SHADOW_TOL, axis=-1)
+    shadow_mask = np.zeros((h, w), dtype=bool)
+    shadow_mask[row0:] = shadow_close
+    mask |= shadow_mask
 
-    # ── 5. Anti-halo edge softening ────────────────────────────────────────────
-    # For pixels just inside the character edge that still carry background colour:
-    # do an additional pass — if a foreground pixel is very close to bg colour
-    # and has ≥2 background neighbours, mark it transparent too.
-    full_mask_out = full_mask.copy()
-    for _ in range(EDGE_ERODE_PX):
-        # Count bg neighbours for each fg pixel
-        padded = np.pad(full_mask_out, 1, constant_values=False)
-        neighbour_count = (
-            padded[:-2, 1:-1].astype(int)  # up
-          + padded[2:,  1:-1].astype(int)  # down
-          + padded[1:-1, :-2].astype(int)  # left
-          + padded[1:-1, 2:].astype(int)   # right
+    # ── Pass 4: watermark (sparkle, bottom-right) ────────────────────────────
+    wr, wc = int(h * 0.72), int(w * 0.72)
+    wm_region = rgb[wr:, wc:]
+    wm_bright = np.all(wm_region >= WM_THRESH, axis=-1)
+    wm_diff   = np.abs(wm_region.astype(np.float32) - bg)
+    wm_close  = np.all(wm_diff <= SHADOW_TOL, axis=-1)
+    wm_mask   = np.zeros((h, w), dtype=bool)
+    wm_mask[wr:, wc:] = wm_bright | wm_close
+    mask |= wm_mask
+
+    # ── Pass 5: edge anti-halo ───────────────────────────────────────────────
+    for _ in range(EDGE_ERODE):
+        pad = np.pad(mask, 1, constant_values=False)
+        neighbour = (
+            pad[:-2, 1:-1].astype(np.int16)
+          + pad[2:,  1:-1].astype(np.int16)
+          + pad[1:-1,:-2].astype(np.int16)
+          + pad[1:-1, 2:].astype(np.int16)
         )
-        fg_near_bg = (~full_mask_out) & (neighbour_count >= 2)
-        diff = np.abs(rgb.astype(int) - bg_color)
-        halo_like = np.all(diff <= BG_TOLERANCE + 15, axis=-1)
-        full_mask_out |= (fg_near_bg & halo_like)
+        fg_near_bg = (~mask) & (neighbour >= 2)
+        diff = np.abs(rgb.astype(np.float32) - bg)
+        halo = np.all(diff <= FLOOD_TOL + 12, axis=-1)
+        mask |= fg_near_bg & halo
 
-    # ── 6. Apply transparency ──────────────────────────────────────────────────
-    rgba[:, :, 3] = np.where(full_mask_out, 0, 255).astype(np.uint8)
-
-    result = Image.fromarray(rgba)
-    result.save(out_path, "PNG", optimize=False)
+    # ── Apply transparency ───────────────────────────────────────────────────
+    rgba[:,:,3] = np.where(mask, 0, 255).astype(np.uint8)
+    Image.fromarray(rgba).save(dst, "PNG", optimize=False)
 
 
 def main():
-    # Gather all frames in order
-    frame_files = sorted(INPUT_DIR.glob("ezgif-frame-*.jpg"))
-
-    if not frame_files:
+    frames = sorted(INPUT_DIR.glob("ezgif-frame-*.jpg"))
+    if not frames:
         print(f"[ERROR] No frames found in {INPUT_DIR}")
         sys.exit(1)
 
-    total = len(frame_files)
-    print(f"Processing {total} frames...")
-    print(f"  Input:  {INPUT_DIR}")
+    total = len(frames)
+    print(f"remove_bg v2 — processing {total} frames")
+    print(f"  Input : {INPUT_DIR}")
     print(f"  Output: {OUTPUT_DIR}")
     print()
 
-    for i, src in enumerate(frame_files, start=1):
-        # Rename to canonical frame-NNN.png
-        frame_num = i  # use sorted order as the canonical index
-        dst_name  = f"frame-{frame_num:03d}.png"
-        dst       = OUTPUT_DIR / dst_name
-
-        print(f"  [{i:02d}/{total}] {src.name} -> {dst_name}", end="", flush=True)
+    for i, src in enumerate(frames, 1):
+        dst = OUTPUT_DIR / f"frame-{i:03d}.png"
+        print(f"  [{i:02d}/{total}] {src.name} -> {dst.name}", end="", flush=True)
         remove_background(src, dst)
         print(" OK")
 
     print()
-    print(f"Done. {total} transparent PNGs saved to:")
-    print(f"  {OUTPUT_DIR}")
+    print(f"Done. {total} transparent PNGs saved.")
 
 
 if __name__ == "__main__":
