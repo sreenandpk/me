@@ -219,7 +219,7 @@ pub fn Skills() -> Element {
                             h4 { class: "secondary-title", "{category.name}" }
                             div { class: "secondary-tags",
                                 for skill in category.skills {
-                                    span { class: "secondary-tag", "{skill.name}" }
+                                    span { class: "secondary-tag", "{skill}" }
                                 }
                             }
                         }
