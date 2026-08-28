@@ -3452,8 +3452,8 @@ section.char-skills-section {
 }
 
 .char-frame-container {
-  width: clamp(220px, 32vw, 480px);
-  height: clamp(280px, 55vh, 680px);
+  width: clamp(180px, 25vw, 380px);
+  height: clamp(220px, 45vh, 520px);
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -3499,8 +3499,8 @@ section.char-skills-section {
 @media (max-width: 1024px) {
   .char-content-col { width: min(320px, 40vw); gap: 1.2rem; }
   .char-frame-container {
-    width: clamp(180px, 28vw, 360px);
-    height: clamp(240px, 50vh, 520px);
+    width: clamp(150px, 22vw, 300px);
+    height: clamp(180px, 40vh, 400px);
   }
 }
 
@@ -3517,8 +3517,8 @@ section.char-skills-section {
   .char-badge-tags { justify-content: center; }
   .char-frame-col { width: 100%; justify-content: center; flex: 0 0 auto; height: auto; }
   .char-frame-container {
-    width: clamp(160px, 55vw, 260px);
-    height: clamp(200px, 42vw, 340px);
+    width: clamp(130px, 45vw, 220px);
+    height: clamp(160px, 35vw, 280px);
   }
   .char-terminal-text {
     top: auto; bottom: 12%; left: 5%;
@@ -3532,6 +3532,6 @@ section.char-skills-section {
 }
 
 @media (max-width: 480px) {
-  .char-frame-container { width: 70vw; height: 38vw; min-height: 180px; }
+  .char-frame-container { width: 60vw; height: 32vw; min-height: 140px; }
   .char-secondary-skills { padding: 4rem 0 6rem 0; }
 }
