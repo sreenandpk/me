@@ -21,8 +21,7 @@ pub fn Skills() -> Element {
                 }
 
                 const imgA = document.getElementById('char-frame-a');
-                const imgB = document.getElementById('char-frame-b');
-                if (!imgA || !imgB) return;
+                if (!imgA) return;
 
                 // ── Preload all frames ───────────────────────────────────────
                 const frames = [];
@@ -38,25 +37,16 @@ pub fn Skills() -> Element {
                     }
                 });
 
-                let lastExact = -1;
+                let lastIdx = -1;
                 let ticking   = false;
 
-                // ── Smooth cross-fade between consecutive frames ──────────────
-                // imgA shows floor frame, imgB overlays ceil frame at fractional opacity
-                const setBlendedFrame = (exactFrame) => {
-                    if (Math.abs(exactFrame - lastExact) < 0.001) return;
-                    lastExact = exactFrame;
-
-                    const idxA = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.floor(exactFrame)));
-                    const idxB = Math.max(0, Math.min(TOTAL_FRAMES - 1, idxA + 1));
-                    const blend = exactFrame - idxA;  // 0..1 fractional part
-
-                    if (frames[idxA]?.complete) imgA.src = frames[idxA].src;
-                    if (frames[idxB]?.complete) {
-                        imgB.src     = frames[idxB].src;
-                        imgB.style.opacity = String(blend.toFixed(3));
-                    } else {
-                        imgB.style.opacity = '0';
+                const setFrame = (idx) => {
+                    const clamped = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
+                    if (clamped !== lastIdx) {
+                        lastIdx = clamped;
+                        if (frames[clamped]?.complete) {
+                            imgA.src = frames[clamped].src;
+                        }
                     }
                 };
 
@@ -75,9 +65,8 @@ pub fn Skills() -> Element {
                         ? 4 * p * p * p
                         : 1 - Math.pow(-2 * p + 2, 3) / 2;
 
-                    // Map eased progress → exact frame position (continuous)
-                    const exactFrame = ep * (TOTAL_FRAMES - 1);
-                    setBlendedFrame(exactFrame);
+                    const frameIdx = Math.round(ep * (TOTAL_FRAMES - 1));
+                    setFrame(frameIdx);
 
                     // ── Intro text: fade out first 10% ───────────────────────
                     const termEl = document.getElementById('char-terminal');
@@ -120,10 +109,9 @@ pub fn Skills() -> Element {
 
                 // Show first frame immediately
                 imgA.src = '/assets/character/skills/frame-001.png';
-                imgB.style.opacity = '0';
 
                 allLoaded.then(() => {
-                    setBlendedFrame(0);
+                    setFrame(0);
                     update();
                 });
 
@@ -142,7 +130,7 @@ pub fn Skills() -> Element {
     rsx! {
         section { id: "skills", class: "char-skills-section blur-on-enter",
 
-            // ── SCROLL TRACK — 700vh gives a leisurely animation pace ──────────
+            // ── SCROLL TRACK — 700vh gives a leisurely pace ──────────
             div { id: "char-scroll-track", class: "char-scroll-track",
                 div { class: "char-sticky-view",
 
@@ -175,25 +163,15 @@ pub fn Skills() -> Element {
                         }
                     }
 
-                    // ── Anime character (right column) — two images for blending ──
+                    // ── Anime character (right column) ──
                     div { class: "char-frame-col",
                         div { class: "char-frame-container",
-                            // Layer A: base frame (opacity always 1)
                             img {
                                 id: "char-frame-a",
                                 class: "char-frame-img",
                                 src: "/assets/character/skills/frame-001.png",
                                 alt: "Developer character animation",
                                 draggable: "false",
-                            }
-                            // Layer B: next frame (opacity 0→1 for smooth blend)
-                            img {
-                                id: "char-frame-b",
-                                class: "char-frame-img char-frame-blend",
-                                src: "/assets/character/skills/frame-001.png",
-                                alt: "",
-                                draggable: "false",
-                                aria_hidden: "true",
                             }
                         }
                     }

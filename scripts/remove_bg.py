@@ -28,7 +28,7 @@ OUTPUT_DIR  = REPO_ROOT / "assets" / "character" / "skills"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Tuning ─────────────────────────────────────────────────────────────────────
-FLOOD_TOL        = 32    # exterior flood-fill colour tolerance (per channel)
+FLOOD_TOL        = 20    # exterior flood-fill colour tolerance (per channel)
 INNER_TOL        = 12    # enclosed-pocket match tolerance
 INNER_SAT_MAX    = 0.04  # max saturation for enclosed pockets (pure neutral gray)
 INNER_BRIGHT_MIN = 152   # min brightness for enclosed pockets (bg ~179, char <120)
