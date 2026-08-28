@@ -3452,8 +3452,8 @@ section.char-skills-section {
 }
 
 .char-frame-container {
-  width: clamp(180px, 25vw, 380px);
-  height: clamp(220px, 45vh, 520px);
+  width: clamp(140px, 18vw, 280px);
+  height: clamp(170px, 32vh, 390px);
   position: relative;
   display: flex;
   align-items: flex-end;
@@ -3499,8 +3499,8 @@ section.char-skills-section {
 @media (max-width: 1024px) {
   .char-content-col { width: min(320px, 40vw); gap: 1.2rem; }
   .char-frame-container {
-    width: clamp(150px, 22vw, 300px);
-    height: clamp(180px, 40vh, 400px);
+    width: clamp(115px, 16vw, 220px);
+    height: clamp(140px, 28vh, 300px);
   }
 }
 
@@ -3517,8 +3517,8 @@ section.char-skills-section {
   .char-badge-tags { justify-content: center; }
   .char-frame-col { width: 100%; justify-content: center; flex: 0 0 auto; height: auto; }
   .char-frame-container {
-    width: clamp(130px, 45vw, 220px);
-    height: clamp(160px, 35vw, 280px);
+    width: clamp(100px, 35vw, 170px);
+    height: clamp(120px, 25vw, 210px);
   }
   .char-terminal-text {
     top: auto; bottom: 12%; left: 5%;
@@ -3532,6 +3532,6 @@ section.char-skills-section {
 }
 
 @media (max-width: 480px) {
-  .char-frame-container { width: 60vw; height: 32vw; min-height: 140px; }
+  .char-frame-container { width: 48vw; height: 25vw; min-height: 110px; }
   .char-secondary-skills { padding: 4rem 0 6rem 0; }
 }
