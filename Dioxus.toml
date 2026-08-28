@@ -3,6 +3,7 @@ name = "portfolio"
 default_platform = "web"
 out_dir = "dist"
 asset_dir = "assets"
+public_dir = "assets"
 
 [web.app]
 title = "Sreenand P K | Python Developer & Backend Engineer"

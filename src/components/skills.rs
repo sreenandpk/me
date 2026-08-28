@@ -16,7 +16,7 @@ pub fn Skills() -> Element {
                 // ── Reduced motion fallback ──────────────────────────────────
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     const imgA = document.getElementById('char-frame-a');
-                    if (imgA) imgA.src = '/assets/character/skills/frame-025.png';
+                    if (imgA) imgA.src = '/character/skills/frame-025.png';
                     return;
                 }
 
@@ -30,7 +30,7 @@ pub fn Skills() -> Element {
                     for (let i = 1; i <= TOTAL_FRAMES; i++) {
                         const img = new Image();
                         const n   = String(i).padStart(3, '0');
-                        img.src   = `/assets/character/skills/frame-${n}.png`;
+                        img.src   = `/character/skills/frame-${n}.png`;
                         img.onload  = () => { loadedCount++; if (loadedCount === TOTAL_FRAMES) resolve(); };
                         img.onerror = () => { loadedCount++; if (loadedCount === TOTAL_FRAMES) resolve(); };
                         frames.push(img);
@@ -127,7 +127,7 @@ pub fn Skills() -> Element {
                     updateTarget();
                 };
 
-                imgA.src = '/assets/character/skills/frame-001.png';
+                imgA.src = '/character/skills/frame-001.png';
 
                 allLoaded.then(() => {
                     updateTarget();
@@ -195,7 +195,7 @@ pub fn Skills() -> Element {
                             img {
                                 id: "char-frame-a",
                                 class: "char-frame-img",
-                                src: "/assets/character/skills/frame-001.png",
+                                src: "/character/skills/frame-001.png",
                                 alt: "Developer character animation",
                                 draggable: "false",
                             }
