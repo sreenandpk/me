@@ -37,8 +37,10 @@ pub fn Skills() -> Element {
                     }
                 });
 
+                let targetFrame = 0;
+                let currentFrame = 0;
                 let lastIdx = -1;
-                let ticking   = false;
+                let isLoopRunning = false;
 
                 const setFrame = (idx) => {
                     const clamped = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
@@ -50,7 +52,30 @@ pub fn Skills() -> Element {
                     }
                 };
 
-                const update = () => {
+                // Continuous loop for butter-smooth inertial interpolation (lerp)
+                const loop = () => {
+                    const rect = track.getBoundingClientRect();
+                    const inView = rect.top <= window.innerHeight && rect.bottom >= 0;
+
+                    if (!inView) {
+                        isLoopRunning = false;
+                        return;
+                    }
+
+                    // Smooth lerping to targets
+                    const diff = targetFrame - currentFrame;
+                    if (Math.abs(diff) > 0.01) {
+                        currentFrame += diff * 0.12; // Damping constant for fluid feel
+                        setFrame(Math.round(currentFrame));
+                    } else {
+                        currentFrame = targetFrame;
+                        setFrame(Math.round(currentFrame));
+                    }
+
+                    requestAnimationFrame(loop);
+                };
+
+                const updateTarget = () => {
                     const rect     = track.getBoundingClientRect();
                     const vh       = window.innerHeight;
                     const maxScroll = rect.height - vh;
@@ -59,68 +84,61 @@ pub fn Skills() -> Element {
                     if (p < 0) p = 0;
                     if (p > 1) p = 1;
 
-                    // Smooth ease: slow-in + slow-out so the run cycle feels natural
-                    // Using cubic ease-in-out on p
+                    // Cubic ease-in-out for responsive scroll physics
                     const ep = p < 0.5
                         ? 4 * p * p * p
                         : 1 - Math.pow(-2 * p + 2, 3) / 2;
 
-                    const frameIdx = Math.round(ep * (TOTAL_FRAMES - 1));
-                    setFrame(frameIdx);
+                    targetFrame = ep * (TOTAL_FRAMES - 1);
 
-                    // ── Intro text: fade out first 10% ───────────────────────
+                    if (!isLoopRunning) {
+                        isLoopRunning = true;
+                        requestAnimationFrame(loop);
+                    }
+
+                    // ── Intro Terminal Card: fade out first 12% ──────────────
                     const termEl = document.getElementById('char-terminal');
                     if (termEl) {
-                        if (p < 0.10) {
-                            const t = 1 - (p / 0.10);
+                        if (p < 0.12) {
+                            const t = 1 - (p / 0.12);
                             termEl.style.opacity   = String(t);
-                            termEl.style.transform = `translate3d(0,${-p * 80}px,0)`;
+                            termEl.style.transform = `translate3d(0,${-p * 60}px,0)`;
                         } else {
                             termEl.style.opacity   = '0';
-                            termEl.style.transform = `translate3d(0,-80px,0)`;
+                            termEl.style.transform = `translate3d(0,-60px,0)`;
                         }
                     }
 
-                    // ── Final text: fade in last 10% ─────────────────────────
+                    // ── Final Terminal Card: fade in last 12% ───────────────
                     const finalEl = document.getElementById('char-final');
                     if (finalEl) {
-                        if (p > 0.90) {
-                            const fp = (p - 0.90) / 0.10;
+                        if (p > 0.88) {
+                            const fp = (p - 0.88) / 0.12;
                             finalEl.style.opacity   = String(fp);
-                            finalEl.style.transform = `translate3d(0,${20 - fp * 20}px,0)`;
+                            finalEl.style.transform = `translate3d(0,${15 - fp * 15}px,0)`;
                         } else {
                             finalEl.style.opacity   = '0';
-                            finalEl.style.transform = 'translate3d(0,20px,0)';
+                            finalEl.style.transform = 'translate3d(0,15px,0)';
                         }
                     }
-
-                    ticking = false;
                 };
 
                 const onScroll = () => {
-                    const rect = track.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-                        if (!ticking) {
-                            requestAnimationFrame(update);
-                            ticking = true;
-                        }
-                    }
+                    updateTarget();
                 };
 
-                // Show first frame immediately
                 imgA.src = '/assets/character/skills/frame-001.png';
 
                 allLoaded.then(() => {
-                    setFrame(0);
-                    update();
+                    updateTarget();
                 });
 
                 window.addEventListener('scroll', onScroll, { passive: true });
-                window.addEventListener('resize', update,   { passive: true });
+                window.addEventListener('resize', updateTarget,   { passive: true });
 
                 return () => {
                     window.removeEventListener('scroll', onScroll);
-                    window.removeEventListener('resize', update);
+                    window.removeEventListener('resize', updateTarget);
                 };
             })();
             "#
@@ -130,21 +148,29 @@ pub fn Skills() -> Element {
     rsx! {
         section { id: "skills", class: "char-skills-section blur-on-enter",
 
-            // ── SCROLL TRACK — 700vh gives a leisurely pace ──────────
+            // ── SCROLL TRACK ──
             div { id: "char-scroll-track", class: "char-scroll-track",
                 div { class: "char-sticky-view",
 
-                    // ── Terminal intro text ──────────────────────────────────────
-                    div { id: "char-terminal", class: "char-terminal-text",
-                        p { "CONNECTION LOST" }
-                        p { "NETWORK OFFLINE" }
-                        p { "DEVELOPER STILL RUNNING" }
-                        span { class: "char-cursor", "_" }
+                    // ── Intro Terminal Card ──────────────────────────────────────
+                    div { id: "char-terminal", class: "char-terminal-card",
+                        div { class: "char-terminal-header",
+                            div { class: "char-terminal-dot red" }
+                            div { class: "char-terminal-dot yellow" }
+                            div { class: "char-terminal-dot green" }
+                            span { class: "char-terminal-title", "status_monitor.sh" }
+                        }
+                        div { class: "char-terminal-body",
+                            p { class: "char-red", "► STATUS: CONNECTION LOST" }
+                            p { class: "char-red", "► NETWORK: OFFLINE" }
+                            p { class: "char-blink-text", "► SEARCHING FOR HOST..." }
+                            span { class: "char-cursor", "_" }
+                        }
                     }
 
                     // ── Skills content (left column) ─────────────────────────────
                     div { class: "char-content-col",
-                        h2 { class: "char-section-heading", "Skills" }
+                        h2 { class: "real-projects-3d-title", "SKILLS" }
                         p { class: "char-section-sub",
                             "Technologies I work with every day — from systems design to shipping products."
                         }
@@ -176,15 +202,21 @@ pub fn Skills() -> Element {
                         }
                     }
 
-                    // ── Final text ───────────────────────────────────────────────
-                    div { id: "char-final", class: "char-final-text",
-                        p { class: "char-green", "CONNECTION RESTORED" }
-                        br {}
-                        p { "NETWORK       ONLINE" }
-                        p { "SERVICES      ONLINE" }
-                        p { "DEVELOPER     STILL RUNNING" }
-                        br {}
-                        h3 { "FULL STACK DEVELOPER" }
+                    // ── Final Terminal Card ──────────────────────────────────────
+                    div { id: "char-final", class: "char-terminal-card char-final-card",
+                        div { class: "char-terminal-header",
+                            div { class: "char-terminal-dot red" }
+                            div { class: "char-terminal-dot yellow" }
+                            div { class: "char-terminal-dot green" }
+                            span { class: "char-terminal-title", "system_status.sh" }
+                        }
+                        div { class: "char-terminal-body",
+                            p { class: "char-green", "► STATUS: CONNECTION RESTORED" }
+                            p { class: "char-green", "► NETWORK: ONLINE" }
+                            p { class: "char-green", "► SERVICES: ACTIVE" }
+                            br {}
+                            h3 { class: "char-final-h3", "► DEVELOPER ONLINE" }
+                        }
                     }
                 }
             }
