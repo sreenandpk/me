@@ -41,13 +41,13 @@ pub fn Skills() -> Element {
                 // Easing, position, and velocity variables
                 let targetFrame = 0;
                 let currentFrame = 0;
-                let targetX = -15;  // start offscreen left
-                let currentX = -15;
-                let targetY = 0;
-                let currentY = 0;
-                let currentV = 0;
+                let targetX = 15;  // horizontal starting left %
+                let currentX = 15;
+                let targetY = window.innerHeight * 0.22; // vertical starting px
+                let currentY = window.innerHeight * 0.22;
+                let targetYOffset = 0; // jump offset
+                let currentYOffset = 0;
                 let lastP = 0;
-                let lastT = Date.now();
                 let lastIdx = -1;
                 let isLoopRunning = false;
 
@@ -55,7 +55,7 @@ pub fn Skills() -> Element {
                 const dustContainer = document.getElementById('char-dust-container');
                 const dustParticles = [];
                 if (dustContainer) {
-                    for (let i = 0; i < 6; i++) {
+                    for (let i = 0; i < 5; i++) {
                         const p = document.createElement('div');
                         p.className = 'char-dust-particle';
                         dustContainer.appendChild(p);
@@ -69,7 +69,7 @@ pub fn Skills() -> Element {
                 const neonContainer = document.getElementById('char-neon-dots');
                 const neonParticles = [];
                 if (neonContainer) {
-                    for (let i = 0; i < 10; i++) {
+                    for (let i = 0; i < 8; i++) {
                         const d = document.createElement('div');
                         d.className = 'char-neon-dot';
                         neonContainer.appendChild(d);
@@ -97,9 +97,9 @@ pub fn Skills() -> Element {
                     p.life = 1.0;
                     p.x = 0;
                     p.y = 0;
-                    p.vx = -(1.0 + Math.random() * 1.5);
-                    p.vy = -(Math.random() * 1.0);
-                    p.el.style.opacity = '0.3';
+                    p.vx = -(0.8 + Math.random() * 1.2);
+                    p.vy = -(Math.random() * 0.8);
+                    p.el.style.opacity = '0.25';
                     p.el.style.transform = 'translate3d(0, 0, 0) scale(1)';
                 };
 
@@ -109,11 +109,11 @@ pub fn Skills() -> Element {
                     if (!d) return;
                     d.active = true;
                     d.life = 1.0;
-                    d.x = (Math.random() - 0.5) * 40; // horizontal scatter
+                    d.x = (Math.random() - 0.5) * 30;
                     d.y = 0;
-                    d.vx = (Math.random() - 0.5) * 1.0;
-                    d.vy = 2.0 + Math.random() * 3.0; // fall down fast
-                    d.el.style.opacity = '0.7';
+                    d.vx = (Math.random() - 0.5) * 0.8;
+                    d.vy = 1.5 + Math.random() * 2.0; // fall down trail
+                    d.el.style.opacity = '0.6';
                     d.el.style.transform = `translate3d(${d.x}px, ${d.y}px, 0) scale(1)`;
                 };
 
@@ -131,9 +131,10 @@ pub fn Skills() -> Element {
                         return;
                     }
 
-                    // Lerp horizontal and vertical positions
+                    // Lerp coordinates
                     currentX += (targetX - currentX) * 0.12;
-                    currentY += (targetY - currentY) * 0.12;
+                    currentY += (targetY - currentY) * 0.10; // slightly slower vertical alignment
+                    currentYOffset += (targetYOffset - currentYOffset) * 0.12;
                     
                     // Lerp frame indices
                     const diff = targetFrame - currentFrame;
@@ -149,38 +150,18 @@ pub fn Skills() -> Element {
                     const mover = document.getElementById('char-mover');
                     if (mover) {
                         mover.style.left = `${currentX}%`;
-                        mover.style.transform = `translate3d(-50%, ${currentY}px, 0)`;
+                        mover.style.top = `${currentY}px`;
+                        mover.style.transform = `translate3d(-50%, ${currentYOffset}px, 0)`;
                     }
 
-                    // Velocity calculation
-                    const now = Date.now();
-                    const dt = Math.max(1, now - lastT);
-                    const currentP = -rect.top / (rect.height - window.innerHeight);
-                    const instantV = Math.abs(currentP - lastP) / dt;
-                    currentV += (instantV * 300 - currentV) * 0.1;
-                    lastP = currentP;
-                    lastT = now;
-
-                    // Animate speed lines
-                    const speedLines = document.querySelectorAll('.char-speed-line');
-                    const time = now * 0.003;
-                    speedLines.forEach((line, index) => {
-                        if (currentV > 0.12) {
-                            const offset = ((time * (120 + index * 50)) % window.innerWidth);
-                            line.style.transform = `translate3d(${-offset}px, 0, 0) scaleX(${1 + currentV * 0.4})`;
-                            line.style.opacity = String(Math.min(0.3, (currentV - 0.12) * 0.6));
-                        } else {
-                            line.style.opacity = '0';
-                        }
-                    });
-
-                    // Dust particles emission
-                    if (currentV > 0.15 && Math.random() < 0.25) {
+                    // Spawn dust particles during movement
+                    const moverEl = document.getElementById('char-mover');
+                    if (moverEl && moverEl.classList.contains('moving') && Math.random() < 0.2) {
                         spawnDust();
                     }
 
-                    // Neon particles emission (triggered when character is high in the air during jump)
-                    if (currentY < -30 && Math.random() < 0.4) {
+                    // Neon particles trail during jump
+                    if (currentYOffset < -20 && Math.random() < 0.3) {
                         spawnNeonDot();
                     }
 
@@ -189,13 +170,13 @@ pub fn Skills() -> Element {
                         if (!p.active) return;
                         p.x += p.vx;
                         p.y += p.vy;
-                        p.life -= 0.04;
+                        p.life -= 0.05;
                         if (p.life <= 0) {
                             p.active = false;
                             p.el.style.opacity = '0';
                         } else {
-                            p.el.style.opacity = String(p.life * 0.3);
-                            p.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) scale(${0.5 + p.life * 0.7})`;
+                            p.el.style.opacity = String(p.life * 0.25);
+                            p.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) scale(${0.5 + p.life * 0.5})`;
                         }
                     });
 
@@ -204,12 +185,12 @@ pub fn Skills() -> Element {
                         if (!d.active) return;
                         d.x += d.vx;
                         d.y += d.vy;
-                        d.life -= 0.03;
+                        d.life -= 0.04;
                         if (d.life <= 0) {
                             d.active = false;
                             d.el.style.opacity = '0';
                         } else {
-                            d.el.style.opacity = String(d.life * 0.7);
+                            d.el.style.opacity = String(d.life * 0.6);
                             d.el.style.transform = `translate3d(${d.x}px, ${d.y}px, 0) scale(${0.6 + d.life * 0.6})`;
                         }
                     });
@@ -228,59 +209,82 @@ pub fn Skills() -> Element {
                     if (p < 0) p = 0;
                     if (p > 1) p = 1;
 
-                    // ── 4-Stage Horizontal Pathing ──
-                    if (p < 0.22) {
-                        const t = p / 0.22;
-                        targetX = -15 + t * 35; // enter offscreen left -> 20%
-                    } else if (p < 0.48) {
-                        const t = (p - 0.22) / 0.26;
-                        targetX = 20 + t * 30; // run from 20% -> 50%
-                    } else if (p < 0.74) {
-                        const t = (p - 0.48) / 0.26;
-                        targetX = 50 + t * 30; // run from 50% -> 80%
+                    // ── 3-Row Vertical Alignment (Grounded under row underlines) ──
+                    if (p < 0.28) {
+                        targetY = vh * 0.24; // Row 1 Y
+                    } else if (p < 0.58) {
+                        targetY = vh * 0.52; // Row 2 Y
                     } else {
-                        const t = Math.min(1.0, (p - 0.74) / 0.26);
-                        targetX = 80 + t * 8; // run from 80% -> 88%
+                        targetY = vh * 0.80; // Row 3 Y
                     }
 
-                    // ── Vertical Jumping Curve (Stage 4 Climax) ──
-                    if (p >= 0.76 && p <= 0.94) {
-                        const jp = (p - 0.76) / 0.18;
-                        targetY = -Math.sin(jp * Math.PI) * 280; // Peak jump height 280px
+                    // ── 3-Stage Horizontal Burst Movement (Short Runs) ──
+                    if (p < 0.28) {
+                        const t = Math.min(1.0, p / 0.20);
+                        targetX = 18 + t * 20; // Row 1: short run 18% -> 38%
+                    } else if (p < 0.58) {
+                        const t = Math.min(1.0, (p - 0.28) / 0.20);
+                        targetX = 26 + t * 20; // Row 2: short run 26% -> 46%
+                    } else if (p < 0.80) {
+                        const t = Math.min(1.0, (p - 0.58) / 0.20);
+                        targetX = 35 + t * 20; // Row 3: short run 35% -> 55%
                     } else {
-                        targetY = 0;
+                        const t = Math.min(1.0, (p - 0.80) / 0.12);
+                        targetX = 55 + t * 8;  // Climax / Jump prep: move slightly to 63%
                     }
 
-                    // ── Frame state coordination based on movement speed & pauses ──
+                    // ── Vertical Jumping Curve (Stage 4 Climax, Short/Tasteful Peak) ──
+                    if (p >= 0.80 && p <= 0.92) {
+                        const jp = (p - 0.80) / 0.12;
+                        targetYOffset = -Math.sin(jp * Math.PI) * 140; // 140px peak height
+                    } else {
+                        targetYOffset = 0;
+                    }
+
+                    // ── Moving state detection for speed lines & dust ──
+                    let isMoving = false;
                     let frameSelection = 0;
 
-                    if (p < 0.16) {
-                        const t = p / 0.16;
-                        frameSelection = Math.round(t * 3 * 24) % 24; // running
-                    } else if (p >= 0.16 && p < 0.22) {
-                        frameSelection = 0; // idle standing
-                    } else if (p >= 0.22 && p < 0.42) {
-                        const t = (p - 0.22) / 0.20;
-                        frameSelection = Math.round(t * 3 * 24) % 24; // running
-                    } else if (p >= 0.42 && p < 0.48) {
-                        frameSelection = 0; // idle standing
-                    } else if (p >= 0.48 && p < 0.68) {
-                        const t = (p - 0.48) / 0.20;
-                        frameSelection = Math.round(t * 3 * 24) % 24; // running
-                    } else if (p >= 0.68 && p < 0.74) {
-                        frameSelection = 0; // idle standing
-                    } else if (p >= 0.74 && p < 0.76) {
-                        const t = (p - 0.74) / 0.02;
-                        frameSelection = Math.round(25 + t * 5); // crouch prep
-                    } else if (p >= 0.76 && p < 0.94) {
-                        const t = (p - 0.76) / 0.18;
-                        frameSelection = Math.round(31 + t * 14); // rising/falling jump frames
+                    if (p < 0.20) {
+                        const t = p / 0.20;
+                        frameSelection = Math.round(t * 2 * 24) % 24;
+                        isMoving = true;
+                    } else if (p >= 0.20 && p < 0.28) {
+                        frameSelection = 0; // idle
+                    } else if (p >= 0.28 && p < 0.48) {
+                        const t = (p - 0.28) / 0.20;
+                        frameSelection = Math.round(t * 2 * 24) % 24;
+                        isMoving = true;
+                    } else if (p >= 0.48 && p < 0.58) {
+                        frameSelection = 0; // idle
+                    } else if (p >= 0.58 && p < 0.78) {
+                        const t = (p - 0.58) / 0.20;
+                        frameSelection = Math.round(t * 2 * 24) % 24;
+                        isMoving = true;
+                    } else if (p >= 0.78 && p < 0.80) {
+                        frameSelection = 0; // idle
+                    } else if (p >= 0.80 && p < 0.82) {
+                        const t = (p - 0.80) / 0.02;
+                        frameSelection = Math.round(25 + t * 5); // crouch
+                    } else if (p >= 0.82 && p < 0.92) {
+                        const t = (p - 0.82) / 0.10;
+                        frameSelection = Math.round(31 + t * 14); // jump frames
+                        isMoving = true;
                     } else {
-                        const t = Math.min(1.0, (p - 0.94) / 0.06);
-                        frameSelection = Math.round(46 + t * 3); // landing & final stand
+                        const t = Math.min(1.0, (p - 0.92) / 0.08);
+                        frameSelection = Math.round(46 + t * 3); // land
                     }
 
                     targetFrame = frameSelection;
+
+                    const mover = document.getElementById('char-mover');
+                    if (mover) {
+                        if (isMoving) {
+                            mover.classList.add('moving');
+                        } else {
+                            mover.classList.remove('moving');
+                        }
+                    }
 
                     if (!isLoopRunning) {
                         isLoopRunning = true;
@@ -299,24 +303,23 @@ pub fn Skills() -> Element {
                         }
                     };
 
-                    setCategoryActive(0, p >= 0.12);
-                    setCategoryActive(1, p >= 0.38);
-                    setCategoryActive(2, p >= 0.64);
-                    setCategoryActive(3, p >= 0.64);
-                    setCategoryActive(4, p >= 0.82);
-                    setCategoryActive(5, p >= 0.82);
-                    setCategoryActive(6, p >= 0.82);
-                    setCategoryActive(7, p >= 0.82);
+                    setCategoryActive(0, p >= 0.14); // Languages
+                    setCategoryActive(3, p >= 0.14); // Database
+                    setCategoryActive(1, p >= 0.42); // Frontend
+                    setCategoryActive(5, p >= 0.42); // Tools
+                    setCategoryActive(2, p >= 0.70); // Backend
+                    setCategoryActive(6, p >= 0.70); // Collaboration
+                    setCategoryActive(4, p >= 0.78); // DevOps
+                    setCategoryActive(7, p >= 0.78); // Concepts
 
                     // ── Parallax Background Typography ──
                     const bgTypography = document.getElementById('char-bg-text');
                     if (bgTypography) {
-                        const pxOffset = (p - 0.5) * -120;
+                        const pxOffset = (p - 0.5) * -80;
                         bgTypography.style.transform = `translate3d(calc(-50% + ${pxOffset}px), -50%, 0)`;
                     }
 
                     // ── Character visibility near exit ──
-                    const mover = document.getElementById('char-mover');
                     if (mover) {
                         if (p >= 0.90) {
                             const charOpacity = 1 - (p - 0.90) / 0.08;
@@ -332,7 +335,7 @@ pub fn Skills() -> Element {
                         if (p >= 0.94) {
                             const dissolveP = 1 - (p - 0.94) / 0.06;
                             stickyView.style.opacity = String(dissolveP);
-                            stickyView.style.transform = `scale(${0.97 + dissolveP * 0.03})`;
+                            stickyView.style.transform = `scale(${0.98 + dissolveP * 0.02})`;
                         } else {
                             stickyView.style.opacity = '1';
                             stickyView.style.transform = 'scale(1)';
@@ -346,14 +349,6 @@ pub fn Skills() -> Element {
 
                 // Initialize properties
                 imgA.src = '/character/skills/frame-001.png';
-                
-                // Initialize speed lines top heights
-                const speedLines = document.querySelectorAll('.char-speed-line');
-                const positions = [18, 38, 58, 78];
-                speedLines.forEach((line, index) => {
-                    line.style.top = positions[index] + '%';
-                    line.style.right = '-180px';
-                });
 
                 allLoaded.then(() => {
                     updateTarget();
@@ -371,7 +366,7 @@ pub fn Skills() -> Element {
         );
     });
 
-    // Helper closure to render category lists cardless
+    // Helper closure to render categories cardless with inline stagger transition-delay
     let render_cat = |idx: usize| {
         let cat = &SKILL_CATEGORIES[idx];
         rsx! {
@@ -387,7 +382,7 @@ pub fn Skills() -> Element {
                     for (t_idx, skill) in cat.skills.iter().enumerate() {
                         span {
                             class: "char-tech-tag",
-                            style: "transition-delay: {t_idx as f32 * 0.06}s;",
+                            style: "transition-delay: {t_idx as f32 * 0.04}s;",
                             "{skill}"
                         }
                     }
@@ -399,22 +394,14 @@ pub fn Skills() -> Element {
     rsx! {
         section { id: "skills", class: "char-skills-section blur-on-enter",
 
-            // ── SCROLL TRACK (Cinematic 3.5vh Height) ──
+            // ── SCROLL TRACK (Shorter 2.0vh Height for fast unpinning) ──
             div { id: "char-scroll-track", class: "char-scroll-track",
                 div { class: "char-sticky-view",
 
-                    // ── Background massive outline typography ──
+                    // ── Background typography ──
                     div { id: "char-bg-text", class: "char-bg-typography", "SKILLS" }
 
-                    // ── Environmental speed lines ──
-                    div { class: "char-speed-lines-container",
-                        div { class: "char-speed-line" }
-                        div { class: "char-speed-line" }
-                        div { class: "char-speed-line" }
-                        div { class: "char-speed-line" }
-                    }
-
-                    // ── Editorial Columns (NO CARDS) ──
+                    // ── Editorial Container (NO CARDS) ──
                     div { class: "char-editorial-container",
                         div { class: "char-grid-header",
                             h2 { class: "real-projects-3d-title", "SKILLS" }
@@ -422,29 +409,38 @@ pub fn Skills() -> Element {
                         }
                         
                         div { class: "char-editorial-columns",
-                            // Left Column (Languages & Frontend)
-                            div { class: "char-editorial-column",
-                                {render_cat(0)},
-                                {render_cat(1)},
+                            // Row 1: Languages & Databases
+                            div { id: "skills-row-1", class: "char-skills-row",
+                                div { class: "char-row-left", {render_cat(0)} }
+                                div { class: "char-row-right", {render_cat(3)} }
                             }
-                            // Center Column (Backend & Database)
-                            div { class: "char-editorial-column",
-                                {render_cat(2)},
-                                {render_cat(3)},
+                            // Row 2: Frontend & Tools
+                            div { id: "skills-row-2", class: "char-skills-row",
+                                div { class: "char-row-left", {render_cat(1)} }
+                                div { class: "char-row-right", {render_cat(5)} }
                             }
-                            // Right Column (DevOps, Tools, Collaboration, Concepts)
-                            div { class: "char-editorial-column",
-                                {render_cat(4)},
-                                {render_cat(5)},
-                                {render_cat(6)},
-                                {render_cat(7)},
+                            // Row 3: Backend & DevOps
+                            div { id: "skills-row-3", class: "char-skills-row",
+                                div { class: "char-row-left", 
+                                    {render_cat(2)},
+                                    {render_cat(6)} 
+                                }
+                                div { class: "char-row-right", 
+                                    {render_cat(4)},
+                                    {render_cat(7)} 
+                                }
                             }
                         }
                     }
 
-                    // ── Character mover with backlight neon aura ──
+                    // ── Character mover wrapper ──
                     div { id: "char-mover", class: "char-mover",
-                        div { class: "char-neon-aura" }
+                        // Subtle speed lines behind character when moving
+                        div { class: "char-mover-speed-lines",
+                            div { class: "char-mover-streak" }
+                            div { class: "char-mover-streak" }
+                            div { class: "char-mover-streak" }
+                        }
                         div { id: "char-frame-container", class: "char-frame-container",
                             img {
                                 id: "char-frame-a",
