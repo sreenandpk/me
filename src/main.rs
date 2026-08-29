@@ -60,10 +60,10 @@ fn App() -> Element {
                     const viewportHeight = window.innerHeight;
                     const isMobile = window.innerWidth <= 768;
 
-                    const recedeScale = isMobile ? 0.985 : 0.96;
-                    const travelMaxY = isMobile ? 25 : 90;
-                    const maxBlur = isMobile ? 4 : 16;
-                    const minScale = isMobile ? 0.97 : 0.94;
+                    const recedeScale = isMobile ? 0.99 : 0.96;
+                    const travelMaxY = isMobile ? 15 : 90;
+                    const maxBlur = isMobile ? 0 : 16;
+                    const minScale = isMobile ? 0.98 : 0.94;
 
                     sectionData.forEach(item => {
                         const sec = item.sec;

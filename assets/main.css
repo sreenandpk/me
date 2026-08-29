@@ -2575,7 +2575,24 @@ footer.footer-section { z-index: 80; }
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .mobile-nav-toggle { display: flex; }
-  .section { padding: 5rem 0; }
+  
+  /* Better mobile side padding for all sections */
+  .section { padding: 4.5rem 1.25rem; }
+  section.projects-white-section {
+    padding: 4.5rem 1.25rem;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+  }
+  .projects-container {
+    padding: 0;
+  }
+  .projects-massive-title {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    margin-bottom: 2.5rem;
+  }
+  .contact-giant-text {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
   
   .skills-row {
     grid-template-columns: 1fr;
