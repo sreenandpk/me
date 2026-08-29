@@ -4,7 +4,7 @@ use crate::data::PERSONAL_INFO;
 #[component]
 pub fn Contact() -> Element {
     rsx! {
-        section { id: "contact", class: "section reveal-on-scroll",
+        section { id: "contact", class: "projects-white-section blur-on-enter",
             div { class: "container",
                 div { class: "contact-grid",
                     div { class: "contact-left-col",

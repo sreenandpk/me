@@ -22,7 +22,7 @@ fn App() -> Element {
         let _ = document::eval(
             r#"
             const initScrollDrivenSticky = () => {
-                let sections = Array.from(document.querySelectorAll('section.section, footer.footer-section, .blur-on-enter'));
+                let sections = Array.from(document.querySelectorAll('section.section, .blur-on-enter'));
                 if (!sections.length) return;
 
                 let sectionData = [];
@@ -158,9 +158,6 @@ fn App() -> Element {
 
             // Skills section
             Skills {}
-
-            // Experience timeline
-            ExperienceSection {}
 
             // Contact details
             Contact {}

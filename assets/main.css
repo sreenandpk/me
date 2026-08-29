@@ -1938,8 +1938,8 @@ section.dino-skills-section {
 /* --- Footer --- */
 .footer-section {
   padding: 3.5rem 0;
-  background-color: var(--bg-primary);
-  border-top: 1px solid var(--border-color);
+  background-color: #f8fafc;
+  border-top: none;
 }
 
 .footer-grid {
@@ -2515,7 +2515,7 @@ footer.footer-section {
   position: relative;
   will-change: transform, opacity, filter;
   transform-origin: center top;
-  background-color: var(--bg-color);
+  background-color: #f8fafc;
   padding-top: 1rem;
   padding-bottom: 18vh !important; /* Reduced height for compact, clean bottom blur container */
 }
@@ -2954,9 +2954,23 @@ section.projects-white-section {
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
 }
 
-/* Reset margin-top for experience section to fit cleanly after Skills section */
-section#experience {
+/* Reset margin-top for experience and contact section to fit cleanly after Skills section */
+section#experience, section#contact {
   margin-top: 0 !important;
+}
+
+/* Contact section text overrides when inside the white section */
+.projects-white-section .contact-giant-text {
+  color: #000000;
+}
+.projects-white-section .contact-subtext {
+  color: #475569;
+}
+.projects-white-section .contact-brutalist-link {
+  color: #475569;
+}
+.projects-white-section .contact-brutalist-link:hover {
+  color: #000000;
 }
 
 
