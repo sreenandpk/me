@@ -98,7 +98,6 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
                     li { a { class: "nav-link", href: "#skills", "Skills" } }
                     li { a { class: "nav-link", href: "#projects", "Projects" } }
                     li { a { class: "nav-link", href: "#experience", "Experience" } }
-                    li { a { class: "nav-link", href: "#philosophy", "Principles" } }
                     li { a { class: "nav-link", href: "#contact", "Contact" } }
                 }
 
@@ -185,7 +184,6 @@ pub fn Navbar(is_light: Signal<bool>) -> Element {
             li { a { class: "nav-link", href: "#skills", onclick: move |_| close_mobile(), "Skills" } }
             li { a { class: "nav-link", href: "#projects", onclick: move |_| close_mobile(), "Projects" } }
             li { a { class: "nav-link", href: "#experience", onclick: move |_| close_mobile(), "Experience" } }
-            li { a { class: "nav-link", href: "#philosophy", onclick: move |_| close_mobile(), "Principles" } }
             li { a { class: "nav-link", href: "#contact", onclick: move |_| close_mobile(), "Contact" } }
         }
     }

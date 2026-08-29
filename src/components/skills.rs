@@ -38,46 +38,17 @@ pub fn Skills() -> Element {
                     }
                 });
 
-                // Easing, position, and velocity variables
+                // Coordinates and easing physics
                 let targetFrame = 0;
                 let currentFrame = 0;
-                let targetX = 15;  // horizontal starting left %
-                let currentX = 15;
-                let targetY = window.innerHeight * 0.22; // vertical starting px
-                let currentY = window.innerHeight * 0.22;
-                let targetYOffset = 0; // jump offset
+                let targetX = 12;
+                let currentX = -15;
+                let targetYOffset = 0; // jump vertical displacement
                 let currentYOffset = 0;
                 let lastP = 0;
-                let lastIdx = -1;
                 let isLoopRunning = false;
 
-                // Create dust particles pool dynamically
-                const dustContainer = document.getElementById('char-dust-container');
-                const dustParticles = [];
-                if (dustContainer) {
-                    for (let i = 0; i < 5; i++) {
-                        const p = document.createElement('div');
-                        p.className = 'char-dust-particle';
-                        dustContainer.appendChild(p);
-                        dustParticles.push({
-                            el: p, x: 0, y: 0, vx: 0, vy: 0, life: 0, active: false
-                        });
-                    }
-                }
-
-                // Create neon scatter particles for jump
-                const neonContainer = document.getElementById('char-neon-dots');
-                const neonParticles = [];
-                if (neonContainer) {
-                    for (let i = 0; i < 8; i++) {
-                        const d = document.createElement('div');
-                        d.className = 'char-neon-dot';
-                        neonContainer.appendChild(d);
-                        neonParticles.push({
-                            el: d, x: 0, y: 0, vx: 0, vy: 0, life: 0, active: false
-                        });
-                    }
-                }
+                // Emitters and particle systems removed
 
                 const setFrame = (idx) => {
                     const clamped = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
@@ -89,33 +60,9 @@ pub fn Skills() -> Element {
                     }
                 };
 
-                const spawnDust = () => {
-                    if (isMobile()) return;
-                    const p = dustParticles.find(part => !part.active);
-                    if (!p) return;
-                    p.active = true;
-                    p.life = 1.0;
-                    p.x = 0;
-                    p.y = 0;
-                    p.vx = -(0.8 + Math.random() * 1.2);
-                    p.vy = -(Math.random() * 0.8);
-                    p.el.style.opacity = '0.25';
-                    p.el.style.transform = 'translate3d(0, 0, 0) scale(1)';
-                };
+                let lastIdx = -1;
 
-                const spawnNeonDot = () => {
-                    if (isMobile()) return;
-                    const d = neonParticles.find(part => !part.active);
-                    if (!d) return;
-                    d.active = true;
-                    d.life = 1.0;
-                    d.x = (Math.random() - 0.5) * 30;
-                    d.y = 0;
-                    d.vx = (Math.random() - 0.5) * 0.8;
-                    d.vy = 1.5 + Math.random() * 2.0; // fall down trail
-                    d.el.style.opacity = '0.6';
-                    d.el.style.transform = `translate3d(${d.x}px, ${d.y}px, 0) scale(1)`;
-                };
+
 
                 // Continuous loop for physics & particles
                 const loop = () => {
@@ -133,67 +80,30 @@ pub fn Skills() -> Element {
 
                     // Lerp coordinates
                     currentX += (targetX - currentX) * 0.12;
-                    currentY += (targetY - currentY) * 0.10; // slightly slower vertical alignment
                     currentYOffset += (targetYOffset - currentYOffset) * 0.12;
-                    
-                    // Lerp frame indices
-                    const diff = targetFrame - currentFrame;
-                    if (Math.abs(diff) > 0.01) {
-                        currentFrame += diff * 0.12;
-                        setFrame(Math.round(currentFrame));
-                    } else {
-                        currentFrame = targetFrame;
-                        setFrame(Math.round(currentFrame));
-                    }
 
-                    // Apply character mover styles
+                    // Sync frame advancement with actual horizontal delta distance
+                    const dx = targetX - currentX;
+                    const isMoving = Math.abs(dx) > 0.08;
+
                     const mover = document.getElementById('char-mover');
                     if (mover) {
                         mover.style.left = `${currentX}%`;
-                        mover.style.top = `${currentY}px`;
                         mover.style.transform = `translate3d(-50%, ${currentYOffset}px, 0)`;
-                    }
 
-                    // Spawn dust particles during movement
-                    const moverEl = document.getElementById('char-mover');
-                    if (moverEl && moverEl.classList.contains('moving') && Math.random() < 0.2) {
-                        spawnDust();
-                    }
-
-                    // Neon particles trail during jump
-                    if (currentYOffset < -20 && Math.random() < 0.3) {
-                        spawnNeonDot();
-                    }
-
-                    // Update dust particles
-                    dustParticles.forEach(p => {
-                        if (!p.active) return;
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        p.life -= 0.05;
-                        if (p.life <= 0) {
-                            p.active = false;
-                            p.el.style.opacity = '0';
+                        if (isMoving) {
+                            mover.classList.add('moving');
+                            // Advance running frames proportional to speed
+                            currentFrame += Math.abs(dx) * 0.6 + 0.08;
+                            if (currentFrame >= 24) currentFrame = 0;
+                            setFrame(Math.round(currentFrame));
                         } else {
-                            p.el.style.opacity = String(p.life * 0.25);
-                            p.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) scale(${0.5 + p.life * 0.5})`;
+                            mover.classList.remove('moving');
+                            setFrame(0); // Standing frame when stationary
                         }
-                    });
+                    }
 
-                    // Update neon particles
-                    neonParticles.forEach(d => {
-                        if (!d.active) return;
-                        d.x += d.vx;
-                        d.y += d.vy;
-                        d.life -= 0.04;
-                        if (d.life <= 0) {
-                            d.active = false;
-                            d.el.style.opacity = '0';
-                        } else {
-                            d.el.style.opacity = String(d.life * 0.6);
-                            d.el.style.transform = `translate3d(${d.x}px, ${d.y}px, 0) scale(${0.6 + d.life * 0.6})`;
-                        }
-                    });
+                    // Emitters update logic removed
 
                     requestAnimationFrame(loop);
                 };
@@ -203,142 +113,157 @@ pub fn Skills() -> Element {
 
                     const rect     = track.getBoundingClientRect();
                     const vh       = window.innerHeight;
-                    const maxScroll = rect.height - vh;
+                    const startOffset = vh * 0.6; // Start animation when container is 60% up the screen
+                    const maxScroll = rect.height - vh + startOffset;
 
-                    let p = -rect.top / maxScroll;
+                    let p = (startOffset - rect.top) / maxScroll;
                     if (p < 0) p = 0;
                     if (p > 1) p = 1;
 
-                    // ── 3-Row Vertical Alignment (Grounded under row underlines) ──
-                    if (p < 0.28) {
-                        targetY = vh * 0.24; // Row 1 Y
-                    } else if (p < 0.58) {
-                        targetY = vh * 0.52; // Row 2 Y
-                    } else {
-                        targetY = vh * 0.80; // Row 3 Y
+                    // ── Cinematic Header Fade & Translate ──
+                    const headerEl = document.getElementById('char-skills-header');
+                    if (headerEl) {
+                        const ho = 1 - Math.min(1.0, p / 0.08);
+                        headerEl.style.opacity = String(ho);
+                        headerEl.style.transform = `translate3d(0, ${p * -30}px, 0)`;
                     }
 
-                    // ── 3-Stage Horizontal Burst Movement (Short Runs) ──
-                    if (p < 0.28) {
-                        const t = Math.min(1.0, p / 0.20);
-                        targetX = 18 + t * 20; // Row 1: short run 18% -> 38%
-                    } else if (p < 0.58) {
-                        const t = Math.min(1.0, (p - 0.28) / 0.20);
-                        targetX = 26 + t * 20; // Row 2: short run 26% -> 46%
-                    } else if (p < 0.80) {
-                        const t = Math.min(1.0, (p - 0.58) / 0.20);
-                        targetX = 35 + t * 20; // Row 3: short run 35% -> 55%
-                    } else {
-                        const t = Math.min(1.0, (p - 0.80) / 0.12);
-                        targetX = 55 + t * 8;  // Climax / Jump prep: move slightly to 63%
+                    // ── Main Neon Ground Line Extension ──
+                    const lineEl = document.querySelector('.char-neon-ground-line');
+                    if (lineEl) {
+                        const ls = Math.min(1.0, p / 0.08);
+                        lineEl.style.transform = `scaleX(${ls})`;
                     }
 
-                    // ── Vertical Jumping Curve (Stage 4 Climax, Short/Tasteful Peak) ──
-                    if (p >= 0.80 && p <= 0.92) {
-                        const jp = (p - 0.80) / 0.12;
-                        targetYOffset = -Math.sin(jp * Math.PI) * 140; // 140px peak height
+                    // ── Horizontal running path with controlled pauses ──
+                    if (p <= 0.02) {
+                        targetX = 12; // start
+                    } else if (p < 0.12) {
+                        const t = (p - 0.02) / 0.10;
+                        targetX = 12 + t * 20; // 12% to 32% (run)
+                    } else if (p <= 0.28) {
+                        targetX = 32; // pause at languages
+                    } else if (p < 0.38) {
+                        const t = (p - 0.28) / 0.10;
+                        targetX = 32 + t * 25; // 32% to 57% (run)
+                    } else if (p <= 0.54) {
+                        targetX = 57; // pause at frontend
+                    } else if (p < 0.63) {
+                        const t = (p - 0.54) / 0.09;
+                        targetX = 57 + t * 23; // 57% to 80% (run)
                     } else {
-                        targetYOffset = 0;
+                        targetX = 80; // stays on right side
                     }
 
-                    // ── Moving state detection for speed lines & dust ──
-                    let isMoving = false;
-                    let frameSelection = 0;
+                    // ── Vertical jumping disabled (always grounded) ──
+                    targetYOffset = 0;
 
-                    if (p < 0.20) {
-                        const t = p / 0.20;
-                        frameSelection = Math.round(t * 2 * 24) % 24;
-                        isMoving = true;
-                    } else if (p >= 0.20 && p < 0.28) {
-                        frameSelection = 0; // idle
-                    } else if (p >= 0.28 && p < 0.48) {
-                        const t = (p - 0.28) / 0.20;
-                        frameSelection = Math.round(t * 2 * 24) % 24;
-                        isMoving = true;
-                    } else if (p >= 0.48 && p < 0.58) {
-                        frameSelection = 0; // idle
-                    } else if (p >= 0.58 && p < 0.78) {
-                        const t = (p - 0.58) / 0.20;
-                        frameSelection = Math.round(t * 2 * 24) % 24;
-                        isMoving = true;
-                    } else if (p >= 0.78 && p < 0.80) {
-                        frameSelection = 0; // idle
-                    } else if (p >= 0.80 && p < 0.82) {
-                        const t = (p - 0.80) / 0.02;
-                        frameSelection = Math.round(25 + t * 5); // crouch
-                    } else if (p >= 0.82 && p < 0.92) {
-                        const t = (p - 0.82) / 0.10;
-                        frameSelection = Math.round(31 + t * 14); // jump frames
-                        isMoving = true;
-                    } else {
-                        const t = Math.min(1.0, (p - 0.92) / 0.08);
-                        frameSelection = Math.round(46 + t * 3); // land
-                    }
+                    // ── Neon outline city parallax growth ──
+                    const backBuildings = [
+                        { id: 'b-back-1', start: 0.02, end: 0.22, parallax: -20 },
+                        { id: 'b-back-2', start: 0.06, end: 0.28, parallax: -20 },
+                        { id: 'b-back-3', start: 0.12, end: 0.36, parallax: -20 },
+                        { id: 'b-back-4', start: 0.20, end: 0.44, parallax: -20 },
+                        { id: 'b-back-5', start: 0.30, end: 0.54, parallax: -20 },
+                        { id: 'b-back-6', start: 0.40, end: 0.64, parallax: -20 },
+                    ];
+                    const foreBuildings = [
+                        { id: 'b-fore-1', start: 0.04, end: 0.26, parallax: -45 },
+                        { id: 'b-fore-2', start: 0.10, end: 0.32, parallax: -45 },
+                        { id: 'b-fore-3', start: 0.18, end: 0.40, parallax: -45 },
+                        { id: 'b-fore-4', start: 0.28, end: 0.50, parallax: -45 },
+                        { id: 'b-fore-5', start: 0.38, end: 0.60, parallax: -45 },
+                    ];
+                    const updateBuildings = (bList) => {
+                        bList.forEach(b => {
+                            const el = document.getElementById(b.id);
+                            if (!el) return;
+                            let bp = (p - b.start) / (b.end - b.start);
+                            bp = Math.min(Math.max(bp, 0), 1);
+                            const easeScaleY = 1 - Math.pow(1 - bp, 3);
+                            const easeOpacity = bp;
+                            const tx = p * b.parallax;
+                            el.style.transform = `translate3d(${tx}px, 0, 0) scaleY(${easeScaleY})`;
+                            el.style.opacity = String(easeOpacity);
+                        });
+                    };
+                    updateBuildings(backBuildings);
+                    updateBuildings(foreBuildings);
 
-                    targetFrame = frameSelection;
-
-                    const mover = document.getElementById('char-mover');
-                    if (mover) {
-                        if (isMoving) {
-                            mover.classList.add('moving');
-                        } else {
-                            mover.classList.remove('moving');
+                    // ── Typographic Editorial Skill columns reveal ──
+                    const groups = [
+                        {
+                            id: 'skill-group-0',
+                            start: 0.08,
+                            items: ['title-0', 'item-0-0', 'item-0-1', 'item-0-2']
+                        },
+                        {
+                            id: 'skill-group-1',
+                            start: 0.30,
+                            items: ['title-1', 'item-1-0', 'item-1-1', 'item-1-2', 'item-1-3']
+                        },
+                        {
+                            id: 'skill-group-2',
+                            start: 0.52,
+                            items: ['title-2', 'item-2-0', 'item-2-1', 'item-2-2', 'item-2-3']
                         }
-                    }
+                    ];
+                    groups.forEach(g => {
+                        g.items.forEach((itemId, idx) => {
+                            const el = document.getElementById(itemId);
+                            if (!el) return;
+                            const itemStart = g.start + idx * 0.04;
+                            let itemP = (p - itemStart) / 0.10;
+                            itemP = Math.min(Math.max(itemP, 0), 1);
+                            const easeY = (1 - itemP) * 12;
+                            const easeBlur = (1 - itemP) * 6;
+                            el.style.opacity = String(itemP);
+                            el.style.transform = `translate3d(0, ${easeY}px, 0)`;
+                            el.style.filter = `blur(${easeBlur}px)`;
+                        });
+                    });
 
                     if (!isLoopRunning) {
                         isLoopRunning = true;
                         requestAnimationFrame(loop);
                     }
 
-                    // ── Category Reveals ──
-                    const setCategoryActive = (idx, active) => {
-                        const group = document.getElementById(`cat-group-${idx}`);
-                        if (group) {
-                            if (active) {
-                                group.classList.add('active');
-                            } else {
-                                group.classList.remove('active');
-                            }
-                        }
-                    };
-
-                    setCategoryActive(0, p >= 0.14); // Languages
-                    setCategoryActive(3, p >= 0.14); // Database
-                    setCategoryActive(1, p >= 0.42); // Frontend
-                    setCategoryActive(5, p >= 0.42); // Tools
-                    setCategoryActive(2, p >= 0.70); // Backend
-                    setCategoryActive(6, p >= 0.70); // Collaboration
-                    setCategoryActive(4, p >= 0.78); // DevOps
-                    setCategoryActive(7, p >= 0.78); // Concepts
-
-                    // ── Parallax Background Typography ──
-                    const bgTypography = document.getElementById('char-bg-text');
-                    if (bgTypography) {
-                        const pxOffset = (p - 0.5) * -80;
-                        bgTypography.style.transform = `translate3d(calc(-50% + ${pxOffset}px), -50%, 0)`;
-                    }
-
-                    // ── Character visibility near exit ──
+                    // ── Character visibility near exit (completely invisible at p=0.90) ──
+                    const mover = document.getElementById('char-mover');
                     if (mover) {
-                        if (p >= 0.90) {
-                            const charOpacity = 1 - (p - 0.90) / 0.08;
+                        if (p >= 0.70) {
+                            const charOpacity = 1 - (p - 0.70) / 0.10;
                             mover.style.opacity = String(Math.max(0, charOpacity));
                         } else {
                             mover.style.opacity = '1';
                         }
                     }
 
-                    // ── Cinematic Dissolve Transition at the End (p >= 0.94) ──
+                    // ── Cinematic Dissolve Transition at the End (starts at p=0.78) ──
                     const stickyView = document.querySelector('.char-sticky-view');
                     if (stickyView) {
-                        if (p >= 0.94) {
-                            const dissolveP = 1 - (p - 0.94) / 0.06;
-                            stickyView.style.opacity = String(dissolveP);
-                            stickyView.style.transform = `scale(${0.98 + dissolveP * 0.02})`;
+                        if (p >= 0.78) {
+                            const dissolveP = 1 - (p - 0.78) / 0.22;
+                            stickyView.style.opacity = String(Math.max(0, dissolveP));
+                            stickyView.style.transform = `scale(${0.98 + Math.max(0, dissolveP) * 0.02})`;
+                        } else if (rect.top > 0) {
+                            // Entering phase animation (Scale & Translate)
+                            let entryP = (vh - rect.top) / (vh * 0.35);
+                            entryP = Math.min(Math.max(entryP, 0), 1);
+                            
+                            const isMobile = window.innerWidth <= 768;
+                            const travelMaxY = isMobile ? 25 : 90;
+                            const minScale = isMobile ? 0.97 : 0.94;
+                            
+                            const translateY = (1 - entryP) * travelMaxY;
+                            const scale = minScale + entryP * (1 - minScale);
+                            const opacity = 0.2 + entryP * 0.8;
+                            
+                            stickyView.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+                            stickyView.style.opacity = String(opacity.toFixed(2));
                         } else {
                             stickyView.style.opacity = '1';
-                            stickyView.style.transform = 'scale(1)';
+                            stickyView.style.transform = 'scale(1) translate3d(0, 0, 0)';
                         }
                     }
                 };
@@ -366,81 +291,69 @@ pub fn Skills() -> Element {
         );
     });
 
-    // Helper closure to render categories cardless with inline stagger transition-delay
-    let render_cat = |idx: usize| {
-        let cat = &SKILL_CATEGORIES[idx];
-        rsx! {
-            div {
-                id: "cat-group-{idx}",
-                class: "char-category-group",
-                h4 { class: "char-category-title",
-                    span { class: "char-card-icon", "{cat.icon}" }
-                    span { "{cat.name}" }
-                }
-                div { class: "char-category-line" }
-                div { class: "char-tech-tags",
-                    for (t_idx, skill) in cat.skills.iter().enumerate() {
-                        span {
-                            class: "char-tech-tag",
-                            style: "transition-delay: {t_idx as f32 * 0.04}s;",
-                            "{skill}"
-                        }
-                    }
-                }
-            }
-        }
-    };
-
     rsx! {
         section { id: "skills", class: "char-skills-section blur-on-enter",
 
-            // ── SCROLL TRACK (Shorter 2.0vh Height for fast unpinning) ──
+            // ── SCROLL TRACK (Shorter 1.5vh Height for fast unpinning) ──
             div { id: "char-scroll-track", class: "char-scroll-track",
                 div { class: "char-sticky-view",
 
-                    // ── Background typography ──
-                    div { id: "char-bg-text", class: "char-bg-typography", "SKILLS" }
 
-                    // ── Editorial Container (NO CARDS) ──
-                    div { class: "char-editorial-container",
-                        div { class: "char-grid-header",
-                            h2 { class: "real-projects-3d-title", "SKILLS" }
-                            p { "Technologies I work with every day — from systems design to shipping products." }
+
+                    // ── Holographic Neon City Skyline ──
+                    div { class: "char-neon-skyline",
+                        // Background layer (slower parallax)
+                        div { id: "b-back-1", class: "char-building b-back b-blue", style: "left: 10%; width: 60px; height: 180px;" }
+                        div { id: "b-back-2", class: "char-building b-back b-purple", style: "left: 22%; width: 80px; height: 260px;" }
+                        div { id: "b-back-3", class: "char-building b-back b-blue", style: "left: 38%; width: 70px; height: 220px;" }
+                        div { id: "b-back-4", class: "char-building b-back b-cyan", style: "left: 55%; width: 90px; height: 300px;" }
+                        div { id: "b-back-5", class: "char-building b-back b-purple", style: "left: 70%; width: 60px; height: 240px;" }
+                        div { id: "b-back-6", class: "char-building b-back b-blue", style: "left: 85%; width: 80px; height: 190px;" }
+
+                        // Foreground layer (faster parallax)
+                        div { id: "b-fore-1", class: "char-building b-fore b-cyan", style: "left: 18%; width: 50px; height: 140px;" }
+                        div { id: "b-fore-2", class: "char-building b-fore b-purple", style: "left: 30%; width: 65px; height: 190px;" }
+                        div { id: "b-fore-3", class: "char-building b-fore b-blue", style: "left: 48%; width: 85px; height: 160px;" }
+                        div { id: "b-fore-4", class: "char-building b-fore b-purple", style: "left: 65%; width: 55px; height: 220px;" }
+                        div { id: "b-fore-5", class: "char-building b-fore b-cyan", style: "left: 78%; width: 70px; height: 150px;" }
+                    }
+
+                    // ── Neon Ground Line ──
+                    div { class: "char-neon-ground-line" }
+
+                    // ── Typographic Editorial Skill Columns ──
+                    // Languages Group
+                    div { id: "skill-group-0", class: "char-editorial-group", style: "left: 10%; top: 15%;",
+                        h3 { id: "title-0", class: "char-group-title", "LANGUAGES" }
+                        div { class: "char-group-items",
+                            span { id: "item-0-0", class: "char-tech-item", "Python" }
+                            span { id: "item-0-1", class: "char-tech-item", "JavaScript" }
+                            span { id: "item-0-2", class: "char-tech-item", "SQL" }
                         }
-                        
-                        div { class: "char-editorial-columns",
-                            // Row 1: Languages & Databases
-                            div { id: "skills-row-1", class: "char-skills-row",
-                                div { class: "char-row-left", {render_cat(0)} }
-                                div { class: "char-row-right", {render_cat(3)} }
-                            }
-                            // Row 2: Frontend & Tools
-                            div { id: "skills-row-2", class: "char-skills-row",
-                                div { class: "char-row-left", {render_cat(1)} }
-                                div { class: "char-row-right", {render_cat(5)} }
-                            }
-                            // Row 3: Backend & DevOps
-                            div { id: "skills-row-3", class: "char-skills-row",
-                                div { class: "char-row-left", 
-                                    {render_cat(2)},
-                                    {render_cat(6)} 
-                                }
-                                div { class: "char-row-right", 
-                                    {render_cat(4)},
-                                    {render_cat(7)} 
-                                }
-                            }
+                    }
+                    // Frontend Group
+                    div { id: "skill-group-1", class: "char-editorial-group", style: "left: 42%; top: 10%;",
+                        h3 { id: "title-1", class: "char-group-title", "FRONTEND DEVELOPMENT" }
+                        div { class: "char-group-items",
+                            span { id: "item-1-0", class: "char-tech-item", "React.js" }
+                            span { id: "item-1-1", class: "char-tech-item", "Next.js" }
+                            span { id: "item-1-2", class: "char-tech-item", "HTML5" }
+                            span { id: "item-1-3", class: "char-tech-item", "CSS3" }
+                        }
+                    }
+                    // Backend Group
+                    div { id: "skill-group-2", class: "char-editorial-group", style: "left: 74%; top: 15%;",
+                        h3 { id: "title-2", class: "char-group-title", "BACKEND DEVELOPMENT" }
+                        div { class: "char-group-items",
+                            span { id: "item-2-0", class: "char-tech-item", "FastAPI" }
+                            span { id: "item-2-1", class: "char-tech-item", "Django" }
+                            span { id: "item-2-2", class: "char-tech-item", "Django REST Framework" }
+                            span { id: "item-2-3", class: "char-tech-item", "REST API Development" }
                         }
                     }
 
                     // ── Character mover wrapper ──
                     div { id: "char-mover", class: "char-mover",
-                        // Subtle speed lines behind character when moving
-                        div { class: "char-mover-speed-lines",
-                            div { class: "char-mover-streak" }
-                            div { class: "char-mover-streak" }
-                            div { class: "char-mover-streak" }
-                        }
                         div { id: "char-frame-container", class: "char-frame-container",
                             img {
                                 id: "char-frame-a",
@@ -450,25 +363,16 @@ pub fn Skills() -> Element {
                                 draggable: "false",
                             }
                         }
-                        // Dust particles container
-                        div { id: "char-dust-container", class: "char-dust-emitter" }
-                        // Neon scatter dots for jump
-                        div { id: "char-neon-dots", class: "char-neon-dots" }
                     }
                 }
             }
 
             // ── Static Mobile Fallback (Normal Flow, Mobile-Only) ──
             div { class: "char-mobile-fallback container",
-                div { class: "char-grid-header",
-                    h2 { class: "real-projects-3d-title", "SKILLS" }
-                    p { "Technologies I work with every day — from systems design to shipping products." }
-                }
                 div { class: "char-mobile-list",
                     for cat in SKILL_CATEGORIES {
                         div { class: "char-mobile-group",
                             h4 { 
-                                span { class: "char-card-icon", "{cat.icon}" }
                                 span { "{cat.name}" }
                             }
                             div { class: "char-category-line active" }
@@ -484,3 +388,4 @@ pub fn Skills() -> Element {
         }
     }
 }
+

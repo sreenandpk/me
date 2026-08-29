@@ -162,9 +162,6 @@ fn App() -> Element {
             // Experience timeline
             ExperienceSection {}
 
-            // Philosophy card grid
-            Philosophy {}
-
             // Contact details
             Contact {}
 

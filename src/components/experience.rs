@@ -4,28 +4,31 @@ use crate::data::EXPERIENCE_ITEMS;
 #[component]
 pub fn ExperienceSection() -> Element {
     rsx! {
-        section { id: "experience", class: "section reveal-on-scroll",
-            div { class: "container",
-                div { class: "experience-grid-layout",
-                    // Left Column: Heading
-                    div { class: "experience-heading-col",
-                        span { class: "experience-pretitle", "MY JOURNEY" }
-                        h2 { class: "experience-headline", "Experience" }
-                        p { class: "experience-subtitle", "Professional timeline and key milestones." }
-                        div { class: "experience-divider" }
-                    }
-
-                    // Right Column: Experience Items
-                    div { class: "experience-list-col",
-                        div { class: "experience-minimal-list",
-                            for exp in EXPERIENCE_ITEMS {
-                                div { class: "experience-minimal-item",
-                                    div { class: "exp-minimal-timeframe", "{exp.period}" }
-                                    h3 { class: "exp-minimal-role", "{exp.role}" }
-                                    div { class: "exp-minimal-company", "{exp.company} • {exp.location}" }
-                                    ul { class: "exp-minimal-achievements",
-                                        for ach in exp.achievements {
-                                            li { "{ach}" }
+        section { id: "experience", class: "projects-white-section blur-on-enter",
+            div { class: "container projects-container",
+                h2 { class: "projects-massive-title", "EXPERIENCE" }
+                
+                div { class: "projects-list",
+                    for (idx, exp) in EXPERIENCE_ITEMS.iter().enumerate() {
+                        {
+                            let formatted_num = format!("{:02}", idx + 1);
+                            rsx! {
+                                div { key: "{idx}", class: "projects-list-item",
+                                    div { class: "project-list-num", "{formatted_num}" }
+                                    div { class: "project-list-details",
+                                        h3 { class: "project-list-title", "{exp.role}" }
+                                        p { class: "project-list-desc",
+                                            span { style: "font-weight: 700; color: #1e293b;", "{exp.company}" }
+                                            " • {exp.period} • {exp.location}"
+                                        }
+                                        ul {
+                                            style: "margin-top: 1rem; padding-left: 1.2rem; list-style-type: disc; color: #475569; display: flex; flex-direction: column; gap: 0.5rem;",
+                                            for ach in exp.achievements {
+                                                li {
+                                                    style: "font-family: var(--font-body); font-size: 0.95rem; line-height: 1.55;",
+                                                    "{ach}"
+                                                }
+                                            }
                                         }
                                     }
                                 }
